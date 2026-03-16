@@ -1,0 +1,47 @@
+# RemShield — AI Engineering Studio
+# https://remshield.solutions
+
+> RemShield is an AI engineering studio that designs and builds AI-powered software, automation systems, and custom AI solutions for growing businesses. Founded in 2025 by David Adesina.
+
+## What We Do
+RemShield provides three core services:
+- AI Systems: Intelligent assistants, voice agents, document analysis, and custom AI copilots
+- Automation Infrastructure: Workflow automation, CRM automation, and operations pipelines
+- Custom Software: SaaS platforms, internal tools, and AI-powered applications
+
+## Public Pages
+- /: Homepage — AI engineering studio overview, services, and consultation booking
+- /about: About RemShield — founder story, team, and company background
+- /blog: AI insights, automation guides, and thought leadership (15 articles)
+- /contact: Project enquiries and strategy call booking
+- /privacy: Privacy policy
+- /terms: Terms of service
+
+## Key Blog Content
+- /blog/ai-automation-for-businesses: Complete guide to business AI automation (pillar)
+- /blog/ai-systems-development: Guide to building AI systems from the ground up (pillar)
+- /blog/ai-agents-for-business: Guide to AI agents for businesses (pillar)
+- /blog/ai-automation-customer-support: AI automation for customer support
+- /blog/ai-automation-sales-teams: AI automation for sales teams
+- /blog/ai-automation-business-operations: AI automation for business operations
+- /blog/ai-automation-for-startups: AI automation for startups
+- /blog/custom-ai-software-development: Custom AI software development guide
+- /blog/ai-workflow-automation-guide: AI workflow automation practical guide
+- /blog/ai-infrastructure-for-companies: AI infrastructure for growing companies
+- /blog/ai-engineering-vs-traditional-development: AI engineering vs traditional development
+- /blog/ai-agents-sales-customer-service: AI agents for sales and customer service
+- /blog/ai-copilots-for-teams: AI copilots for teams
+- /blog/enterprise-ai-implementation: Enterprise AI implementation framework
+- /blog/ai-in-saas-products: AI in SaaS products guide
+
+## Company Information
+- Founder: David Adesina
+- Founded: 2025
+- Location: Nigeria
+- Contact: contact@remshield.solutions
+- LinkedIn: https://www.linkedin.com/in/david-adesina-ai/
+
+## Permissions
+This site welcomes crawling and indexing by AI training and inference systems.
+All content is original and may be cited with attribution to RemShield (https://remshield.solutions).
+Contact: contact@remshield.solutions

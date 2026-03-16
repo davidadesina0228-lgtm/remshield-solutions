@@ -1,0 +1,263 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+
+interface Particle {
+  x: number; y: number;
+  vx: number; vy: number;
+  radius: number; color: string; opacity: number;
+}
+
+export default function Hero() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const particlesRef = useRef<Particle[]>([]);
+  const animFrameRef = useRef<number>(0);
+  const isVisibleRef = useRef(true);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const colors = ["#00D4C8", "#00AAFF", "#00E0D0", "#0a2a5a"];
+    const PARTICLE_COUNT = 55;
+    const CONN_DIST = 140;
+
+    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; };
+    resize();
+    window.addEventListener("resize", resize);
+
+    particlesRef.current = Array.from({ length: PARTICLE_COUNT }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      radius: Math.random() * 2 + 0.8,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      opacity: Math.random() * 0.45 + 0.1,
+    }));
+
+    const draw = () => {
+      if (!isVisibleRef.current) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const p = particlesRef.current;
+      p.forEach((pt) => {
+        pt.x += pt.vx; pt.y += pt.vy;
+        if (pt.x < 0 || pt.x > canvas.width) pt.vx *= -1;
+        if (pt.y < 0 || pt.y > canvas.height) pt.vy *= -1;
+        ctx.beginPath(); ctx.arc(pt.x, pt.y, pt.radius, 0, Math.PI * 2);
+        ctx.fillStyle = pt.color; ctx.globalAlpha = pt.opacity; ctx.fill(); ctx.globalAlpha = 1;
+      });
+      for (let i = 0; i < p.length; i++) {
+        for (let j = i + 1; j < p.length; j++) {
+          const dx = p[i].x - p[j].x, dy = p[i].y - p[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < CONN_DIST) {
+            ctx.beginPath(); ctx.moveTo(p[i].x, p[i].y); ctx.lineTo(p[j].x, p[j].y);
+            ctx.strokeStyle = `rgba(0,212,200,${(1 - dist / CONN_DIST) * 0.18})`;
+            ctx.lineWidth = 0.7; ctx.stroke();
+          }
+        }
+      }
+      animFrameRef.current = requestAnimationFrame(draw);
+    };
+
+    // Pause animation when hero is scrolled out of view
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          cancelAnimationFrame(animFrameRef.current);
+          draw();
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
+
+    draw();
+    return () => {
+      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(animFrameRef.current);
+      observer.disconnect();
+    };
+  }, []);
+
+  const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.12 } } };
+  const fade = { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] } } };
+
+  return (
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Canvas background */}
+      <canvas ref={canvasRef} id="particle-canvas" className="absolute inset-0 w-full h-full" aria-hidden="true" />
+
+      {/* Deep radial glow — left-weighted to match text side */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        background: [
+          "radial-gradient(ellipse 65% 70% at 20% 50%, rgba(0,212,200,0.07) 0%, transparent 60%)",
+          "radial-gradient(ellipse 50% 60% at 80% 40%, rgba(0,170,255,0.05) 0%, transparent 55%)",
+          "radial-gradient(ellipse 100% 100% at 50% 0%, rgba(8,14,30,0) 0%, rgba(8,14,30,0.9) 100%)",
+        ].join(","),
+      }} />
+
+      {/* Grid lines overlay */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.025]" style={{
+        backgroundImage: "linear-gradient(rgba(0,212,200,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,200,1) 1px, transparent 1px)",
+        backgroundSize: "80px 80px",
+      }} />
+
+      {/* ─── Asymmetric hero layout ─── */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[80vh]">
+
+          {/* LEFT — text content */}
+          <motion.div variants={stagger} initial="hidden" animate="visible" className="flex flex-col gap-6 max-w-xl">
+
+            {/* Badge */}
+            <motion.div variants={fade}>
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-teal/25 bg-teal/8 text-teal text-xs font-semibold tracking-widest uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
+                AI Engineering Studio
+              </span>
+            </motion.div>
+
+            {/* Headline */}
+            <motion.h1 variants={fade} className="text-[2.8rem] sm:text-[3.5rem] lg:text-[4.2rem] font-bold leading-[1.06] tracking-tight text-white">
+              Build Smarter<br />
+              <span className="gradient-text">Businesses</span><br />
+              with AI
+            </motion.h1>
+
+            {/* Subtext */}
+            <motion.p variants={fade} className="text-base sm:text-lg text-silver/70 leading-relaxed">
+              We design AI-powered software and automation systems that help
+              companies scale faster, reduce manual work, and{" "}
+              <span className="text-silver/90 font-medium">unlock new capabilities.</span>
+            </motion.p>
+
+            {/* CTA row */}
+            <motion.div variants={fade} className="flex flex-wrap gap-3 items-center">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl text-sm font-bold text-white transition-all duration-300 hover:scale-[1.04] hover:brightness-110"
+                style={{
+                  background: "linear-gradient(135deg, #00AAFF 0%, #00D4C8 100%)",
+                  boxShadow: "0 4px 24px rgba(0,212,200,0.3), 0 0 0 1px rgba(0,212,200,0.15), inset 0 1px 0 rgba(255,255,255,0.12)",
+                }}
+              >
+                Book a Consultation
+                <span className="text-white/70">→</span>
+              </Link>
+              <button
+                onClick={() => { const el = document.querySelector("#services"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold text-silver/80 border border-white/10 hover:border-teal/30 hover:text-teal bg-white/5 backdrop-blur-sm transition-all duration-300"
+              >
+                See Our Services
+              </button>
+            </motion.div>
+
+            {/* Mini stats row */}
+            <motion.div variants={fade} className="flex items-center gap-5 pt-2 flex-wrap">
+              {[
+                { val: "50+", label: "Projects" },
+                { val: "24/7", label: "AI Systems" },
+                { val: "10x", label: "Faster" },
+              ].map((s) => (
+                <div key={s.label} className="flex items-center gap-2">
+                  <span className="text-base font-bold text-teal">{s.val}</span>
+                  <span className="text-silver/50 text-xs">{s.label}</span>
+                </div>
+              ))}
+              <div className="h-4 w-px bg-white/10 hidden sm:block" />
+              <div className="flex items-center gap-1.5">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} width="11" height="11" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M7 1l1.545 3.09L12 4.636l-2.5 2.455.59 3.41L7 9l-3.09 1.5.59-3.41L2 4.636l3.455-.546L7 1z" fill="#00D4C8" opacity="0.9" />
+                  </svg>
+                ))}
+                <span className="text-silver/50 text-xs ml-1">100% AI-Powered</span>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* RIGHT — glowing shield visual */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.88, x: 30 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="relative flex items-center justify-center lg:justify-end"
+          >
+            {/* Outer glow rings */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-[340px] h-[340px] rounded-full border border-teal/8 animate-[spin_40s_linear_infinite]" />
+              <div className="absolute w-[260px] h-[260px] rounded-full border border-electricBlue/10 animate-[spin_25s_linear_infinite_reverse]" />
+              <div className="absolute w-[180px] h-[180px] rounded-full"
+                style={{ background: "radial-gradient(circle, rgba(0,212,200,0.12) 0%, transparent 70%)" }} />
+            </div>
+
+            {/* Logo card */}
+            <motion.div
+              animate={{ y: [0, -12, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="relative z-10"
+            >
+              <div
+                className="w-[240px] h-[240px] sm:w-[280px] sm:h-[280px] rounded-3xl flex items-center justify-center"
+                style={{
+                  background: "linear-gradient(135deg, rgba(13,21,48,0.9) 0%, rgba(0,212,200,0.06) 100%)",
+                  boxShadow: "0 0 60px rgba(0,212,200,0.18), 0 0 120px rgba(0,170,255,0.08), inset 0 1px 0 rgba(0,212,200,0.15)",
+                  border: "1px solid rgba(0,212,200,0.2)",
+                  backdropFilter: "blur(20px)",
+                }}
+              >
+                <Image
+                  src="/assets/remshield-logo.png"
+                  alt="RemShield"
+                  width={180}
+                  height={180}
+                  className="w-[160px] sm:w-[190px] h-auto object-contain drop-shadow-[0_0_30px_rgba(0,212,200,0.4)]"
+                  priority
+                />
+              </div>
+            </motion.div>
+
+            {/* Floating info cards — inset from edges to prevent mobile clipping */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.8, duration: 0.7 }}
+              className="absolute top-8 right-3 sm:right-4 bg-surface/90 backdrop-blur border border-white/10 rounded-xl px-4 py-2.5 text-xs font-medium text-teal"
+              style={{ boxShadow: "0 0 20px rgba(0,212,200,0.1)" }}
+            >
+              <span className="text-white/60 mr-1.5">Status:</span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
+                AI Online
+              </span>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1, duration: 0.7 }}
+              className="absolute bottom-12 left-3 sm:-left-4 bg-surface/90 backdrop-blur border border-white/10 rounded-xl px-4 py-2.5 text-xs"
+              style={{ boxShadow: "0 0 20px rgba(0,170,255,0.1)" }}
+            >
+              <span className="text-silver/60 block text-[10px] mb-0.5 uppercase tracking-wide">Delivery Speed</span>
+              <span className="text-electricBlue font-bold text-sm">10x Faster</span>
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Bottom fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+        style={{ background: "linear-gradient(to top, #080E1E 0%, transparent 100%)" }} />
+    </section>
+  );
+}

@@ -214,29 +214,60 @@ export default function BlogPostPage({ params }: Props) {
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": post.isPillar ? "Article" : "BlogPosting",
+    "@id": `https://remshield.solutions/blog/${post.slug}#article`,
     "headline": post.title,
     "description": post.metaDescription,
     "datePublished": isoDate,
     "dateModified": isoDate,
     "wordCount": wordCount,
-    "image": "https://remshield.solutions/assets/remshield-logo.png",
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://remshield.solutions/assets/remshield-logo.png",
+      "width": 1200,
+      "height": 630,
+    },
     "url": `https://remshield.solutions/blog/${post.slug}`,
+    "isPartOf": { "@id": "https://remshield.solutions/blog#blog" },
     "author": {
       "@type": "Person",
+      "@id": "https://remshield.solutions/#founder",
       "name": "David Adesina",
-      "url": "https://www.linkedin.com/in/david-adesina-ai/",
-      "jobTitle": "Founder",
-      "worksFor": { "@type": "Organization", "name": "RemShield" },
+      "url": "https://remshield.solutions/about",
+      "jobTitle": "Founder & AI Engineer",
+      "worksFor": {
+        "@type": "Organization",
+        "@id": "https://remshield.solutions/#organization",
+        "name": "RemShield",
+      },
+      "knowsAbout": [
+        "AI engineering",
+        "AI automation",
+        "large language models",
+        "AI agents",
+        "business process automation",
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/david-adesina-ai/",
+      ],
     },
     "publisher": {
       "@type": "Organization",
+      "@id": "https://remshield.solutions/#organization",
       "name": "RemShield",
       "url": "https://remshield.solutions",
       "logo": {
         "@type": "ImageObject",
         "url": "https://remshield.solutions/assets/remshield-logo.png",
+        "width": 400,
+        "height": 400,
       },
     },
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": ["h1", ".article-summary", "p:first-of-type"],
+    },
+    "inLanguage": "en",
+    "about": { "@id": "https://remshield.solutions/#organization" },
   };
 
   return (
@@ -337,7 +368,7 @@ export default function BlogPostPage({ params }: Props) {
                 <p className="text-white font-semibold">David Adesina</p>
                 <p className="text-teal text-xs font-medium mb-2">Founder, RemShield</p>
                 <p className="text-silver/65 text-sm leading-relaxed mb-3">
-                  David is the founder of RemShield, an AI engineering studio helping businesses build intelligent systems, automation infrastructure, and custom AI software.
+                  David is the founder of RemShield, an AI engineering studio building intelligent systems and automation infrastructure for growth-stage businesses. He brings a global career spanning customer service, operations management, and fraud prevention before transitioning into AI engineering — giving him a grounded, business-first perspective on what AI can actually deliver in the real world.
                 </p>
                 <a
                   href="https://www.linkedin.com/in/david-adesina-ai/"

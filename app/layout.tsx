@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -54,36 +55,90 @@ export const metadata: Metadata = {
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://remshield.solutions/#organization",
   name: "RemShield",
+  alternateName: "RemShield Solutions",
   url: "https://remshield.solutions",
-  logo: "https://remshield.solutions/assets/remshield-logo.png",
+  logo: {
+    "@type": "ImageObject",
+    url: "https://remshield.solutions/assets/remshield-logo.png",
+    width: 400,
+    height: 400,
+  },
   description:
-    "AI Engineering Studio that designs and builds AI-powered software, automation systems, and custom AI solutions for growing businesses.",
+    "RemShield is an AI engineering studio that designs and builds AI-powered software, automation infrastructure, and custom AI solutions for growth-stage businesses globally.",
   email: "contact@remshield.solutions",
   foundingDate: "2025",
-  foundingLocation: { "@type": "Place", addressCountry: "NG" },
+  foundingLocation: {
+    "@type": "Place",
+    addressCountry: "NG",
+    addressLocality: "Nigeria",
+  },
+  areaServed: ["NG", "GH", "KE", "ZA", "EG", "US", "GB", "DE", "NL", "FR", "CA", "AU"],
   founder: {
     "@type": "Person",
+    "@id": "https://remshield.solutions/#founder",
     name: "David Adesina",
-    url: "https://www.linkedin.com/in/david-adesina-ai/",
-    jobTitle: "Founder",
-    sameAs: ["https://www.linkedin.com/in/david-adesina-ai/"],
+    url: "https://remshield.solutions/about",
+    jobTitle: "Founder & AI Engineer",
+    worksFor: { "@type": "Organization", name: "RemShield" },
+    knowsAbout: [
+      "AI engineering",
+      "AI automation",
+      "large language models",
+      "AI agents",
+      "business process automation",
+      "n8n workflow automation",
+      "RAG systems",
+      "custom AI software development",
+    ],
+    sameAs: [
+      "https://www.linkedin.com/in/david-adesina-ai/",
+    ],
   },
   contactPoint: {
     "@type": "ContactPoint",
     email: "contact@remshield.solutions",
     contactType: "customer service",
+    areaServed: "Worldwide",
+    availableLanguage: "English",
   },
-  sameAs: ["https://www.linkedin.com/in/david-adesina-ai/"],
+  knowsAbout: [
+    "AI systems development",
+    "AI automation for businesses",
+    "AI agents",
+    "custom AI software",
+    "workflow automation",
+    "large language models",
+    "RAG (retrieval-augmented generation)",
+    "AI infrastructure",
+    "n8n automation",
+    "agentic AI",
+    "AI strategy",
+    "AI for African businesses",
+  ],
+  sameAs: [
+    "https://www.linkedin.com/in/david-adesina-ai/",
+  ],
 };
 
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": "https://remshield.solutions/#website",
   name: "RemShield",
   url: "https://remshield.solutions",
   description:
     "AI Engineering Studio — AI Systems, Automation Infrastructure, Custom Software",
+  publisher: { "@id": "https://remshield.solutions/#organization" },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: "https://remshield.solutions/blog?q={search_term_string}",
+    },
+    "query-input": "required name=search_term_string",
+  },
 };
 
 export default function RootLayout({
@@ -103,6 +158,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
         {children}
+        <Analytics />
       </body>
     </html>
   );

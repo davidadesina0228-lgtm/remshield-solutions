@@ -11,13 +11,16 @@ interface Particle {
   radius: number; color: string; opacity: number;
 }
 
-const capabilities = [
-  { label: "AI Agents",     x: "37%", y: "5%",  accent: "#00D4C8", rgb: "0,212,200", fy: -9,  delay: 0   },
-  { label: "Voice AI",      x: "3%",  y: "22%", accent: "#00AAFF", rgb: "0,170,255", fy: -7,  delay: 0.4 },
-  { label: "Document AI",   x: "63%", y: "18%", accent: "#00D4C8", rgb: "0,212,200", fy: -8,  delay: 0.2 },
-  { label: "CRM Flows",     x: "70%", y: "62%", accent: "#00AAFF", rgb: "0,170,255", fy: 7,   delay: 0.6 },
-  { label: "Chatbots",      x: "3%",  y: "65%", accent: "#00D4C8", rgb: "0,212,200", fy: 8,   delay: 0.3 },
-  { label: "Automation",    x: "33%", y: "85%", accent: "#00AAFF", rgb: "0,170,255", fy: 6,   delay: 0.5 },
+const TERMINAL_LINES = [
+  { text: "$ remshield deploy --type=ai-agent",   color: "#C8D6E5", delay: 0.6  },
+  { text: "",                                      color: "",        delay: 0.95 },
+  { text: "  ✓  Mapped your existing workflows",  color: "#00D4C8", delay: 1.15 },
+  { text: "  ✓  Trained on your data",            color: "#00D4C8", delay: 1.55 },
+  { text: "  ✓  Connected your integrations",     color: "#00D4C8", delay: 1.95 },
+  { text: "  ✓  Tested edge cases & fallbacks",   color: "#00D4C8", delay: 2.35 },
+  { text: "  ✓  Shipped to production",           color: "#00D4C8", delay: 2.75 },
+  { text: "",                                      color: "",        delay: 3.05 },
+  { text: "  → Agent is live.",                   color: "#00AAFF", delay: 3.2  },
 ];
 
 export default function Hero() {
@@ -191,133 +194,87 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* RIGHT — capability network (no fake data) */}
+          {/* RIGHT — code terminal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.92, x: 30 }}
+            initial={{ opacity: 0, scale: 0.93, x: 30 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="relative flex items-center justify-center lg:justify-end h-[420px] sm:h-[500px] lg:h-[560px]"
+            transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="relative flex items-center justify-center lg:justify-end h-[420px] sm:h-[480px] lg:h-[520px]"
           >
-            {/* Outer glow */}
-            <div className="absolute inset-4 rounded-3xl pointer-events-none" style={{
-              background: "radial-gradient(ellipse 80% 80% at 50% 50%, rgba(0,212,200,0.07) 0%, transparent 70%)",
-              filter: "blur(24px)",
+            {/* Ambient glow behind terminal */}
+            <div className="absolute inset-8 rounded-3xl pointer-events-none" style={{
+              background: "radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0,212,200,0.08) 0%, transparent 70%)",
+              filter: "blur(28px)",
             }} />
 
-            {/* Card */}
+            {/* Terminal window */}
             <div
-              className="relative w-full h-full rounded-3xl overflow-hidden"
+              className="relative w-full h-full rounded-2xl overflow-hidden flex flex-col"
               style={{
-                background: "linear-gradient(135deg, rgba(8,14,30,0.85) 0%, rgba(13,21,48,0.65) 100%)",
-                border: "1px solid rgba(0,212,200,0.14)",
-                boxShadow: "0 0 60px rgba(0,212,200,0.07), 0 0 120px rgba(0,170,255,0.04), inset 0 1px 0 rgba(0,212,200,0.08)",
+                background: "rgba(4, 8, 18, 0.96)",
+                border: "1px solid rgba(0,212,200,0.18)",
+                boxShadow: "0 0 50px rgba(0,212,200,0.07), 0 0 100px rgba(0,170,255,0.04), inset 0 1px 0 rgba(255,255,255,0.04)",
                 backdropFilter: "blur(12px)",
               }}
             >
-              {/* Ambient radial glow from center — ties chips together visually */}
+              {/* Title bar */}
               <div
-                className="absolute pointer-events-none"
-                style={{
-                  left: "50%", top: "47%",
-                  transform: "translate(-50%, -50%)",
-                  width: "75%", height: "70%",
-                  background: "radial-gradient(ellipse, rgba(0,212,200,0.07) 0%, rgba(0,170,255,0.03) 40%, transparent 70%)",
-                }}
-              />
-
-              {/* Central orb — RemShield core */}
-              <motion.div
-                className="absolute"
-                style={{ left: "50%", top: "47%", transform: "translate(-50%, -50%)" }}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="flex items-center gap-2 px-4 py-3 flex-shrink-0"
+                style={{ borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(255,255,255,0.02)" }}
               >
-                <motion.div
-                  animate={{
-                    boxShadow: [
-                      "0 0 20px rgba(0,212,200,0.15), 0 0 40px rgba(0,212,200,0.06)",
-                      "0 0 32px rgba(0,212,200,0.28), 0 0 60px rgba(0,212,200,0.1)",
-                      "0 0 20px rgba(0,212,200,0.15), 0 0 40px rgba(0,212,200,0.06)",
-                    ],
-                  }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                  className="w-16 h-16 rounded-full flex items-center justify-center"
-                  style={{
-                    background: "radial-gradient(circle, rgba(0,212,200,0.18) 0%, rgba(0,212,200,0.04) 70%, transparent 100%)",
-                    border: "1px solid rgba(0,212,200,0.35)",
-                  }}
-                >
-                  {/* Shield — RemShield brand mark */}
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path
-                      d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.35C17.25 23.15 21 18.25 21 13V7L12 2z"
-                      stroke="#00D4C8"
-                      strokeWidth="1.5"
-                      strokeLinejoin="round"
-                      fill="rgba(0,212,200,0.1)"
-                    />
-                    <path
-                      d="M9 12l2 2 4-4"
-                      stroke="#00D4C8"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </motion.div>
-              </motion.div>
+                {/* Traffic lights */}
+                <span className="w-3 h-3 rounded-full" style={{ background: "#FF5F57" }} />
+                <span className="w-3 h-3 rounded-full" style={{ background: "#FFBD2E" }} />
+                <span className="w-3 h-3 rounded-full" style={{ background: "#28CA41" }} />
+                <span className="text-[11px] text-silver/25 font-mono ml-2 tracking-wide">
+                  remshield — deploy
+                </span>
+              </div>
 
-              {/* Capability chips — float around the orb */}
-              {capabilities.map((cap, i) => (
-                <motion.div
-                  key={cap.label}
-                  className="absolute"
-                  style={{ left: cap.x, top: cap.y }}
-                  initial={{ opacity: 0, scale: 0.7 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.8 + cap.delay, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                >
+              {/* Terminal body */}
+              <div className="flex-1 px-5 py-5 font-mono text-[13px] sm:text-[14px] leading-7 overflow-hidden">
+                {TERMINAL_LINES.map((line, i) => (
                   <motion.div
-                    animate={{ y: [0, cap.fy, 0] }}
-                    transition={{
-                      duration: 3.2 + i * 0.35,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 1.2 + cap.delay,
-                    }}
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-full"
-                    style={{
-                      background: `rgba(${cap.rgb}, 0.08)`,
-                      border: `1px solid rgba(${cap.rgb}, 0.22)`,
-                      backdropFilter: "blur(8px)",
-                      whiteSpace: "nowrap",
-                    }}
+                    key={i}
+                    initial={{ opacity: 0, x: -6 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: line.delay, duration: 0.3, ease: "easeOut" }}
                   >
-                    <span
-                      className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                      style={{ background: cap.accent }}
-                    />
-                    <span
-                      className="text-[11px] font-medium text-silver/80"
-                      style={{ letterSpacing: "0.025em" }}
-                    >
-                      {cap.label}
-                    </span>
+                    {line.text === "" ? (
+                      <div className="h-2" />
+                    ) : (
+                      <span style={{ color: line.color || "#C8D6E5" }}>{line.text}</span>
+                    )}
                   </motion.div>
-                </motion.div>
-              ))}
+                ))}
 
-              {/* Bottom label — honest positioning statement */}
+                {/* Blinking cursor */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 3.55, duration: 0.2 }}
+                  className="inline-flex items-center gap-1 mt-1"
+                >
+                  <span className="text-silver/30">  </span>
+                  <motion.span
+                    animate={{ opacity: [1, 0, 1] }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "steps(1)" }}
+                    className="inline-block w-2 h-[1.1em] align-middle"
+                    style={{ background: "#00D4C8", borderRadius: "1px" }}
+                  />
+                </motion.div>
+              </div>
+
+              {/* Bottom bar */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.6, duration: 0.6 }}
-                className="absolute bottom-5 left-0 right-0 flex justify-center"
+                transition={{ delay: 3.7, duration: 0.5 }}
+                className="flex items-center justify-between px-4 py-2 flex-shrink-0"
+                style={{ borderTop: "1px solid rgba(255,255,255,0.04)", background: "rgba(0,212,200,0.04)" }}
               >
-                <span className="text-[10px] text-silver/25 font-medium tracking-[0.12em] uppercase">
-                  End-to-end AI engineering
-                </span>
+                <span className="text-[10px] font-mono" style={{ color: "#00D4C8" }}>● LIVE</span>
+                <span className="text-[10px] font-mono text-silver/25">remshield.solutions</span>
               </motion.div>
             </div>
           </motion.div>

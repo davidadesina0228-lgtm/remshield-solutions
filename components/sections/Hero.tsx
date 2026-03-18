@@ -11,6 +11,15 @@ interface Particle {
   radius: number; color: string; opacity: number;
 }
 
+const capabilities = [
+  { label: "AI Agents",     x: "37%", y: "5%",  accent: "#00D4C8", rgb: "0,212,200", fy: -9,  delay: 0   },
+  { label: "Voice AI",      x: "3%",  y: "22%", accent: "#00AAFF", rgb: "0,170,255", fy: -7,  delay: 0.4 },
+  { label: "Document AI",   x: "63%", y: "18%", accent: "#00D4C8", rgb: "0,212,200", fy: -8,  delay: 0.2 },
+  { label: "CRM Flows",     x: "70%", y: "62%", accent: "#00AAFF", rgb: "0,170,255", fy: 7,   delay: 0.6 },
+  { label: "Chatbots",      x: "3%",  y: "65%", accent: "#00D4C8", rgb: "0,212,200", fy: 8,   delay: 0.3 },
+  { label: "Automation",    x: "33%", y: "85%", accent: "#00AAFF", rgb: "0,170,255", fy: 6,   delay: 0.5 },
+];
+
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
@@ -89,15 +98,6 @@ export default function Hero() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] } },
   };
 
-  const metrics = [
-    { label: "Tasks Automated", value: "2,847", sub: "+12% this week", accent: "#00D4C8", rgb: "0,212,200" },
-    { label: "Response Time", value: "<180ms", sub: "avg latency", accent: "#00AAFF", rgb: "0,170,255" },
-    { label: "Cost Reduction", value: "40%", sub: "vs traditional ops", accent: "#00D4C8", rgb: "0,212,200" },
-    { label: "System Uptime", value: "99.9%", sub: "30-day average", accent: "#00AAFF", rgb: "0,170,255" },
-  ];
-
-  const bars = [40, 65, 45, 80, 55, 90, 70, 85, 60, 95, 75, 88];
-
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Canvas background */}
@@ -106,7 +106,7 @@ export default function Hero() {
       {/* Spotlight effect */}
       <Spotlight className="-top-40 left-0 md:left-40 md:-top-20" fill="#00D4C8" />
 
-      {/* Deep radial overlays */}
+      {/* Radial overlays */}
       <div className="absolute inset-0 pointer-events-none" style={{
         background: [
           "radial-gradient(ellipse 65% 70% at 20% 50%, rgba(0,212,200,0.06) 0%, transparent 60%)",
@@ -167,7 +167,7 @@ export default function Hero() {
               </button>
             </motion.div>
 
-            {/* Mini trust row */}
+            {/* Trust row */}
             <motion.div variants={fade} className="flex items-center gap-5 pt-2 flex-wrap">
               {[
                 { val: "50+", label: "Projects" },
@@ -191,112 +191,133 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* RIGHT — AI dashboard (pure CSS, zero external resources) */}
+          {/* RIGHT — capability network (no fake data) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.92, x: 30 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="relative flex items-center justify-center lg:justify-end h-[420px] sm:h-[500px] lg:h-[560px]"
           >
-            {/* Glow behind card */}
+            {/* Outer glow */}
             <div className="absolute inset-4 rounded-3xl pointer-events-none" style={{
-              background: "radial-gradient(ellipse 80% 80% at 50% 50%, rgba(0,212,200,0.08) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse 80% 80% at 50% 50%, rgba(0,212,200,0.07) 0%, transparent 70%)",
               filter: "blur(24px)",
             }} />
 
-            {/* Dashboard card */}
+            {/* Card */}
             <div
-              className="relative w-full h-full rounded-3xl p-5 sm:p-6 flex flex-col gap-4"
+              className="relative w-full h-full rounded-3xl overflow-hidden"
               style={{
                 background: "linear-gradient(135deg, rgba(8,14,30,0.85) 0%, rgba(13,21,48,0.65) 100%)",
-                border: "1px solid rgba(0,212,200,0.15)",
-                boxShadow: "0 0 60px rgba(0,212,200,0.08), 0 0 120px rgba(0,170,255,0.04), inset 0 1px 0 rgba(0,212,200,0.08)",
+                border: "1px solid rgba(0,212,200,0.14)",
+                boxShadow: "0 0 60px rgba(0,212,200,0.07), 0 0 120px rgba(0,170,255,0.04), inset 0 1px 0 rgba(0,212,200,0.08)",
                 backdropFilter: "blur(12px)",
               }}
             >
-              {/* Header */}
+              {/* Ambient radial glow from center — ties chips together visually */}
+              <div
+                className="absolute pointer-events-none"
+                style={{
+                  left: "50%", top: "47%",
+                  transform: "translate(-50%, -50%)",
+                  width: "75%", height: "70%",
+                  background: "radial-gradient(ellipse, rgba(0,212,200,0.07) 0%, rgba(0,170,255,0.03) 40%, transparent 70%)",
+                }}
+              />
+
+              {/* Central orb — RemShield core */}
               <motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.5 }}
-                className="flex items-center justify-between"
+                className="absolute"
+                style={{ left: "50%", top: "47%", transform: "translate(-50%, -50%)" }}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               >
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-teal animate-pulse" />
-                  <span className="text-teal text-xs font-semibold tracking-wide">AI Systems Active</span>
-                </div>
-                <span className="text-silver/25 text-[10px] font-mono">v2.4.1</span>
+                <motion.div
+                  animate={{
+                    boxShadow: [
+                      "0 0 20px rgba(0,212,200,0.15), 0 0 40px rgba(0,212,200,0.06)",
+                      "0 0 32px rgba(0,212,200,0.28), 0 0 60px rgba(0,212,200,0.1)",
+                      "0 0 20px rgba(0,212,200,0.15), 0 0 40px rgba(0,212,200,0.06)",
+                    ],
+                  }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  className="w-16 h-16 rounded-full flex items-center justify-center"
+                  style={{
+                    background: "radial-gradient(circle, rgba(0,212,200,0.18) 0%, rgba(0,212,200,0.04) 70%, transparent 100%)",
+                    border: "1px solid rgba(0,212,200,0.35)",
+                  }}
+                >
+                  {/* Shield — RemShield brand mark */}
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path
+                      d="M12 2L3 7v6c0 5.25 3.75 10.15 9 11.35C17.25 23.15 21 18.25 21 13V7L12 2z"
+                      stroke="#00D4C8"
+                      strokeWidth="1.5"
+                      strokeLinejoin="round"
+                      fill="rgba(0,212,200,0.1)"
+                    />
+                    <path
+                      d="M9 12l2 2 4-4"
+                      stroke="#00D4C8"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </motion.div>
               </motion.div>
 
-              {/* Metric grid */}
-              <div className="grid grid-cols-2 gap-3 flex-1">
-                {metrics.map((m, i) => (
+              {/* Capability chips — float around the orb */}
+              {capabilities.map((cap, i) => (
+                <motion.div
+                  key={cap.label}
+                  className="absolute"
+                  style={{ left: cap.x, top: cap.y }}
+                  initial={{ opacity: 0, scale: 0.7 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.8 + cap.delay, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                >
                   <motion.div
-                    key={m.label}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    className="rounded-2xl p-3.5 sm:p-4 flex flex-col gap-1"
+                    animate={{ y: [0, cap.fy, 0] }}
+                    transition={{
+                      duration: 3.2 + i * 0.35,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: 1.2 + cap.delay,
+                    }}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-full"
                     style={{
-                      background: "rgba(255,255,255,0.03)",
-                      border: `1px solid rgba(${m.rgb},0.12)`,
+                      background: `rgba(${cap.rgb}, 0.08)`,
+                      border: `1px solid rgba(${cap.rgb}, 0.22)`,
+                      backdropFilter: "blur(8px)",
+                      whiteSpace: "nowrap",
                     }}
                   >
-                    <span className="text-silver/40 text-[9px] sm:text-[10px] font-medium uppercase tracking-wider leading-none">{m.label}</span>
-                    <span className="font-bold text-lg sm:text-xl leading-tight" style={{ color: m.accent }}>{m.value}</span>
-                    <span className="text-silver/30 text-[9px] sm:text-[10px]">{m.sub}</span>
+                    <span
+                      className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                      style={{ background: cap.accent }}
+                    />
+                    <span
+                      className="text-[11px] font-medium text-silver/80"
+                      style={{ letterSpacing: "0.025em" }}
+                    >
+                      {cap.label}
+                    </span>
                   </motion.div>
-                ))}
-              </div>
+                </motion.div>
+              ))}
 
-              {/* Activity bar chart */}
+              {/* Bottom label — honest positioning statement */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.1, duration: 0.5 }}
-                className="rounded-xl p-3.5 sm:p-4"
-                style={{
-                  background: "rgba(255,255,255,0.02)",
-                  border: "1px solid rgba(255,255,255,0.05)",
-                }}
+                transition={{ delay: 1.6, duration: 0.6 }}
+                className="absolute bottom-5 left-0 right-0 flex justify-center"
               >
-                <div className="flex items-center justify-between mb-2.5">
-                  <span className="text-silver/35 text-[9px] sm:text-[10px] uppercase tracking-wider font-medium">Live Activity</span>
-                  <span className="text-teal text-[9px] sm:text-[10px] flex items-center gap-1.5">
-                    <span className="w-1 h-1 rounded-full bg-teal animate-pulse inline-block" />
-                    Processing
-                  </span>
-                </div>
-                <div className="flex items-end gap-[3px] h-7 sm:h-8">
-                  {bars.map((h, i) => (
-                    <motion.div
-                      key={i}
-                      className="flex-1 rounded-[2px]"
-                      style={{
-                        background: `rgba(0,212,200,${0.15 + (h / 100) * 0.55})`,
-                        height: `${h}%`,
-                      }}
-                      initial={{ scaleY: 0, originY: 1 }}
-                      animate={{ scaleY: 1, originY: 1 }}
-                      transition={{ delay: 1.0 + i * 0.04, duration: 0.35, ease: "easeOut" }}
-                    />
-                  ))}
-                </div>
-              </motion.div>
-
-              {/* Delivery badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.4, duration: 0.6 }}
-                className="flex items-center justify-between px-4 py-2.5 rounded-xl"
-                style={{
-                  background: "rgba(0,170,255,0.07)",
-                  border: "1px solid rgba(0,170,255,0.15)",
-                }}
-              >
-                <span className="text-silver/45 text-[10px] uppercase tracking-wide font-medium">Delivery Speed</span>
-                <span className="text-electricBlue font-bold text-sm">10x Faster</span>
+                <span className="text-[10px] text-silver/25 font-medium tracking-[0.12em] uppercase">
+                  End-to-end AI engineering
+                </span>
               </motion.div>
             </div>
           </motion.div>

@@ -358,11 +358,12 @@ export default function BlogPostPage({ params }: Props) {
           {/* Author Bio */}
           <div className="mt-12 p-6 rounded-2xl bg-white/[0.03] border border-white/[0.08]">
             <div className="flex items-start gap-4">
-              <div
-                className="w-12 h-12 rounded-xl flex-shrink-0 flex items-center justify-center text-white font-bold text-base"
-                style={{ background: "linear-gradient(135deg, #00D4C8, #00AAFF)" }}
-              >
-                DA
+              <div className="w-12 h-12 rounded-xl flex-shrink-0 overflow-hidden border border-white/10">
+                <img
+                  src="/assets/david-adesina.jpg"
+                  alt="David Adesina"
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
               <div>
                 <p className="text-white font-semibold">David Adesina</p>

@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
@@ -142,13 +143,14 @@ export default function AboutPage() {
           <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8 sm:p-10">
             <div className="flex flex-col sm:flex-row gap-8">
               <div className="flex-shrink-0">
-                <div
-                  className="w-20 h-20 rounded-2xl flex items-center justify-center text-white text-2xl font-bold"
-                  style={{
-                    background: "linear-gradient(135deg, #00D4C8, #00AAFF)",
-                  }}
-                >
-                  DA
+                <div className="w-24 h-24 rounded-2xl overflow-hidden border border-white/10">
+                  <Image
+                    src="/assets/david-adesina.jpg"
+                    alt="David Adesina — Founder, RemShield"
+                    width={96}
+                    height={96}
+                    className="w-full h-full object-cover object-top"
+                  />
                 </div>
               </div>
               <div>

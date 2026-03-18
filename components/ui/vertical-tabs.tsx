@@ -10,33 +10,45 @@ const SERVICES = [
     title: "AI Systems",
     description:
       "Intelligent assistants, voice agents, document analysis, and custom AI copilots — built around your specific workflows and data.",
-    image:
-      "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?q=80&w=1200",
     accent: "#00D4C8",
     accentRgb: "0,212,200",
     href: "/contact?service=ai-systems",
+    features: [
+      "Custom AI chatbots & voice agents",
+      "Document analysis & data extraction",
+      "AI copilots integrated into your tools",
+      "Connects to your existing stack",
+    ],
   },
   {
     id: "02",
     title: "Automation Infrastructure",
     description:
       "End-to-end automation that connects your tools, qualifies leads, and runs your operations pipelines — without extra headcount.",
-    image:
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200",
     accent: "#00AAFF",
     accentRgb: "0,170,255",
     href: "/contact?service=automation-infrastructure",
+    features: [
+      "End-to-end workflow automation",
+      "CRM & lead qualification pipelines",
+      "Multi-tool API orchestration",
+      "Real-time operations monitoring",
+    ],
   },
   {
     id: "03",
     title: "Custom Software",
     description:
       "SaaS platforms, internal tools, and AI-powered applications — designed, built, and shipped fast from day one.",
-    image:
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200",
     accent: "#00D4C8",
     accentRgb: "0,212,200",
     href: "/contact?service=custom-software",
+    features: [
+      "SaaS platforms built AI-native",
+      "Internal dashboards & portals",
+      "AI-powered web applications",
+      "Designed, built & shipped in weeks",
+    ],
   },
 ];
 
@@ -44,22 +56,14 @@ const AUTO_PLAY_DURATION = 5000;
 
 export function VerticalTabs() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
   const handleNext = useCallback(() => {
-    setDirection(1);
     setActiveIndex((prev) => (prev + 1) % SERVICES.length);
-  }, []);
-
-  const handlePrev = useCallback(() => {
-    setDirection(-1);
-    setActiveIndex((prev) => (prev - 1 + SERVICES.length) % SERVICES.length);
   }, []);
 
   const handleTabClick = (index: number) => {
     if (index === activeIndex) return;
-    setDirection(index > activeIndex ? 1 : -1);
     setActiveIndex(index);
     setIsPaused(false);
   };
@@ -70,16 +74,10 @@ export function VerticalTabs() {
     return () => clearInterval(interval);
   }, [activeIndex, isPaused, handleNext]);
 
-  const variants = {
-    enter: (dir: number) => ({ y: dir > 0 ? "-100%" : "100%", opacity: 0 }),
-    center: { zIndex: 1, y: 0, opacity: 1 },
-    exit: (dir: number) => ({ zIndex: 0, y: dir > 0 ? "100%" : "-100%", opacity: 0 }),
-  };
-
   const active = SERVICES[activeIndex];
 
   return (
-    <section className="w-full bg-[#080E1E] py-16 md:py-24">
+    <section id="services" className="w-full bg-[#080E1E] py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
@@ -168,79 +166,89 @@ export function VerticalTabs() {
             </div>
           </div>
 
-          {/* Right: Image */}
-          <div className="lg:col-span-7 order-1 lg:order-2">
-            <div
-              className="relative"
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-            >
-              <div
-                className="relative overflow-hidden rounded-2xl"
+          {/* Right: Feature card (no images) */}
+          <div
+            className="lg:col-span-7 order-1 lg:order-2"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="rounded-2xl p-8 sm:p-10"
                 style={{
-                  aspectRatio: "16/11",
+                  background: "linear-gradient(135deg, rgba(8,14,30,0.85) 0%, rgba(13,21,48,0.6) 100%)",
                   border: `1px solid rgba(${active.accentRgb},0.2)`,
-                  transition: "border-color 0.5s ease",
+                  boxShadow: `0 0 40px rgba(${active.accentRgb},0.06)`,
+                  backdropFilter: "blur(12px)",
+                  minHeight: "380px",
                 }}
               >
-                <AnimatePresence initial={false} custom={direction} mode="popLayout">
-                  <motion.div
-                    key={activeIndex}
-                    custom={direction}
-                    variants={variants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    transition={{
-                      y: { type: "spring", stiffness: 260, damping: 32 },
-                      opacity: { duration: 0.4 },
-                    }}
-                    className="absolute inset-0 w-full h-full cursor-pointer"
-                    onClick={handleNext}
+                {/* Service number + accent line */}
+                <div className="flex items-center gap-3 mb-6">
+                  <span
+                    className="text-xs font-bold tracking-[0.2em] uppercase"
+                    style={{ color: active.accent }}
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={SERVICES[activeIndex].image}
-                      alt={SERVICES[activeIndex].title}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#080E1E]/50 via-transparent to-transparent" />
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Nav buttons */}
-                <div className="absolute bottom-5 right-5 md:bottom-7 md:right-7 flex gap-2 z-20">
-                  <button
-                    onClick={(e) => { e.stopPropagation(); handlePrev(); }}
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-200 active:scale-90 hover:bg-white/20"
-                    style={{
-                      background: "rgba(8,14,30,0.75)",
-                      border: "1px solid rgba(255,255,255,0.15)",
-                      backdropFilter: "blur(12px)",
-                    }}
-                    aria-label="Previous service"
-                  >
-                    <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                      <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); handleNext(); }}
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-200 active:scale-90 hover:bg-white/20"
-                    style={{
-                      background: "rgba(8,14,30,0.75)",
-                      border: "1px solid rgba(255,255,255,0.15)",
-                      backdropFilter: "blur(12px)",
-                    }}
-                    aria-label="Next service"
-                  >
-                    <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                      <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
+                    /{active.id}
+                  </span>
+                  <div className="h-px flex-1" style={{ background: `rgba(${active.accentRgb},0.2)` }} />
                 </div>
-              </div>
-            </div>
+
+                {/* Title */}
+                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3 tracking-tight">
+                  {active.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-silver/60 text-sm sm:text-base leading-relaxed mb-8">
+                  {active.description}
+                </p>
+
+                {/* Feature list */}
+                <div className="flex flex-col gap-3 mb-8">
+                  {active.features.map((feature, i) => (
+                    <motion.div
+                      key={feature}
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.07, duration: 0.35, ease: "easeOut" }}
+                      className="flex items-center gap-3"
+                    >
+                      <div
+                        className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+                        style={{ background: `rgba(${active.accentRgb},0.12)` }}
+                      >
+                        <svg width="10" height="10" fill="none" stroke={active.accent} strokeWidth="2.5" viewBox="0 0 12 12">
+                          <path d="M2 6l3 3 5-5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </div>
+                      <span className="text-silver/75 text-sm">{feature}</span>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* CTA */}
+                <a
+                  href={active.href}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 hover:scale-[1.02]"
+                  style={{
+                    background: `rgba(${active.accentRgb},0.12)`,
+                    border: `1px solid rgba(${active.accentRgb},0.25)`,
+                    color: active.accent,
+                  }}
+                >
+                  Start this project
+                  <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </a>
+              </motion.div>
+            </AnimatePresence>
           </div>
 
         </div>

@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Spotlight } from "@/components/ui/spotlight";
-import { SplineScene } from "@/components/ui/splite";
 
 interface Particle {
   x: number; y: number;
@@ -26,8 +25,8 @@ export default function Hero() {
     if (!ctx) return;
 
     const colors = ["#00D4C8", "#00AAFF", "#00E0D0", "#0a2a5a"];
-    const PARTICLE_COUNT = 55;
-    const CONN_DIST = 140;
+    const PARTICLE_COUNT = 35;
+    const CONN_DIST = 100;
 
     const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; };
     resize();
@@ -89,6 +88,15 @@ export default function Hero() {
     hidden: { opacity: 0, y: 24 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] } },
   };
+
+  const metrics = [
+    { label: "Tasks Automated", value: "2,847", sub: "+12% this week", accent: "#00D4C8", rgb: "0,212,200" },
+    { label: "Response Time", value: "<180ms", sub: "avg latency", accent: "#00AAFF", rgb: "0,170,255" },
+    { label: "Cost Reduction", value: "40%", sub: "vs traditional ops", accent: "#00D4C8", rgb: "0,212,200" },
+    { label: "System Uptime", value: "99.9%", sub: "30-day average", accent: "#00AAFF", rgb: "0,170,255" },
+  ];
+
+  const bars = [40, 65, 45, 80, 55, 90, 70, 85, 60, 95, 75, 88];
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
@@ -183,66 +191,111 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* RIGHT — Spline 3D scene */}
+          {/* RIGHT — AI dashboard (pure CSS, zero external resources) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.92, x: 30 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="relative flex items-center justify-center lg:justify-end h-[420px] sm:h-[500px] lg:h-[560px]"
           >
-            {/* Glow behind the scene */}
-            <div
-              className="absolute inset-4 rounded-3xl pointer-events-none"
-              style={{
-                background: "radial-gradient(ellipse 80% 80% at 50% 50%, rgba(0,212,200,0.08) 0%, transparent 70%)",
-                filter: "blur(24px)",
-              }}
-            />
+            {/* Glow behind card */}
+            <div className="absolute inset-4 rounded-3xl pointer-events-none" style={{
+              background: "radial-gradient(ellipse 80% 80% at 50% 50%, rgba(0,212,200,0.08) 0%, transparent 70%)",
+              filter: "blur(24px)",
+            }} />
 
-            {/* Scene card */}
+            {/* Dashboard card */}
             <div
-              className="relative w-full h-full rounded-3xl overflow-hidden"
+              className="relative w-full h-full rounded-3xl p-5 sm:p-6 flex flex-col gap-4"
               style={{
-                background: "linear-gradient(135deg, rgba(8,14,30,0.8) 0%, rgba(13,21,48,0.6) 100%)",
+                background: "linear-gradient(135deg, rgba(8,14,30,0.85) 0%, rgba(13,21,48,0.65) 100%)",
                 border: "1px solid rgba(0,212,200,0.15)",
-                boxShadow: "0 0 60px rgba(0,212,200,0.1), 0 0 120px rgba(0,170,255,0.06), inset 0 1px 0 rgba(0,212,200,0.1)",
+                boxShadow: "0 0 60px rgba(0,212,200,0.08), 0 0 120px rgba(0,170,255,0.04), inset 0 1px 0 rgba(0,212,200,0.08)",
                 backdropFilter: "blur(12px)",
               }}
             >
-              <SplineScene
-                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                className="w-full h-full"
-              />
-
-              {/* Floating status pill */}
+              {/* Header */}
               <motion.div
-                initial={{ opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2, duration: 0.6 }}
-                className="absolute top-4 right-4 flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-medium"
-                style={{
-                  background: "rgba(8,14,30,0.85)",
-                  border: "1px solid rgba(0,212,200,0.2)",
-                  backdropFilter: "blur(12px)",
-                }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+                className="flex items-center justify-between"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
-                <span className="text-teal">AI Online</span>
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-teal animate-pulse" />
+                  <span className="text-teal text-xs font-semibold tracking-wide">AI Systems Active</span>
+                </div>
+                <span className="text-silver/25 text-[10px] font-mono">v2.4.1</span>
               </motion.div>
 
-              {/* Floating delivery badge */}
+              {/* Metric grid */}
+              <div className="grid grid-cols-2 gap-3 flex-1">
+                {metrics.map((m, i) => (
+                  <motion.div
+                    key={m.label}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 + i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    className="rounded-2xl p-3.5 sm:p-4 flex flex-col gap-1"
+                    style={{
+                      background: "rgba(255,255,255,0.03)",
+                      border: `1px solid rgba(${m.rgb},0.12)`,
+                    }}
+                  >
+                    <span className="text-silver/40 text-[9px] sm:text-[10px] font-medium uppercase tracking-wider leading-none">{m.label}</span>
+                    <span className="font-bold text-lg sm:text-xl leading-tight" style={{ color: m.accent }}>{m.value}</span>
+                    <span className="text-silver/30 text-[9px] sm:text-[10px]">{m.sub}</span>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Activity bar chart */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.1, duration: 0.5 }}
+                className="rounded-xl p-3.5 sm:p-4"
+                style={{
+                  background: "rgba(255,255,255,0.02)",
+                  border: "1px solid rgba(255,255,255,0.05)",
+                }}
+              >
+                <div className="flex items-center justify-between mb-2.5">
+                  <span className="text-silver/35 text-[9px] sm:text-[10px] uppercase tracking-wider font-medium">Live Activity</span>
+                  <span className="text-teal text-[9px] sm:text-[10px] flex items-center gap-1.5">
+                    <span className="w-1 h-1 rounded-full bg-teal animate-pulse inline-block" />
+                    Processing
+                  </span>
+                </div>
+                <div className="flex items-end gap-[3px] h-7 sm:h-8">
+                  {bars.map((h, i) => (
+                    <motion.div
+                      key={i}
+                      className="flex-1 rounded-[2px]"
+                      style={{
+                        background: `rgba(0,212,200,${0.15 + (h / 100) * 0.55})`,
+                        height: `${h}%`,
+                      }}
+                      initial={{ scaleY: 0, originY: 1 }}
+                      animate={{ scaleY: 1, originY: 1 }}
+                      transition={{ delay: 1.0 + i * 0.04, duration: 0.35, ease: "easeOut" }}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Delivery badge */}
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.4, duration: 0.6 }}
-                className="absolute bottom-4 left-4 px-4 py-2.5 rounded-xl text-xs"
+                className="flex items-center justify-between px-4 py-2.5 rounded-xl"
                 style={{
-                  background: "rgba(8,14,30,0.85)",
-                  border: "1px solid rgba(0,170,255,0.2)",
-                  backdropFilter: "blur(12px)",
+                  background: "rgba(0,170,255,0.07)",
+                  border: "1px solid rgba(0,170,255,0.15)",
                 }}
               >
-                <span className="text-silver/50 block text-[10px] mb-0.5 uppercase tracking-wide">Delivery Speed</span>
+                <span className="text-silver/45 text-[10px] uppercase tracking-wide font-medium">Delivery Speed</span>
                 <span className="text-electricBlue font-bold text-sm">10x Faster</span>
               </motion.div>
             </div>

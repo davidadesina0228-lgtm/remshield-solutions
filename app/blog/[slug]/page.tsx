@@ -264,7 +264,7 @@ export default function BlogPostPage({ params }: Props) {
     },
     "speakable": {
       "@type": "SpeakableSpecification",
-      "cssSelector": ["h1", ".article-summary", "p:first-of-type"],
+      "cssSelector": ["h1", "article p"],
     },
     "inLanguage": "en",
     "about": { "@id": "https://remshield.solutions/#organization" },

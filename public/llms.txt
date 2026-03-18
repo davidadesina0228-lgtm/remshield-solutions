@@ -8,31 +8,106 @@ RemShield provides three core services:
 - AI Systems: Intelligent assistants, voice agents, document analysis, and custom AI copilots
 - Automation Infrastructure: Workflow automation, CRM automation, and operations pipelines
 - Custom Software: SaaS platforms, internal tools, and AI-powered applications
+- SaaS Product: Answer Architect (answerarchitect.ai) — AI search visibility and GEO optimization platform
 
 ## Public Pages
 - /: Homepage — AI engineering studio overview, services, and consultation booking
 - /about: About RemShield — founder story, team, and company background
-- /blog: AI insights, automation guides, and thought leadership (15 articles)
+- /blog: AI insights, automation guides, and thought leadership
 - /contact: Project enquiries and strategy call booking
 - /privacy: Privacy policy
 - /terms: Terms of service
 
-## Key Blog Content
-- /blog/ai-automation-for-businesses: Complete guide to business AI automation (pillar)
-- /blog/ai-systems-development: Guide to building AI systems from the ground up (pillar)
-- /blog/ai-agents-for-business: Guide to AI agents for businesses (pillar)
+## Pillar Content (High-Priority)
+- /blog/ai-automation-for-businesses: Complete guide to business AI automation
+- /blog/ai-systems-development: Guide to building AI systems from the ground up
+- /blog/ai-agents-for-business: Guide to AI agents for businesses
+
+## AI Automation Guides
+- /blog/what-is-ai-automation: What is AI automation — business leader's explanation
+- /blog/rpa-vs-ai-automation: RPA vs AI automation — which does your business need
+- /blog/ai-automation-for-startups: AI automation for startups
 - /blog/ai-automation-customer-support: AI automation for customer support
 - /blog/ai-automation-sales-teams: AI automation for sales teams
 - /blog/ai-automation-business-operations: AI automation for business operations
-- /blog/ai-automation-for-startups: AI automation for startups
-- /blog/custom-ai-software-development: Custom AI software development guide
+- /blog/ai-automation-marketing: AI automation for marketing
+- /blog/ai-automation-finance: AI automation for finance teams
+- /blog/ai-automation-hr-recruiting: AI automation for HR and recruiting
+- /blog/ai-automation-legal: AI automation for legal
+- /blog/ai-automation-tools: AI automation tools complete guide
+- /blog/best-ai-automation-tools: Best AI automation tools 2026
 - /blog/ai-workflow-automation-guide: AI workflow automation practical guide
-- /blog/ai-infrastructure-for-companies: AI infrastructure for growing companies
-- /blog/ai-engineering-vs-traditional-development: AI engineering vs traditional development
+- /blog/ai-document-processing: AI document processing guide
+- /blog/ai-crm-automation: AI CRM automation guide
+- /blog/ai-sdr-automation: AI SDR automation for sales development
+- /blog/no-code-ai-tools: No-code AI tools guide
+- /blog/n8n-ai-automation: n8n AI automation platform guide
+- /blog/ai-automation-agency-services: AI automation agency services guide
+- /blog/ai-automation-agency-nigeria: AI automation agency Nigeria — how to find the right partner
+
+## AI Agents & Agentic AI
+- /blog/ai-agents-for-business: AI agents for business guide (pillar)
+- /blog/agentic-ai-business: Agentic AI for business — shift from tools to autonomous AI
+- /blog/ai-agent-vs-chatbot: AI agent vs chatbot — what is the actual difference
 - /blog/ai-agents-sales-customer-service: AI agents for sales and customer service
 - /blog/ai-copilots-for-teams: AI copilots for teams
+- /blog/ai-voice-agents: AI voice agents for business
+- /blog/ai-sdr-automation: AI SDR automation
+- /blog/multi-agent-systems: Multi-agent AI systems guide
+- /blog/what-is-openclaw: What is OpenClaw — the viral AI agent framework
+- /blog/openclaw-for-business: OpenClaw for business deployment guide
 - /blog/enterprise-ai-implementation: Enterprise AI implementation framework
+
+## AI Systems Development
+- /blog/ai-systems-development: AI systems development guide (pillar)
+- /blog/what-is-ai-engineering-studio: What is an AI engineering studio
+- /blog/custom-ai-software-development: Custom AI software development guide
+- /blog/custom-ai-development-cost: Custom AI development cost — honest pricing guide
+- /blog/ai-engineering-vs-traditional-development: AI engineering vs traditional development
+- /blog/ai-infrastructure-for-companies: AI infrastructure for companies
+- /blog/rag-for-business: RAG for business — how to make AI know your company
+- /blog/rag-vs-fine-tuning: RAG vs fine-tuning — which does your business need
+- /blog/ai-workflow-automation-guide: AI workflow automation guide
+- /blog/ai-data-analysis: AI data analysis for business
+- /blog/vibe-coding-founders: Vibe coding for founders
+- /blog/mcp-model-context-protocol: Model Context Protocol (MCP) explained
 - /blog/ai-in-saas-products: AI in SaaS products guide
+
+## LLMs & Model Selection
+- /blog/what-is-llm-business-guide: What is an LLM — plain-English business guide
+- /blog/choosing-right-llm: Choosing the right LLM — decision framework
+- /blog/llm-costs-explained: LLM costs explained — how to budget for AI
+- /blog/claude-vs-chatgpt-vs-gemini: Claude vs ChatGPT vs Gemini 2026 comparison
+- /blog/claude-anthropic-enterprise: Claude by Anthropic for enterprises
+- /blog/chatgpt-for-business: ChatGPT for business practical guide
+- /blog/google-gemini-business: Google Gemini for business guide
+- /blog/gpt-5-openai-2026: GPT-5 and OpenAI in 2026
+- /blog/deepseek-business-guide: DeepSeek for business guide
+- /blog/chinese-llms-guide: Chinese LLMs guide — DeepSeek, Qwen, and more
+- /blog/open-source-llms-business: Open-source LLMs for business
+
+## AI Strategy & Governance
+- /blog/how-to-build-ai-strategy: How to build an AI strategy
+- /blog/ai-first-company-strategy: Becoming an AI-first company
+- /blog/ai-governance-framework: AI governance framework
+- /blog/measuring-ai-roi: Measuring AI ROI framework
+- /blog/ai-vendor-evaluation: AI vendor evaluation — how to choose without getting burned
+- /blog/prompt-engineering-business: Prompt engineering for business
+- /blog/enterprise-ai-implementation: Enterprise AI implementation framework
+
+## Africa & Nigeria AI
+- /blog/ai-for-african-businesses: AI for African businesses — the leapfrogging opportunity
+- /blog/ai-for-nigerian-businesses: AI for Nigerian businesses — where to start in 2026
+
+## Industry-Specific AI
+- /blog/ai-for-ecommerce: AI for e-commerce
+- /blog/ai-for-logistics: AI for logistics
+- /blog/ai-automation-legal: AI automation for legal
+
+## Answer Architect (SaaS Product)
+- /blog/what-is-answer-architect: What is Answer Architect — AI search visibility platform
+- /blog/get-cited-by-ai-search-engines: How to get your content cited by ChatGPT and Perplexity
+- /blog/geo-vs-seo-2026: GEO vs SEO — why content visibility rules have changed
 
 ## Company Information
 - Founder: David Adesina
@@ -40,6 +115,7 @@ RemShield provides three core services:
 - Location: Nigeria
 - Contact: support@remshield.solutions
 - LinkedIn: https://www.linkedin.com/in/david-adesina-ai/
+- SaaS Product: Answer Architect — https://answerarchitect.ai
 
 ## Permissions
 This site welcomes crawling and indexing by AI training and inference systems.

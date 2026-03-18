@@ -34,7 +34,7 @@ const faqs = [
   {
     question: "How do I get started?",
     answer:
-      "Simple — book a free 30-minute strategy call via the button on this page. We'll audit your operations, identify your highest-ROI AI opportunities, and give you a clear proposal with no obligation. Spots are limited — we take on a small number of clients each month to ensure quality.",
+      "Book a free 30-minute strategy call. We'll audit your operations, identify your highest-ROI AI opportunities, and give you a clear action plan with no obligation. Most clients come out of the call with a specific roadmap — even if they don't hire us.",
   },
 ];
 
@@ -123,10 +123,10 @@ export default function FAQ() {
             FAQ
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
-            Got Questions?
+            Questions, answered.
           </h2>
           <p className="mt-4 text-silver/70 text-lg">
-            Everything you need to know about working with RemShield.
+            Everything you need to know before working with us.
           </p>
         </motion.div>
 

@@ -139,15 +139,15 @@ export default function Hero() {
             </motion.div>
 
             <motion.h1 variants={fade} className="text-[2.8rem] sm:text-[3.5rem] lg:text-[4.2rem] font-bold leading-[1.06] tracking-tight text-white">
-              Build Smarter<br />
-              <span className="gradient-text">Businesses</span><br />
-              with AI
+              Your business<br />
+              <span className="gradient-text">shouldn&apos;t run</span><br />
+              on manual work.
             </motion.h1>
 
             <motion.p variants={fade} className="text-base sm:text-lg text-silver/70 leading-relaxed">
-              We design AI-powered software and automation systems that help
-              companies scale faster, reduce manual work, and{" "}
-              <span className="text-silver/90 font-medium">unlock new capabilities.</span>
+              RemShield builds custom AI systems for growing businesses —
+              agents that handle your ops, automation that replaces repetitive workflows, and{" "}
+              <span className="text-silver/90 font-medium">software built around how you actually work.</span>
             </motion.p>
 
             <motion.div variants={fade} className="flex flex-wrap gap-3 items-center">
@@ -159,23 +159,23 @@ export default function Hero() {
                   boxShadow: "0 4px 24px rgba(0,212,200,0.3), 0 0 0 1px rgba(0,212,200,0.15), inset 0 1px 0 rgba(255,255,255,0.12)",
                 }}
               >
-                Book a Consultation
+                Get My Free AI Strategy Call
                 <span className="text-white/70">→</span>
               </Link>
               <button
                 onClick={() => { const el = document.querySelector("#services"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold text-silver/80 border border-white/10 hover:border-teal/30 hover:text-teal bg-white/5 backdrop-blur-sm transition-all duration-300"
               >
-                See Our Services
+                See What We Build
               </button>
             </motion.div>
 
             {/* Trust row */}
             <motion.div variants={fade} className="flex items-center gap-5 pt-2 flex-wrap">
               {[
-                { val: "50+", label: "Projects" },
-                { val: "24/7", label: "AI Systems" },
-                { val: "10x", label: "Faster" },
+                { val: "50+", label: "Projects Shipped" },
+                { val: "2–6wk", label: "Delivery Time" },
+                { val: "40%", label: "Cost Reduction" },
               ].map((s) => (
                 <div key={s.label} className="flex items-center gap-2">
                   <span className="text-base font-bold text-teal">{s.val}</span>

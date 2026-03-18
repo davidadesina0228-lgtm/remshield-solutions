@@ -72,7 +72,8 @@ export default function CTABanner() {
           transition={{ duration: 0.6, delay: 0.15 }}
           className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4"
         >
-          Ready to Build <span className="gradient-text">Intelligent Systems?</span>
+          One conversation. A clear picture of{" "}
+          <span className="gradient-text">what AI can do for your business.</span>
         </motion.h2>
 
         {/* Subtext */}
@@ -83,8 +84,8 @@ export default function CTABanner() {
           transition={{ duration: 0.6, delay: 0.25 }}
           className="text-lg text-silver/75 max-w-xl mx-auto mb-10"
         >
-          Book a free consultation and let&apos;s design the AI systems that will
-          power your business.
+          In 30 minutes, we&apos;ll map your highest-ROI AI opportunities and give you
+          a clear action plan — no pitch, no pressure.
         </motion.p>
 
         {/* CTA Button */}
@@ -102,7 +103,7 @@ export default function CTABanner() {
               boxShadow: "0 4px 28px rgba(0,170,255,0.3), 0 0 0 1px rgba(0,212,200,0.2)",
             }}
           >
-            Book a Consultation
+            Book My Free Strategy Call
             <FontAwesomeIcon
               icon={faArrowRight}
               className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
@@ -118,7 +119,7 @@ export default function CTABanner() {
           transition={{ delay: 0.55 }}
           className="mt-6 text-silver/60 text-sm"
         >
-          No commitment. No credit card. Just a conversation.
+          Free. No commitment. No credit card.
         </motion.p>
       </div>
     </section>

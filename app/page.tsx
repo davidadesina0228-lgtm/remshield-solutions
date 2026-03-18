@@ -64,7 +64,7 @@ const faqSchema = {
       name: "How do I get started?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Simple — book a free 30-minute strategy call via the button on this page. We'll audit your operations, identify your highest-ROI AI opportunities, and give you a clear proposal with no obligation.",
+        text: "Book a free 30-minute strategy call. We'll audit your operations, identify your highest-ROI AI opportunities, and give you a clear action plan — no obligation. Most clients come out of the call with a specific roadmap, even if they don't hire us.",
       },
     },
   ],

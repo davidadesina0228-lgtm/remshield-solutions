@@ -26,18 +26,50 @@ const aboutSchema = {
     "RemShield is an AI engineering studio that designs and builds AI-powered software, automation systems, and custom AI solutions for growing businesses.",
   mainEntity: {
     "@type": "Organization",
+    "@id": "https://remshield.solutions/#organization",
     name: "RemShield",
     url: "https://remshield.solutions",
+    description: "AI engineering studio that designs and builds intelligent software, automation systems, and custom AI solutions for growing businesses.",
     foundingDate: "2025",
     foundingLocation: { "@type": "Place", addressCountry: "NG" },
+    areaServed: "Worldwide",
+    knowsAbout: ["AI engineering", "AI automation", "AI agents", "custom software development", "business process automation"],
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "support@remshield.solutions",
+      contactType: "customer service",
+    },
+    sameAs: [
+      "https://www.linkedin.com/in/david-adesina-ai/",
+    ],
     founder: {
-      "@type": "Person",
-      name: "David Adesina",
-      jobTitle: "Founder",
-      url: "https://www.linkedin.com/in/david-adesina-ai/",
-      sameAs: ["https://www.linkedin.com/in/david-adesina-ai/"],
+      "@id": "https://remshield.solutions/#founder",
     },
   },
+};
+
+const founderSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://remshield.solutions/#founder",
+  name: "David Adesina",
+  jobTitle: "Founder & AI Engineer",
+  url: "https://remshield.solutions/about",
+  worksFor: {
+    "@id": "https://remshield.solutions/#organization",
+  },
+  knowsAbout: [
+    "AI engineering",
+    "AI automation",
+    "large language models",
+    "AI agents",
+    "business process automation",
+    "custom software development",
+  ],
+  sameAs: [
+    "https://www.linkedin.com/in/david-adesina-ai/",
+  ],
+  description: "David Adesina is the founder of RemShield, an AI engineering studio in Nigeria. He builds intelligent software, automation infrastructure, and custom AI solutions for growth-stage businesses globally.",
 };
 
 const services = [
@@ -71,6 +103,10 @@ export default function AboutPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(founderSchema) }}
       />
       <Navbar />
 

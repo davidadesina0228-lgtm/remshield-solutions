@@ -71,10 +71,10 @@ export default function HowWeWork() {
             Our Process
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            A methodical, low-risk approach
+            From your biggest bottleneck<br className="hidden sm:block" /> to a live AI system — in weeks.
           </h2>
           <p className="text-silver/60 text-lg max-w-xl leading-relaxed">
-            We start with understanding your business — not jumping straight into tools.
+            We don&apos;t start with AI. We start with understanding your business. The systems follow from there.
           </p>
         </motion.div>
 
@@ -156,7 +156,7 @@ export default function HowWeWork() {
           className="mt-12 flex flex-col sm:flex-row items-center gap-4"
         >
           <p className="text-silver/55 text-base">
-            Ready to see where AI can help your business?
+            Tell us what&apos;s slowing your business down.
           </p>
           <a
             href="/contact"
@@ -166,7 +166,7 @@ export default function HowWeWork() {
               boxShadow: "0 4px 20px rgba(0,170,255,0.22), 0 0 0 1px rgba(0,212,200,0.18)",
             }}
           >
-            Book a Consultation →
+            Get My Free AI Audit →
           </a>
         </motion.div>
       </div>

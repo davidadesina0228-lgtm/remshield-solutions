@@ -13,8 +13,8 @@ const bentoItems = [
   },
   {
     type: "feature",
-    title: "AI Engineering, Not AI Add-Ons",
-    body: "Enterprise AI adoption has grown 270% in 4 years — but most agencies still bolt AI onto legacy processes. We're an AI engineering studio: every system is designed AI-native from the ground up, so you capture the full advantage, not a fraction of it.",
+    title: "Built for Your Business. Not the Next One.",
+    body: "Most AI tools you've tried were built for generic use cases — not your lead qualification process, not your document types, not your customer handoffs. We're an AI engineering studio: every system is designed specifically for how your business works, so you capture the full advantage, not a fraction of it.",
     accent: "blue",
     span: "col-span-1 md:col-span-2",
   },
@@ -38,14 +38,14 @@ const bentoItems = [
   },
   {
     type: "feature",
-    title: "You Describe Outcomes. We Build Systems.",
-    body: "Most businesses don't know where to start with AI — and that's exactly what we're here for. We handle all the technical complexity from architecture to deployment. You describe what you need; we engineer the system that delivers it.",
+    title: "You Describe the Problem. We Build the Fix.",
+    body: "You don't need to understand LLMs, vector databases, or deployment pipelines. You need to tell us what's slowing your business down. We handle architecture, build, testing, and deployment — end to end. You see a working system in weeks.",
     accent: "teal",
     span: "col-span-1 md:col-span-2",
   },
   {
     type: "cta",
-    title: "Ready to scale with AI?",
+    title: "See what AI can do for your business.",
     accent: "teal",
     span: "col-span-1",
   },
@@ -67,7 +67,7 @@ export default function WhyRemShield() {
             Why RemShield
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-            The RemShield<br className="hidden sm:block" /> Advantage
+            Why founders choose<br className="hidden sm:block" /> RemShield
           </h2>
         </motion.div>
 
@@ -135,7 +135,7 @@ export default function WhyRemShield() {
                     style={{ background: `linear-gradient(135deg, rgba(${accentRgb},0.08) 0%, rgba(${accentRgb},0.02) 100%)` }}>
                     <div>
                       <h3 className="text-white font-bold text-lg mb-1">{item.title}</h3>
-                      <p className="text-silver/65 text-sm">Book a free 30-minute strategy call.</p>
+                      <p className="text-silver/65 text-sm">Free 30-min call. No pitch, no pressure.</p>
                     </div>
                     <Link
                       href="/contact"
@@ -145,7 +145,7 @@ export default function WhyRemShield() {
                         boxShadow: `0 4px 16px rgba(${accentRgb},0.25)`,
                       }}
                     >
-                      Get in Touch →
+                      Book My Free Call →
                     </Link>
                   </div>
                 )}

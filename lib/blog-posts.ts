@@ -15,9 +15,10 @@ export interface BlogPost {
   relatedSlugs: string[];
 }
 
-// Content is injected by lib/blog-content.ts and lib/blog-content-2.ts
+// Content is injected by lib/blog-content.ts, lib/blog-content-2.ts, lib/blog-content-3.ts
 import { blogContent } from "./blog-content";
 import { blogContent2 } from "./blog-content-2";
+import { blogContent3 } from "./blog-content-3";
 
 const blogMeta: Omit<BlogPost, "content" | "faq" | "relatedSlugs" | "author">[] = [
   {
@@ -705,10 +706,131 @@ const blogMeta: Omit<BlogPost, "content" | "faq" | "relatedSlugs" | "author">[] 
     tagColor: "teal",
     isPillar: false,
   },
+  // ── New posts (blog-content-3.ts) ────────────────────────────────────────
+  {
+    slug: "ai-automation-agency-nigeria",
+    title: "AI Automation Agency in Nigeria: How to Find the Right Partner",
+    metaDescription: "Looking for an AI automation agency in Nigeria? Learn what to look for, what to avoid, and how RemShield builds AI systems that actually work for Nigerian businesses.",
+    excerpt: "Nigeria's business landscape is ready for AI automation — but most agencies are selling generic tools without understanding local infrastructure. Here's how to find a partner who builds systems that work in the Nigerian context.",
+    date: "March 17, 2026",
+    readTime: "8 min read",
+    category: "AI Automation",
+    tag: "Nigeria",
+    tagColor: "teal",
+    isPillar: false,
+  },
+  {
+    slug: "ai-agent-vs-chatbot",
+    title: "AI Agent vs Chatbot: What's the Actual Difference?",
+    metaDescription: "AI agents and chatbots are not the same thing. Learn the fundamental differences, when each is appropriate, and why the distinction matters for your business decisions.",
+    excerpt: "The terms AI agent and chatbot are used interchangeably — but they describe fundamentally different technologies with different capabilities and use cases. Understanding the distinction is essential for making the right AI investment.",
+    date: "March 16, 2026",
+    readTime: "7 min read",
+    category: "AI Agents",
+    tag: "AI Basics",
+    tagColor: "blue",
+    isPillar: false,
+  },
+  {
+    slug: "custom-ai-development-cost",
+    title: "Custom AI Development Cost: An Honest Pricing Guide for 2026",
+    metaDescription: "Custom AI development costs range from $15,000 for simple automations to $500,000+ for enterprise AI systems. Here's an honest breakdown of what drives cost and what to budget.",
+    excerpt: "Custom AI development pricing is opaque — and vendors benefit from that opacity. This honest guide breaks down what actually drives cost, what realistic budgets look like at each complexity tier, and how to avoid overpaying.",
+    date: "March 15, 2026",
+    readTime: "9 min read",
+    category: "AI Systems",
+    tag: "Pricing",
+    tagColor: "teal",
+    isPillar: false,
+  },
+  {
+    slug: "what-is-ai-engineering-studio",
+    title: "What Is an AI Engineering Studio? (And Why It's Different from an Agency)",
+    metaDescription: "An AI engineering studio combines deep technical expertise with strategic thinking to build production-grade AI systems. Learn what distinguishes studios from agencies and consultancies.",
+    excerpt: "An AI engineering studio is not an agency. It's not a consultancy. It's a specialised builder — combining the technical depth of a product engineering team with the strategic scope of a business partner. Here's exactly what that means.",
+    date: "March 14, 2026",
+    readTime: "7 min read",
+    category: "AI Systems",
+    tag: "About AI Studios",
+    tagColor: "blue",
+    isPillar: false,
+  },
+  {
+    slug: "rpa-vs-ai-automation",
+    title: "RPA vs AI Automation: Which Does Your Business Actually Need?",
+    metaDescription: "RPA follows fixed rules and breaks on variability. AI automation handles exceptions and learns. Here's a practical framework for choosing the right approach for each process.",
+    excerpt: "Most businesses that invest in RPA eventually discover its ceiling — fixed rules that shatter on real-world variability. AI automation removes that ceiling. But the right choice depends on your specific processes. Here's the framework.",
+    date: "March 13, 2026",
+    readTime: "8 min read",
+    category: "AI Automation",
+    tag: "RPA vs AI",
+    tagColor: "teal",
+    isPillar: false,
+  },
+  {
+    slug: "ai-for-nigerian-businesses",
+    title: "AI for Nigerian Businesses: Where to Start in 2026",
+    metaDescription: "Nigerian businesses face unique AI challenges — infrastructure constraints, payment friction, local language requirements. This guide shows where AI delivers the highest ROI in the Nigerian context.",
+    excerpt: "AI adoption in Nigeria is accelerating, but most guidance assumes Western infrastructure. This guide addresses the real constraints Nigerian businesses face and shows where AI delivers the highest ROI in the local context.",
+    date: "March 12, 2026",
+    readTime: "8 min read",
+    category: "AI Automation",
+    tag: "Nigeria",
+    tagColor: "blue",
+    isPillar: false,
+  },
+  {
+    slug: "rag-vs-fine-tuning",
+    title: "RAG vs Fine-Tuning: Which Approach Does Your Business Need?",
+    metaDescription: "RAG retrieves knowledge at query time. Fine-tuning bakes knowledge into model weights. Learn which approach is right for your use case, budget, and maintenance requirements.",
+    excerpt: "RAG and fine-tuning solve different problems. RAG is fast, cheap, and updatable — ideal for knowledge bases that change. Fine-tuning is expensive, powerful, and static — ideal for style and specialised reasoning. Here's how to choose.",
+    date: "March 11, 2026",
+    readTime: "8 min read",
+    category: "AI Systems",
+    tag: "RAG",
+    tagColor: "teal",
+    isPillar: false,
+  },
+  {
+    slug: "what-is-answer-architect",
+    title: "What Is Answer Architect? The AI Search Visibility Platform Explained",
+    metaDescription: "Answer Architect is the first platform built to get your content cited by ChatGPT, Perplexity, and Google AI Overviews. Learn how GEO optimization works and what Answer Architect does.",
+    excerpt: "Answer Architect is RemShield's SaaS platform for AI search visibility — built to get your content cited and recommended by ChatGPT, Perplexity, Claude, and Google AI Overviews. Here's what it is, how it works, and who it's for.",
+    date: "March 18, 2026",
+    readTime: "7 min read",
+    category: "SaaS",
+    tag: "Answer Architect",
+    tagColor: "teal",
+    isPillar: false,
+  },
+  {
+    slug: "get-cited-by-ai-search-engines",
+    title: "How to Get Your Content Cited by ChatGPT and Perplexity",
+    metaDescription: "Getting cited by AI search engines requires GEO optimization — different from traditional SEO. Learn the 7 practices that dramatically increase AI citation probability.",
+    excerpt: "Traditional SEO gets you ranked on Google. GEO optimization gets you cited by ChatGPT, Perplexity, Claude, and Google AI Overviews — the new search front-ends that millions of users trust for answers. Here's how to optimize for AI citation.",
+    date: "March 18, 2026",
+    readTime: "9 min read",
+    category: "SaaS",
+    tag: "GEO",
+    tagColor: "blue",
+    isPillar: false,
+  },
+  {
+    slug: "geo-vs-seo-2026",
+    title: "GEO vs SEO in 2026: Why the Rules of Content Visibility Have Changed",
+    metaDescription: "GEO (Generative Engine Optimization) optimizes for AI citations. SEO optimizes for search rankings. Both matter in 2026 — but they require different strategies. Here's what's changed.",
+    excerpt: "The way people find information is changing. AI search engines — ChatGPT, Perplexity, Google AI Overviews — are becoming primary information sources. GEO is the discipline that makes your content visible in this new landscape. Here's how it differs from SEO.",
+    date: "March 18, 2026",
+    readTime: "8 min read",
+    category: "SaaS",
+    tag: "GEO vs SEO",
+    tagColor: "teal",
+    isPillar: false,
+  },
 ];
 
-// Merge metadata with content from blog-content.ts + blog-content-2.ts
-const allBlogContent = [...blogContent, ...blogContent2];
+// Merge metadata with content — blogContent3 first to override existing slugs
+const allBlogContent = [...blogContent3, ...blogContent, ...blogContent2];
 
 export const allPosts: BlogPost[] = blogMeta.map((meta) => {
   const contentData = allBlogContent.find((c) => c.slug === meta.slug);

@@ -72,14 +72,14 @@ export default function Footer() {
                 → Apply to Work With Us
               </a>
               <a
-                href="mailto:contact@remshield.solutions"
+                href="mailto:support@remshield.solutions"
                 className="flex items-center gap-2 text-silver/60 hover:text-teal transition-colors duration-200 text-sm group"
               >
                 <FontAwesomeIcon
                   icon={faEnvelope}
                   className="w-4 h-4 group-hover:text-teal"
                 />
-                contact@remshield.solutions
+                support@remshield.solutions
               </a>
               <a
                 href="https://wa.me/message/GHYTIJUBDEY3H1"

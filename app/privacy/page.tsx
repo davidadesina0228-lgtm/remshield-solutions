@@ -101,8 +101,8 @@ export default function PrivacyPage() {
             </ul>
             <p className="text-silver/70 leading-relaxed mb-4">
               To exercise any of these rights, email us at{" "}
-              <a href="mailto:contact@remshield.solutions" className="text-teal hover:underline">
-                contact@remshield.solutions
+              <a href="mailto:support@remshield.solutions" className="text-teal hover:underline">
+                support@remshield.solutions
               </a>. We will respond within 30 days.
             </p>
 
@@ -119,8 +119,8 @@ export default function PrivacyPage() {
             <h2 className="text-white font-bold text-xl mt-8 mb-3">9. Contact</h2>
             <p className="text-silver/70 leading-relaxed mb-4">
               For any privacy-related questions or to exercise your data rights, contact us at{" "}
-              <a href="mailto:contact@remshield.solutions" className="text-teal hover:underline">
-                contact@remshield.solutions
+              <a href="mailto:support@remshield.solutions" className="text-teal hover:underline">
+                support@remshield.solutions
               </a>.
             </p>
           </div>

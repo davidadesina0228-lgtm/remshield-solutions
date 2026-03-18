@@ -69,7 +69,7 @@ const contactPageSchema = {
   mainEntity: {
     "@type": "Organization",
     name: "RemShield",
-    email: "contact@remshield.solutions",
+    email: "support@remshield.solutions",
     url: "https://remshield.solutions",
   },
 };

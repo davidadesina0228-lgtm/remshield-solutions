@@ -232,8 +232,8 @@ export default function ContactForm() {
         </p>
         <div className="mt-8 pt-6 border-t border-white/10 text-silver/40 text-sm">
           Questions? Email us at{" "}
-          <a href="mailto:contact@remshield.solutions" className="text-electricBlue hover:underline">
-            contact@remshield.solutions
+          <a href="mailto:support@remshield.solutions" className="text-electricBlue hover:underline">
+            support@remshield.solutions
           </a>
         </div>
       </motion.div>

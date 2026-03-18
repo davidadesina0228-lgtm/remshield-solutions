@@ -154,7 +154,7 @@ export default function FAQ() {
         >
           Still have questions?{" "}
           <a
-            href="mailto:contact@remshield.solutions"
+            href="mailto:support@remshield.solutions"
             className="text-electricBlue hover:underline"
           >
             Email us directly

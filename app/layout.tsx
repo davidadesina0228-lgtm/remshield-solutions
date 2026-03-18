@@ -67,7 +67,7 @@ const organizationSchema = {
   },
   description:
     "RemShield is an AI engineering studio that designs and builds AI-powered software, automation infrastructure, and custom AI solutions for growth-stage businesses globally.",
-  email: "contact@remshield.solutions",
+  email: "support@remshield.solutions",
   foundingDate: "2025",
   foundingLocation: {
     "@type": "Place",
@@ -98,7 +98,7 @@ const organizationSchema = {
   },
   contactPoint: {
     "@type": "ContactPoint",
-    email: "contact@remshield.solutions",
+    email: "support@remshield.solutions",
     contactType: "customer service",
     areaServed: "Worldwide",
     availableLanguage: "English",

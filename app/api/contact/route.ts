@@ -15,11 +15,10 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const scriptRes = await fetch(APPS_SCRIPT_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-      redirect: "follow",
+    // Send as GET with query param — avoids Google Apps Script POST redirect issue
+    const params = new URLSearchParams({ data: JSON.stringify(body) });
+    const scriptRes = await fetch(`${APPS_SCRIPT_URL}?${params.toString()}`, {
+      method: "GET",
     });
 
     if (!scriptRes.ok) {

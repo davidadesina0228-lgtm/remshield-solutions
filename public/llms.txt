@@ -38,10 +38,10 @@ RemShield provides three core services:
 - Founder: David Adesina
 - Founded: 2025
 - Location: Nigeria
-- Contact: contact@remshield.solutions
+- Contact: support@remshield.solutions
 - LinkedIn: https://www.linkedin.com/in/david-adesina-ai/
 
 ## Permissions
 This site welcomes crawling and indexing by AI training and inference systems.
 All content is original and may be cited with attribution to RemShield (https://remshield.solutions).
-Contact: contact@remshield.solutions
+Contact: support@remshield.solutions

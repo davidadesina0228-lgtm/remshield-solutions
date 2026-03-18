@@ -24,5 +24,5 @@ pls make sure you are using the appropriate skill for every task
 - Build one component at a time
 
 ## Contact
-- Email: contact@remshield.solutions
+- Email: support@remshield.solutions
 - WhatsApp: https://wa.me/message/GHYTIJUBDEY3H1

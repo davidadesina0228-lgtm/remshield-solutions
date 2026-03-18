@@ -57,8 +57,8 @@ export default function TermsPage() {
             <h2 className="text-white font-bold text-xl mt-8 mb-3">Contact</h2>
             <p className="text-silver/70 leading-relaxed mb-4">
               Questions about these terms? Email us at{" "}
-              <a href="mailto:contact@remshield.solutions" className="text-teal hover:underline">
-                contact@remshield.solutions
+              <a href="mailto:support@remshield.solutions" className="text-teal hover:underline">
+                support@remshield.solutions
               </a>.
             </p>
           </div>

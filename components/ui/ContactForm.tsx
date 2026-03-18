@@ -199,9 +199,16 @@ export default function ContactForm() {
     setError("");
     setLoading(true);
 
-    // Simulate submission — replace with your form handler (Formspree, etc.)
-    await new Promise((r) => setTimeout(r, 1200));
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
     setLoading(false);
+    if (!res.ok) {
+      setError("Something went wrong. Please try again or email us directly.");
+      return;
+    }
     setSubmitted(true);
   };
 

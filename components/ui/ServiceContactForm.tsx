@@ -355,8 +355,26 @@ export default function ServiceContactForm({ service }: { service?: string }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading");
-    await new Promise((r) => setTimeout(r, 1400));
-    setStatus("success");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          company,
+          service,
+          ...fieldValues,
+          ...Object.fromEntries(
+            Object.entries(chipsValues).map(([k, v]) => [k, v.join(", ")])
+          ),
+        }),
+      });
+      setStatus(res.ok ? "success" : "error");
+    } catch {
+      setStatus("error");
+    }
   };
 
   if (status === "success") {

@@ -82,7 +82,7 @@ const configs: Record<string, ServiceConfig> = {
         type: "select",
         id: "budget",
         label: "Project budget",
-        options: ["Under £2,000", "£2,000–£8,000", "£8,000–£20,000", "£20,000+", "Not sure yet"],
+        options: ["Under $2,000", "$2,000–$8,000", "$8,000–$20,000", "$20,000+", "Not sure yet"],
       },
       {
         type: "select",
@@ -140,7 +140,7 @@ const configs: Record<string, ServiceConfig> = {
         type: "select",
         id: "budget",
         label: "Monthly budget for automation",
-        options: ["Under £500/mo", "£500–£1,500/mo", "£1,500–£5,000/mo", "£5,000+/mo", "Not sure yet"],
+        options: ["Under $500/mo", "$500–$1,500/mo", "$1,500–$5,000/mo", "$5,000+/mo", "Not sure yet"],
       },
       {
         type: "select",
@@ -222,7 +222,7 @@ const configs: Record<string, ServiceConfig> = {
         type: "select",
         id: "budget",
         label: "Development budget",
-        options: ["Under £3,000", "£3,000–£10,000", "£10,000–£30,000", "£30,000+", "Not sure yet"],
+        options: ["Under $3,000", "$3,000–$10,000", "$10,000–$30,000", "$30,000+", "Not sure yet"],
       },
     ],
   },
@@ -253,7 +253,7 @@ const defaultConfig: ServiceConfig = {
       type: "select",
       id: "budget",
       label: "Estimated budget",
-      options: ["Under £2,000", "£2,000–£10,000", "£10,000–£30,000", "£30,000+", "Not sure yet"],
+      options: ["Under $2,000", "$2,000–$10,000", "$10,000–$30,000", "$30,000+", "Not sure yet"],
     },
   ],
 };

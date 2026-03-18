@@ -14,7 +14,7 @@ const bentoItems = [
   {
     type: "feature",
     title: "Built for Your Business. Not the Next One.",
-    body: "Most AI tools you've tried were built for generic use cases — not your lead qualification process, not your document types, not your customer handoffs. We're an AI engineering studio: every system is designed specifically for how your business works, so you capture the full advantage, not a fraction of it.",
+    body: "Most AI tools you've tried were built for generic use cases — not your lead pipeline, not your document types, not your specific customer handoffs. We're an AI engineering studio: every system is designed around how your business actually works, which means you get the full advantage instead of bending your processes to fit someone else's tool.",
     accent: "blue",
     span: "col-span-1 md:col-span-2",
   },
@@ -39,13 +39,13 @@ const bentoItems = [
   {
     type: "feature",
     title: "You Describe the Problem. We Build the Fix.",
-    body: "You don't need to understand LLMs, vector databases, or deployment pipelines. You need to tell us what's slowing your business down. We handle architecture, build, testing, and deployment — end to end. You see a working system in weeks.",
+    body: "You don't need an engineering team or technical knowledge. You need to tell us what's slowing your business down — a process that takes too long, a task your team does manually every day, a system that doesn't talk to another. We handle architecture, build, testing, and deployment end to end. You see a working system in weeks.",
     accent: "teal",
     span: "col-span-1 md:col-span-2",
   },
   {
     type: "cta",
-    title: "See what AI can do for your business.",
+    title: "Find out exactly where AI wins for your business.",
     accent: "teal",
     span: "col-span-1",
   },

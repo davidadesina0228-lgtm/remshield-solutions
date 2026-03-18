@@ -14,7 +14,7 @@ const faqs = [
   {
     question: "How long does it take to build an AI system?",
     answer:
-      "Most projects are completed in 2–6 weeks depending on complexity. Because we use AI-accelerated development workflows, we deliver at 10x the speed of traditional agencies — without cutting corners on quality. Companies that move fast on AI adoption are already compounding advantages their competitors can't easily close.",
+      "Simple automations and AI integrations typically take 2–3 weeks. AI agents with custom logic and multi-tool integrations take 4–6 weeks. Enterprise-level multi-agent systems take 6–12 weeks. We use AI-accelerated development workflows throughout, which means faster delivery than a traditional agency without cutting corners on quality.",
   },
   {
     question: "Do I need technical knowledge to work with you?",
@@ -29,12 +29,12 @@ const faqs = [
   {
     question: "What makes RemShield different from other agencies?",
     answer:
-      "We are 100% AI-native. Enterprise AI adoption has grown 270% in 4 years — yet most agencies still treat AI as an add-on. We build everything AI-first: faster delivery, 40% lower operational costs for clients, and systems designed to scale from day one.",
+      "Most agencies bolt AI onto traditional software development. We're an AI engineering studio — AI is the only thing we do. That means faster delivery (2–6 weeks vs months), 40% lower operational costs for clients, systems built to scale from day one, and a team that's seen failure patterns across dozens of AI projects and knows how to avoid them.",
   },
   {
     question: "How do I get started?",
     answer:
-      "Book a free 30-minute strategy call. We'll audit your operations, identify your highest-ROI AI opportunities, and give you a clear action plan with no obligation. Most clients come out of the call with a specific roadmap — even if they don't hire us.",
+      "Fill out the intake form at remshield.solutions/contact. We'll review your situation and book a free 30-minute strategy call. On that call, we audit your operations, identify your highest-ROI AI opportunities, and give you a specific action plan — with no obligation. Most founders leave with a clear roadmap, whether or not they hire us.",
   },
 ];
 

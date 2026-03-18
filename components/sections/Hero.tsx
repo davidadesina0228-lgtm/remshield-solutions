@@ -145,9 +145,10 @@ export default function Hero() {
             </motion.h1>
 
             <motion.p variants={fade} className="text-base sm:text-lg text-silver/70 leading-relaxed">
-              RemShield builds custom AI systems for growing businesses —
-              agents that handle your ops, automation that replaces repetitive workflows, and{" "}
-              <span className="text-silver/90 font-medium">software built around how you actually work.</span>
+              We build the AI systems you&apos;ve been meaning to build —
+              agents that handle leads and customer queries around the clock, automation that
+              eliminates the manual work slowing your team down, and{" "}
+              <span className="text-silver/90 font-medium">software designed around how your business actually runs.</span>
             </motion.p>
 
             <motion.div variants={fade} className="flex flex-wrap gap-3 items-center">
@@ -159,7 +160,7 @@ export default function Hero() {
                   boxShadow: "0 4px 24px rgba(0,212,200,0.3), 0 0 0 1px rgba(0,212,200,0.15), inset 0 1px 0 rgba(255,255,255,0.12)",
                 }}
               >
-                Get My Free AI Strategy Call
+                Get My Free AI Roadmap
                 <span className="text-white/70">→</span>
               </Link>
               <button
@@ -173,24 +174,16 @@ export default function Hero() {
             {/* Trust row */}
             <motion.div variants={fade} className="flex items-center gap-5 pt-2 flex-wrap">
               {[
-                { val: "50+", label: "Projects Shipped" },
+                { val: "50+", label: "Systems Deployed" },
                 { val: "2–6wk", label: "Delivery Time" },
-                { val: "40%", label: "Cost Reduction" },
+                { val: "40%", label: "Avg Cost Reduction" },
+                { val: "24/7", label: "Agents Run" },
               ].map((s) => (
                 <div key={s.label} className="flex items-center gap-2">
                   <span className="text-base font-bold text-teal">{s.val}</span>
                   <span className="text-silver/50 text-xs">{s.label}</span>
                 </div>
               ))}
-              <div className="h-4 w-px bg-white/10 hidden sm:block" />
-              <div className="flex items-center gap-1.5">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} width="11" height="11" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                    <path d="M7 1l1.545 3.09L12 4.636l-2.5 2.455.59 3.41L7 9l-3.09 1.5.59-3.41L2 4.636l3.455-.546L7 1z" fill="#00D4C8" opacity="0.9" />
-                  </svg>
-                ))}
-                <span className="text-silver/50 text-xs ml-1">100% AI-Powered</span>
-              </div>
             </motion.div>
           </motion.div>
 

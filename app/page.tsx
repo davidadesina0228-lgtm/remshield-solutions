@@ -32,7 +32,7 @@ const faqSchema = {
       name: "How long does it take to build an AI system?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Most projects are completed in 2–6 weeks depending on complexity. Because we use AI-accelerated development workflows, we deliver at 10x the speed of traditional agencies — without cutting corners on quality.",
+        text: "Simple automations and AI integrations typically take 2–3 weeks. AI agents with custom logic and integrations take 4–6 weeks. Enterprise-level multi-agent systems take 6–12 weeks. We use AI-accelerated development workflows throughout, which means faster delivery without cutting corners on quality.",
       },
     },
     {
@@ -56,7 +56,7 @@ const faqSchema = {
       name: "What makes RemShield different from other agencies?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "We are 100% AI-native. Enterprise AI adoption has grown 270% in 4 years — yet most agencies still treat AI as an add-on. We build everything AI-first: faster delivery, 40% lower operational costs for clients, and systems designed to scale from day one.",
+        text: "Most agencies bolt AI onto traditional software development. We're an AI engineering studio — AI is the only thing we do. That means faster delivery (2–6 weeks vs months), 40% lower operational costs for clients, and systems built to scale from day one.",
       },
     },
     {

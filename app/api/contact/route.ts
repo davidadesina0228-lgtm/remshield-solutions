@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const APPS_SCRIPT_URL =
-  process.env.APPS_SCRIPT_URL ||
-  "https://script.google.com/macros/s/AKfycbxf1pgOOgn20JTrpo0T09ZkHUPpowgsrLaq7ZTldY9Qk2sS2023mvVHF-V-fbQ4sq_SvA/exec";
+const WEB3FORMS_KEY = process.env.WEB3FORMS_KEY || "d2b7db4c-da5e-4147-8dcf-848ecf429bde";
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,15 +13,20 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Send as GET with query param — avoids Google Apps Script POST redirect issue
-    const params = new URLSearchParams({ data: JSON.stringify(body) });
-    const scriptRes = await fetch(`${APPS_SCRIPT_URL}?${params.toString()}`, {
-      method: "GET",
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        subject: `New enquiry from ${body.firstName} ${body.lastName} — ${body.company}`,
+        from_name: "RemShield Website",
+        ...body,
+      }),
     });
 
-    if (!scriptRes.ok) {
-      console.error("Apps Script error:", scriptRes.status, await scriptRes.text());
-      return NextResponse.json({ error: "Failed to save submission" }, { status: 500 });
+    if (!res.ok) {
+      console.error("Web3Forms error:", res.status, await res.text());
+      return NextResponse.json({ error: "Failed to send submission" }, { status: 500 });
     }
 
     return NextResponse.json({ ok: true });

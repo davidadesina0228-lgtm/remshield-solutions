@@ -274,9 +274,9 @@ function SelectInput({ field, value, onChange }: { field: SelectField; value: st
         {field.label}{field.required && <span className="text-red-400 ml-1">*</span>}
       </label>
       <select id={field.id} value={value} onChange={(e) => onChange(e.target.value)} required={field.required}
-        className={inputClass} style={{ colorScheme: "dark" }}>
-        <option value="" disabled>Select an option</option>
-        {field.options.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
+        className={inputClass} style={{ backgroundColor: "#0D1B3E", colorScheme: "dark" }}>
+        <option value="" disabled style={{ backgroundColor: "#0D1B3E", color: "rgba(200,214,229,0.35)" }}>Select an option</option>
+        {field.options.map((opt) => <option key={opt} value={opt} style={{ backgroundColor: "#0D1B3E", color: "#C8D6E5" }}>{opt}</option>)}
       </select>
     </div>
   );

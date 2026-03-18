@@ -7,7 +7,6 @@ export const metadata: Metadata = {
 };
 import Hero from "@/components/sections/Hero";
 import MarqueeTicker from "@/components/sections/MarqueeTicker";
-import Services from "@/components/sections/Services";
 import VerticalTabs from "@/components/ui/vertical-tabs";
 import IndustryStats from "@/components/sections/IndustryStats";
 import HowWeWork from "@/components/sections/HowWeWork";
@@ -142,7 +141,6 @@ export default function Home() {
       <FloatingCTA />
       <Hero />
       <MarqueeTicker />
-      <Services />
       <VerticalTabs />
       <IndustryStats />
       <HowWeWork />

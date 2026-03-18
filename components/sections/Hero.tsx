@@ -2,8 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
+import { Spotlight } from "@/components/ui/spotlight";
+import { SplineScene } from "@/components/ui/splite";
 
 interface Particle {
   x: number; y: number;
@@ -67,19 +68,14 @@ export default function Hero() {
       animFrameRef.current = requestAnimationFrame(draw);
     };
 
-    // Pause animation when hero is scrolled out of view
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisibleRef.current = entry.isIntersecting;
-        if (entry.isIntersecting) {
-          cancelAnimationFrame(animFrameRef.current);
-          draw();
-        }
+        if (entry.isIntersecting) { cancelAnimationFrame(animFrameRef.current); draw(); }
       },
       { threshold: 0 }
     );
     observer.observe(canvas);
-
     draw();
     return () => {
       window.removeEventListener("resize", resize);
@@ -89,36 +85,41 @@ export default function Hero() {
   }, []);
 
   const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.12 } } };
-  const fade = { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] } } };
+  const fade = {
+    hidden: { opacity: 0, y: 24 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] } },
+  };
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Canvas background */}
       <canvas ref={canvasRef} id="particle-canvas" className="absolute inset-0 w-full h-full" aria-hidden="true" />
 
-      {/* Deep radial glow — left-weighted to match text side */}
+      {/* Spotlight effect */}
+      <Spotlight className="-top-40 left-0 md:left-40 md:-top-20" fill="#00D4C8" />
+
+      {/* Deep radial overlays */}
       <div className="absolute inset-0 pointer-events-none" style={{
         background: [
-          "radial-gradient(ellipse 65% 70% at 20% 50%, rgba(0,212,200,0.07) 0%, transparent 60%)",
-          "radial-gradient(ellipse 50% 60% at 80% 40%, rgba(0,170,255,0.05) 0%, transparent 55%)",
-          "radial-gradient(ellipse 100% 100% at 50% 0%, rgba(8,14,30,0) 0%, rgba(8,14,30,0.9) 100%)",
+          "radial-gradient(ellipse 65% 70% at 20% 50%, rgba(0,212,200,0.06) 0%, transparent 60%)",
+          "radial-gradient(ellipse 50% 60% at 80% 40%, rgba(0,170,255,0.04) 0%, transparent 55%)",
+          "radial-gradient(ellipse 100% 100% at 50% 0%, rgba(8,14,30,0) 0%, rgba(8,14,30,0.85) 100%)",
         ].join(","),
       }} />
 
-      {/* Grid lines overlay */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.025]" style={{
+      {/* Subtle grid */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.02]" style={{
         backgroundImage: "linear-gradient(rgba(0,212,200,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,200,1) 1px, transparent 1px)",
         backgroundSize: "80px 80px",
       }} />
 
-      {/* ─── Asymmetric hero layout ─── */}
+      {/* Layout */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[80vh]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-[80vh]">
 
-          {/* LEFT — text content */}
+          {/* LEFT — text */}
           <motion.div variants={stagger} initial="hidden" animate="visible" className="flex flex-col gap-6 max-w-xl">
 
-            {/* Badge */}
             <motion.div variants={fade}>
               <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-teal/25 bg-teal/8 text-teal text-xs font-semibold tracking-widest uppercase">
                 <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
@@ -126,21 +127,18 @@ export default function Hero() {
               </span>
             </motion.div>
 
-            {/* Headline */}
             <motion.h1 variants={fade} className="text-[2.8rem] sm:text-[3.5rem] lg:text-[4.2rem] font-bold leading-[1.06] tracking-tight text-white">
               Build Smarter<br />
               <span className="gradient-text">Businesses</span><br />
               with AI
             </motion.h1>
 
-            {/* Subtext */}
             <motion.p variants={fade} className="text-base sm:text-lg text-silver/70 leading-relaxed">
               We design AI-powered software and automation systems that help
               companies scale faster, reduce manual work, and{" "}
               <span className="text-silver/90 font-medium">unlock new capabilities.</span>
             </motion.p>
 
-            {/* CTA row */}
             <motion.div variants={fade} className="flex flex-wrap gap-3 items-center">
               <Link
                 href="/contact"
@@ -161,7 +159,7 @@ export default function Hero() {
               </button>
             </motion.div>
 
-            {/* Mini stats row */}
+            {/* Mini trust row */}
             <motion.div variants={fade} className="flex items-center gap-5 pt-2 flex-wrap">
               {[
                 { val: "50+", label: "Projects" },
@@ -185,73 +183,71 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* RIGHT — glowing shield visual */}
+          {/* RIGHT — Spline 3D scene */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.88, x: 30 }}
+            initial={{ opacity: 0, scale: 0.92, x: 30 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="relative flex items-center justify-center lg:justify-end"
+            className="relative flex items-center justify-center lg:justify-end h-[420px] sm:h-[500px] lg:h-[560px]"
           >
-            {/* Outer glow rings */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-[340px] h-[340px] rounded-full border border-teal/8 animate-[spin_40s_linear_infinite]" />
-              <div className="absolute w-[260px] h-[260px] rounded-full border border-electricBlue/10 animate-[spin_25s_linear_infinite_reverse]" />
-              <div className="absolute w-[180px] h-[180px] rounded-full"
-                style={{ background: "radial-gradient(circle, rgba(0,212,200,0.12) 0%, transparent 70%)" }} />
-            </div>
+            {/* Glow behind the scene */}
+            <div
+              className="absolute inset-4 rounded-3xl pointer-events-none"
+              style={{
+                background: "radial-gradient(ellipse 80% 80% at 50% 50%, rgba(0,212,200,0.08) 0%, transparent 70%)",
+                filter: "blur(24px)",
+              }}
+            />
 
-            {/* Logo card */}
-            <motion.div
-              animate={{ y: [0, -12, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="relative z-10"
+            {/* Scene card */}
+            <div
+              className="relative w-full h-full rounded-3xl overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, rgba(8,14,30,0.8) 0%, rgba(13,21,48,0.6) 100%)",
+                border: "1px solid rgba(0,212,200,0.15)",
+                boxShadow: "0 0 60px rgba(0,212,200,0.1), 0 0 120px rgba(0,170,255,0.06), inset 0 1px 0 rgba(0,212,200,0.1)",
+                backdropFilter: "blur(12px)",
+              }}
             >
-              <div
-                className="w-[240px] h-[240px] sm:w-[280px] sm:h-[280px] rounded-3xl flex items-center justify-center"
+              <SplineScene
+                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                className="w-full h-full"
+              />
+
+              {/* Floating status pill */}
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.2, duration: 0.6 }}
+                className="absolute top-4 right-4 flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-medium"
                 style={{
-                  background: "linear-gradient(135deg, rgba(13,21,48,0.9) 0%, rgba(0,212,200,0.06) 100%)",
-                  boxShadow: "0 0 60px rgba(0,212,200,0.18), 0 0 120px rgba(0,170,255,0.08), inset 0 1px 0 rgba(0,212,200,0.15)",
+                  background: "rgba(8,14,30,0.85)",
                   border: "1px solid rgba(0,212,200,0.2)",
-                  backdropFilter: "blur(20px)",
+                  backdropFilter: "blur(12px)",
                 }}
               >
-                <Image
-                  src="/assets/remshield-logo.png"
-                  alt="RemShield"
-                  width={180}
-                  height={180}
-                  className="w-[160px] sm:w-[190px] h-auto object-contain drop-shadow-[0_0_30px_rgba(0,212,200,0.4)]"
-                  priority
-                />
-              </div>
-            </motion.div>
-
-            {/* Floating info cards — inset from edges to prevent mobile clipping */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.8, duration: 0.7 }}
-              className="absolute top-8 right-3 sm:right-4 bg-surface/90 backdrop-blur border border-white/10 rounded-xl px-4 py-2.5 text-xs font-medium text-teal"
-              style={{ boxShadow: "0 0 20px rgba(0,212,200,0.1)" }}
-            >
-              <span className="text-white/60 mr-1.5">Status:</span>
-              <span className="inline-flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
-                AI Online
-              </span>
-            </motion.div>
+                <span className="text-teal">AI Online</span>
+              </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1, duration: 0.7 }}
-              className="absolute bottom-12 left-3 sm:-left-4 bg-surface/90 backdrop-blur border border-white/10 rounded-xl px-4 py-2.5 text-xs"
-              style={{ boxShadow: "0 0 20px rgba(0,170,255,0.1)" }}
-            >
-              <span className="text-silver/60 block text-[10px] mb-0.5 uppercase tracking-wide">Delivery Speed</span>
-              <span className="text-electricBlue font-bold text-sm">10x Faster</span>
-            </motion.div>
+              {/* Floating delivery badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.4, duration: 0.6 }}
+                className="absolute bottom-4 left-4 px-4 py-2.5 rounded-xl text-xs"
+                style={{
+                  background: "rgba(8,14,30,0.85)",
+                  border: "1px solid rgba(0,170,255,0.2)",
+                  backdropFilter: "blur(12px)",
+                }}
+              >
+                <span className="text-silver/50 block text-[10px] mb-0.5 uppercase tracking-wide">Delivery Speed</span>
+                <span className="text-electricBlue font-bold text-sm">10x Faster</span>
+              </motion.div>
+            </div>
           </motion.div>
+
         </div>
       </div>
 

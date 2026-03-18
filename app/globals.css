@@ -157,6 +157,15 @@ body::before {
   border-color: rgba(var(--accent-rgb), 0.4);
 }
 
+/* ─── Spotlight animation ─── */
+@keyframes spotlight {
+  0%   { opacity: 0; transform: translate(-72%, -62%) skewX(-10deg); }
+  100% { opacity: 1; transform: translate(-50%, -40%) skewX(-10deg); }
+}
+.animate-spotlight {
+  animation: spotlight 2s ease forwards;
+}
+
 /* ─── Selection ─── */
 ::selection {
   background: rgba(0, 212, 200, 0.2);

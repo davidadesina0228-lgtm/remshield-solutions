@@ -7,7 +7,7 @@ import Link from "next/link";
 const bentoItems = [
   {
     type: "stat",
-    stat: { target: 50, suffix: "+", label: "Projects Delivered" },
+    stat: { target: 94, suffix: "%", label: "of employee time wasted on automatable tasks" },
     accent: "teal",
     span: "col-span-1",
   },
@@ -20,26 +20,26 @@ const bentoItems = [
   },
   {
     type: "stat",
-    stat: { target: 10, suffix: "x", label: "Faster Delivery" },
+    stat: { target: 3.5, suffix: "x", label: "faster business growth with a defined AI strategy", decimals: 1 },
     accent: "blue",
     span: "col-span-1",
   },
   {
     type: "stat",
-    stat: { target: 100, suffix: "%", label: "AI-Powered" },
+    stat: { target: 40, suffix: "%", label: "average reduction in operational costs" },
     accent: "teal",
     span: "col-span-1",
   },
   {
     type: "stat",
-    stat: { target: 24, suffix: "/7", label: "Systems Online" },
+    stat: { target: 270, suffix: "%", label: "growth in enterprise AI adoption over 4 years" },
     accent: "blue",
     span: "col-span-1",
   },
   {
     type: "feature",
     title: "You Describe Outcomes. We Build Systems.",
-    body: "94% of employees waste time on tasks AI can automate — yet most businesses don't know where to start. We handle all the technical complexity. You describe what you need; we engineer the system that delivers it.",
+    body: "Most businesses don't know where to start with AI — and that's exactly what we're here for. We handle all the technical complexity from architecture to deployment. You describe what you need; we engineer the system that delivers it.",
     accent: "teal",
     span: "col-span-1 md:col-span-2",
   },
@@ -56,7 +56,6 @@ export default function WhyRemShield() {
     <section id="why" className="py-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -72,7 +71,6 @@ export default function WhyRemShield() {
           </h2>
         </motion.div>
 
-        {/* Bento grid — 3 cols, clean rows: [1+2], [1+1+1], [2+1] */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {bentoItems.map((item, i) => {
             const isTeal = item.accent === "teal";
@@ -95,7 +93,6 @@ export default function WhyRemShield() {
               >
                 {item.type === "stat" && item.stat && (
                   <div className="h-full flex flex-col items-center justify-center p-6 text-center relative">
-                    {/* Background number glow */}
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5">
                       <span className="text-8xl font-black" style={{ color: accentColor }}>
                         {item.stat.target}
@@ -110,12 +107,16 @@ export default function WhyRemShield() {
                         backgroundClip: "text",
                       }}
                     >
-                      <AnimatedCounter target={item.stat.target} suffix={item.stat.suffix} duration={1800} />
+                      <AnimatedCounter
+                        target={item.stat.target}
+                        suffix={item.stat.suffix}
+                        duration={1800}
+                        decimals={item.stat.decimals}
+                      />
                     </span>
-                    <span className="text-silver/65 text-xs font-medium tracking-wide relative z-10">
+                    <span className="text-silver/65 text-xs font-medium tracking-wide relative z-10 max-w-[140px]">
                       {item.stat.label}
                     </span>
-                    {/* Corner glow */}
                     <div className="absolute bottom-0 right-0 w-20 h-20 rounded-tl-full pointer-events-none opacity-20"
                       style={{ background: `radial-gradient(circle, rgba(${accentRgb},0.4) 0%, transparent 70%)` }} />
                   </div>

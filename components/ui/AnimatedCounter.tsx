@@ -8,6 +8,7 @@ interface AnimatedCounterProps {
   suffix?: string;
   prefix?: string;
   duration?: number;
+  decimals?: number;
 }
 
 export default function AnimatedCounter({
@@ -15,6 +16,7 @@ export default function AnimatedCounter({
   suffix = "",
   prefix = "",
   duration = 2000,
+  decimals = 0,
 }: AnimatedCounterProps) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
@@ -29,14 +31,14 @@ export default function AnimatedCounter({
     const step = (currentTime: number) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // Ease-out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.round(eased * target));
+      const factor = Math.pow(10, decimals);
+      setCount(Math.round(eased * target * factor) / factor);
       if (progress < 1) requestAnimationFrame(step);
     };
 
     requestAnimationFrame(step);
-  }, [isInView, target, duration]);
+  }, [isInView, target, duration, decimals]);
 
   return (
     <span ref={ref}>

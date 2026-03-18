@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const WEB3FORMS_KEY = process.env.WEB3FORMS_KEY || "d2b7db4c-da5e-4147-8dcf-848ecf429bde";
+const WEB3FORMS_KEY = process.env.WEB3FORMS_KEY || "55c329cf-8593-4899-8054-ed50c278dc5e";
 
 export async function POST(req: NextRequest) {
   try {

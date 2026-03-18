@@ -356,10 +356,13 @@ export default function ServiceContactForm({ service }: { service?: string }) {
     e.preventDefault();
     setStatus("loading");
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          access_key: "d2b7db4c-da5e-4147-8dcf-848ecf429bde",
+          subject: `New ${service || "enquiry"} from ${firstName} ${lastName} — ${company}`,
+          from_name: "RemShield Website",
           firstName,
           lastName,
           email,

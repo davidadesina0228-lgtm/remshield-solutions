@@ -199,10 +199,15 @@ export default function ContactForm() {
     setError("");
     setLoading(true);
 
-    const res = await fetch("/api/contact", {
+    const res = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+      body: JSON.stringify({
+        access_key: "d2b7db4c-da5e-4147-8dcf-848ecf429bde",
+        subject: `New enquiry from ${form.firstName} ${form.lastName} — ${form.company}`,
+        from_name: "RemShield Website",
+        ...form,
+      }),
     });
     setLoading(false);
     if (!res.ok) {

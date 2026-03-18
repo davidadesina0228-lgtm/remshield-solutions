@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const N8N_WEBHOOK_URL =
-  process.env.N8N_CONTACT_WEBHOOK_URL ||
-  "https://n8n.srv1121742.hstgr.cloud/webhook/contact-form-submission";
+const APPS_SCRIPT_URL =
+  process.env.APPS_SCRIPT_URL ||
+  "https://script.google.com/macros/s/AKfycbxf1pgOOgn20JTrpo0T09ZkHUPpowgsrLaq7ZTldY9Qk2sS2023mvVHF-V-fbQ4sq_SvA/exec";
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,14 +15,15 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const n8nRes = await fetch(N8N_WEBHOOK_URL, {
+    const scriptRes = await fetch(APPS_SCRIPT_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ body }),
+      body: JSON.stringify(body),
+      redirect: "follow",
     });
 
-    if (!n8nRes.ok) {
-      console.error("n8n webhook error:", n8nRes.status, await n8nRes.text());
+    if (!scriptRes.ok) {
+      console.error("Apps Script error:", scriptRes.status, await scriptRes.text());
       return NextResponse.json({ error: "Failed to save submission" }, { status: 500 });
     }
 

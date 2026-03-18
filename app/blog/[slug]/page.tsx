@@ -360,7 +360,7 @@ export default function BlogPostPage({ params }: Props) {
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-xl flex-shrink-0 overflow-hidden border border-white/10">
                 <img
-                  src="/assets/david-adesina.jpg"
+                  src="/assets/david-adesina.png"
                   alt="David Adesina"
                   className="w-full h-full object-cover object-top"
                 />

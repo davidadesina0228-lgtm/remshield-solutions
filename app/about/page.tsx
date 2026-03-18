@@ -145,7 +145,7 @@ export default function AboutPage() {
               <div className="flex-shrink-0">
                 <div className="w-24 h-24 rounded-2xl overflow-hidden border border-white/10">
                   <Image
-                    src="/assets/david-adesina.jpg"
+                    src="/assets/david-adesina.png"
                     alt="David Adesina — Founder, RemShield"
                     width={96}
                     height={96}

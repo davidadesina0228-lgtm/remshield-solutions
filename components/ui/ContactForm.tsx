@@ -139,14 +139,18 @@ function Select({
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="w-full bg-navy border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-teal/50 focus:ring-2 focus:ring-teal/20 transition-all duration-200 appearance-none"
-      style={{ color: value ? "#C8D6E5" : "rgba(200,214,229,0.35)" }}
+      className="w-full border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-teal/50 focus:ring-2 focus:ring-teal/20 transition-all duration-200 appearance-none"
+      style={{
+        backgroundColor: "#0D1B3E",
+        color: value ? "#C8D6E5" : "rgba(200,214,229,0.35)",
+        colorScheme: "dark",
+      }}
     >
-      <option value="" disabled>
+      <option value="" disabled style={{ backgroundColor: "#0D1B3E", color: "rgba(200,214,229,0.35)" }}>
         {placeholder}
       </option>
       {options.map((o) => (
-        <option key={o} value={o} style={{ color: "#C8D6E5", background: "#0D1B3E" }}>
+        <option key={o} value={o} style={{ backgroundColor: "#0D1B3E", color: "#C8D6E5" }}>
           {o}
         </option>
       ))}

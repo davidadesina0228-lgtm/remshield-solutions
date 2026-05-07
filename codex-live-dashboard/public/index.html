@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tenacious — Campaign Intelligence Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/assets/remshield-logo.png">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-block">
+        <img class="brand-logo" src="/assets/remshield-logo.png" alt="RemShield">
+        <div>
+          <p class="eyebrow">Campaign Intelligence Platform</p>
+          <h1>Tenacious — Campaign Intelligence Center</h1>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button class="button" id="refreshButton" type="button">Refresh data</button>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="client-hero">
+        <div>
+          <p class="eyebrow">RemShield · Campaign Intelligence</p>
+          <h2>Track every send, reply, warmup email, and lead outcome across your full campaign.</h2>
+        </div>
+        <div class="hero-stat">
+          <span>Auto-refresh</span>
+          <strong>60s</strong>
+        </div>
+      </section>
+
+      <section class="status-strip" id="statusStrip">
+        <div>
+          <span class="status-dot" id="statusDot"></span>
+          <strong id="statusText">Connecting to campaign data...</strong>
+        </div>
+        <div class="status-meta">
+          <span id="lastUpdated">Connecting...</span>
+        </div>
+      </section>
+
+      <section class="auth-panel hidden" id="authPanel">
+        <div>
+          <h2>Google Sheets Access Needed</h2>
+          <p>Authorization is required to load your campaign data. Click to reconnect your Google account.</p>
+        </div>
+        <a class="button" href="/auth/google">Authorize Google Sheets</a>
+      </section>
+
+      <section class="metrics-grid" aria-label="Campaign metrics">
+        <article class="metric">
+          <span>Total leads</span>
+          <strong id="totalLeads">0</strong>
+          <small id="leadSplit">0 personalized / 0 standard</small>
+        </article>
+        <article class="metric">
+          <span>Initial sent</span>
+          <strong id="initialSent">0</strong>
+          <small id="pendingLeads">0 pending</small>
+        </article>
+        <article class="metric">
+          <span>Follow-ups sent</span>
+          <strong id="followupsSent">0</strong>
+          <small id="totalCampaignEmails">0 campaign emails total</small>
+        </article>
+        <article class="metric accent">
+          <span>Replies</span>
+          <strong id="replyCount">0</strong>
+          <small id="replyRate">0% reply rate</small>
+        </article>
+        <article class="metric success">
+          <span>Hot leads</span>
+          <strong id="hotLeads">0</strong>
+          <small id="positiveRate">0% positive rate</small>
+        </article>
+        <article class="metric warning">
+          <span>Bounces</span>
+          <strong id="bounces">0</strong>
+          <small id="bounceRate">0% bounce rate</small>
+        </article>
+        <article class="metric">
+          <span>Warmup today</span>
+          <strong id="warmupSentToday">0</strong>
+          <small id="warmupSeedInfo">0 senders / 0 recipients</small>
+        </article>
+        <article class="metric danger">
+          <span>Workflow errors</span>
+          <strong id="errors">0</strong>
+          <small id="errorSubtext">All systems running</small>
+        </article>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel wide">
+          <div class="panel-header">
+            <h2>Personalized vs Standard</h2>
+            <span>Reply performance</span>
+          </div>
+          <div class="comparison" id="emailTypeComparison"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <h2>Reply Types</h2>
+            <span>AI classification</span>
+          </div>
+          <div class="bar-list" id="replyTypeBars"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <h2>Lead Status</h2>
+            <span>Tracker state</span>
+          </div>
+          <div class="bar-list" id="statusBars"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <h2>Campaign Domains</h2>
+            <span>Lead split</span>
+          </div>
+          <div class="bar-list" id="domainBars"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <h2>Warmup By Sender</h2>
+            <span>Today</span>
+          </div>
+          <div class="bar-list" id="warmupBars"></div>
+        </article>
+      </section>
+
+      <section class="panel table-panel">
+        <div class="panel-header">
+          <h2>Sender Performance</h2>
+          <span id="senderSummary">0 active senders</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Sender</th>
+                <th>Leads</th>
+                <th>Initial sent</th>
+                <th>Sent today</th>
+                <th>Replies</th>
+                <th>Positive</th>
+                <th>Reply rate</th>
+              </tr>
+            </thead>
+            <tbody id="senderTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel table-panel">
+          <div class="panel-header">
+            <h2>Recent Replies</h2>
+            <span>Latest processed</span>
+          </div>
+          <div class="feed" id="replyFeed"></div>
+        </article>
+
+        <article class="panel table-panel">
+          <div class="panel-header">
+            <h2>Hot Leads</h2>
+            <span>Call priority</span>
+          </div>
+          <div class="feed" id="hotLeadFeed"></div>
+        </article>
+      </section>
+
+      <section class="panel table-panel">
+        <div class="panel-header">
+          <h2>Workflow Errors</h2>
+          <span id="errorSummary">0 errors</span>
+        </div>
+        <div class="feed" id="errorFeed">
+          <div class="empty-state"><p>No workflow errors logged.</p></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

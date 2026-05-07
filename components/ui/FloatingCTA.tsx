@@ -36,7 +36,9 @@ export default function FloatingCTA() {
         >
           {/* Main CTA pill */}
           <a
-            href="/contact"
+            href="https://calendly.com/david-remshield/30min"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group flex items-center gap-3 px-5 py-3.5 rounded-2xl text-sm font-semibold text-white transition-all duration-300"
             style={{
               background: "linear-gradient(135deg, #00AAFF 0%, #00D4C8 100%)",

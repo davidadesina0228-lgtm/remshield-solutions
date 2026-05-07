@@ -137,8 +137,10 @@ export default function WhyRemShield() {
                       <h3 className="text-white font-bold text-lg mb-1">{item.title}</h3>
                       <p className="text-silver/65 text-sm">Free 30-min call. No pitch, no pressure.</p>
                     </div>
-                    <Link
-                      href="/contact"
+                    <a
+                      href="https://calendly.com/david-remshield/30min"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white transition-all duration-300 hover:scale-[1.04]"
                       style={{
                         background: `linear-gradient(135deg, #00AAFF 0%, ${accentColor} 100%)`,
@@ -146,7 +148,7 @@ export default function WhyRemShield() {
                       }}
                     >
                       Book My Free Call →
-                    </Link>
+                    </a>
                   </div>
                 )}
               </motion.div>

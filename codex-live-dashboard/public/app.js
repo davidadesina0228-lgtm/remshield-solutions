@@ -164,7 +164,7 @@ function renderDashboard(data) {
   renderBars('replyTypeBars', data.breakdowns.replyTypes);
   renderBars('statusBars', data.breakdowns.status);
   renderBars('domainBars', data.breakdowns.domains);
-  renderBars('warmupBars', data.breakdowns.warmupBySender);
+  renderBars('warmupBars', data.breakdowns.warmupBySender, { limit: 12 });
   renderSenders(data.tables.senders);
   renderFeed('replyFeed', data.tables.replies, 'Reply');
   renderFeed('hotLeadFeed', data.tables.hotLeads, 'Hot lead');

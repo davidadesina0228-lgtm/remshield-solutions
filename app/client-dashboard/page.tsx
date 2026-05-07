@@ -331,7 +331,7 @@ export default function ClientDashboard() {
 
           <article className="panel">
             <div className="panel-header"><h2>Warmup By Sender</h2><span>Today</span></div>
-            <BarList items={b?.warmupBySender ?? []} />
+            <BarList items={b?.warmupBySender ?? []} limit={12} />
           </article>
         </section>
 

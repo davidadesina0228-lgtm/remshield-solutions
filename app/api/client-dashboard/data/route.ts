@@ -217,8 +217,15 @@ function buildDashboard(data: Record<string, { values?: string[][] }>) {
   }).sort((a, b) => b.sent - a.sent || a.sender.localeCompare(b.sender));
 
   const warmupToday   = warmupLog.filter(row => isoDay(row.Run_Date || row.Sent_At || row.Planned_Send_At) === today);
-  const warmupSentToday = warmupToday.filter(row => String(row.Status || '').toLowerCase() === 'sent').length;
-  const warmupBySender  = sortEntries(countBy(warmupToday, row => row.Sender_Email)).slice(0, 12);
+  const warmupSentRows = warmupToday.filter(row => String(row.Status || '').toLowerCase() === 'sent');
+  const warmupSentToday = warmupSentRows.length;
+  const warmupSentBySender = countBy(warmupSentRows, row => row.Sender_Email);
+  const warmupBySender = activeWarmupSenders
+    .map(sender => ({
+      name: sender.Sender_Email || 'Unknown',
+      value: warmupSentBySender[sender.Sender_Email || ''] || 0,
+    }))
+    .sort((a, b) => b.value - a.value || a.name.localeCompare(b.name));
 
   const positiveReplies = replyTypeCounts.positive || 0;
   const bounces         = replyTypeCounts.bounce    || 0;

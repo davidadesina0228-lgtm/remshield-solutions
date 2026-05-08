@@ -51,31 +51,37 @@ async function getAccessToken(): Promise<string> {
     return tokenCache.accessToken;
   }
 
+  // Support refresh token either inside GOOGLE_TOKEN_JSON or as separate env vars
   const tokenJson = process.env.GOOGLE_TOKEN_JSON;
-  if (tokenJson) {
-    const token = JSON.parse(tokenJson);
-    if (token.refresh_token && token.client_id && token.client_secret) {
-      const res = await fetch(token.token_uri || 'https://oauth2.googleapis.com/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          refresh_token: token.refresh_token,
-          client_id: token.client_id,
-          client_secret: token.client_secret,
-          grant_type: 'refresh_token',
-        }),
-      });
-      const json = await res.json();
-      if (!res.ok) {
-        throw new Error(`Token refresh failed: ${json.error} — ${json.error_description || ''}`);
-      }
-      tokenCache = { accessToken: json.access_token, expiresAt: now + (json.expires_in - 120) * 1000 };
-      return tokenCache.accessToken;
+  const token = tokenJson ? JSON.parse(tokenJson) : {};
+
+  const refreshToken   = process.env.GOOGLE_REFRESH_TOKEN  || token.refresh_token;
+  const clientId       = process.env.GOOGLE_CLIENT_ID      || token.client_id;
+  const clientSecret   = process.env.GOOGLE_CLIENT_SECRET  || token.client_secret;
+
+  if (refreshToken && clientId && clientSecret) {
+    const res = await fetch(token.token_uri || 'https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        refresh_token: refreshToken,
+        client_id:     clientId,
+        client_secret: clientSecret,
+        grant_type:    'refresh_token',
+      }),
+    });
+    const json = await res.json();
+    if (!res.ok) {
+      throw new Error(`Token refresh failed: ${json.error} — ${json.error_description || ''}`);
     }
-    if (token.access_token) return token.access_token;
+    tokenCache = { accessToken: json.access_token, expiresAt: now + (json.expires_in - 120) * 1000 };
+    return tokenCache.accessToken;
   }
 
-  throw new Error('No Google auth configured. Set GOOGLE_SERVICE_ACCOUNT_JSON or GOOGLE_TOKEN_JSON.');
+  throw new Error(
+    'Google auth incomplete. Need GOOGLE_REFRESH_TOKEN + GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET ' +
+    '(or a GOOGLE_TOKEN_JSON containing all three), or use GOOGLE_SERVICE_ACCOUNT_JSON.'
+  );
 }
 
 // ─── Sheets fetch ────────────────────────────────────────────────

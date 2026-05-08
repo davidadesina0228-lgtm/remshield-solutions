@@ -66,12 +66,13 @@ async function getAccessToken(): Promise<string> {
         }),
       });
       const json = await res.json();
-      if (res.ok) {
-        tokenCache = { accessToken: json.access_token, expiresAt: now + (json.expires_in - 120) * 1000 };
-        return tokenCache.accessToken;
+      if (!res.ok) {
+        throw new Error(`Token refresh failed: ${json.error} — ${json.error_description || ''}`);
       }
+      tokenCache = { accessToken: json.access_token, expiresAt: now + (json.expires_in - 120) * 1000 };
+      return tokenCache.accessToken;
     }
-    return token.access_token;
+    if (token.access_token) return token.access_token;
   }
 
   throw new Error('No Google auth configured. Set GOOGLE_SERVICE_ACCOUNT_JSON or GOOGLE_TOKEN_JSON.');

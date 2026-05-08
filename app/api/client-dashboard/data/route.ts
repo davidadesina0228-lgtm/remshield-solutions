@@ -293,7 +293,14 @@ export async function GET() {
     );
 
     const data = Object.fromEntries(results);
-    return NextResponse.json(buildDashboard(data));
+    const dashboard = buildDashboard(data);
+    // Temporary: expose sheet headers so we can verify column name mapping
+    const _sheetHeaders: Record<string, string[] | string> = {};
+    for (const [name, sheet] of results) {
+      const s = sheet as { values?: string[][]; error?: string };
+      _sheetHeaders[name] = s.error ? `ERROR: ${s.error}` : (s.values?.[0] ?? []);
+    }
+    return NextResponse.json({ ...dashboard, _sheetHeaders });
   } catch (err) {
     const message = (err as Error).message || 'Unknown error';
     console.error('[client-dashboard/data]', message);

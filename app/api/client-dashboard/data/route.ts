@@ -124,8 +124,22 @@ function isTrue(value: string | undefined): boolean {
   return ['TRUE', 'YES', 'Y', '1', 'ACTIVE'].includes(String(value || '').trim().toUpperCase());
 }
 
-function isoDay(value: string | undefined): string {
-  return String(value || '').slice(0, 10);
+const CAMPAIGN_TIME_ZONE = process.env.CAMPAIGN_TIME_ZONE || 'Europe/London';
+
+function isoDay(value?: string, timeZone = CAMPAIGN_TIME_ZONE): string {
+  const raw = String(value || '').trim();
+  const date = raw ? new Date(raw) : new Date();
+  if (Number.isNaN(date.getTime())) return raw.slice(0, 10);
+
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date);
+
+  const byType = Object.fromEntries(parts.map(part => [part.type, part.value]));
+  return `${byType.year}-${byType.month}-${byType.day}`;
 }
 
 function pct(part: number, whole: number): number {
@@ -154,6 +168,15 @@ function recentRows(rows: Row[], dateField: string, limit = 10): Row[] {
     .slice(0, limit);
 }
 
+function campaignSendDates(row: Row): string[] {
+  return [
+    row.Email_1_Sent_At,
+    row.Follow_Up_1_Sent_At,
+    row.Follow_Up_2_Sent_At,
+    row.Follow_Up_3_Sent_At,
+  ].filter(Boolean);
+}
+
 // ─── Dashboard builder ───────────────────────────────────────────
 
 function buildDashboard(data: Record<string, { values?: string[][] }>) {
@@ -169,7 +192,7 @@ function buildDashboard(data: Record<string, { values?: string[][] }>) {
   const warmupLog  = rowsFromValues(data['Warmup Log']?.values);
   const errors     = rowsFromValues(data['Error Log']?.values);
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = isoDay();
   const activeSenders         = senders.filter(row => isTrue(row.Active));
   const activeWarmupSenders   = warmupSenders.filter(row => isTrue(row.Active) && !isTrue(row.Paused));
   const activeWarmupRecipients = warmupRecipients.filter(row => isTrue(row.Active));
@@ -180,6 +203,15 @@ function buildDashboard(data: Record<string, { values?: string[][] }>) {
   const fu3 = tracker.filter(row => row.Follow_Up_3_Sent_At).length;
   const followupsSent      = fu1 + fu2 + fu3;
   const totalCampaignEmails = initialSent + followupsSent;
+  const initialSentToday = tracker.filter(row => isoDay(row.Email_1_Sent_At) === today).length;
+  const followupsSentToday = tracker.reduce((sum, row) => {
+    return sum + [
+      row.Follow_Up_1_Sent_At,
+      row.Follow_Up_2_Sent_At,
+      row.Follow_Up_3_Sent_At,
+    ].filter(value => isoDay(value) === today).length;
+  }, 0);
+  const campaignSentToday = initialSentToday + followupsSentToday;
 
   const personalized = tracker.filter(row => row.Email_Type === 'deep_personalized');
   const standard     = tracker.filter(row => row.Email_Type === 'standard');
@@ -205,10 +237,9 @@ function buildDashboard(data: Record<string, { values?: string[][] }>) {
     const sent  = leads.filter(row => row.Email_1_Sent_At).length;
     const senderReplies = leads.filter(row => isTrue(row.Has_Replied)).length;
     const positives     = leads.filter(row => String(row.Reply_Type || '').toLowerCase() === 'positive').length;
-    const todaySent     = leads.filter(row => [
-      row.Email_1_Sent_At, row.Follow_Up_1_Sent_At,
-      row.Follow_Up_2_Sent_At, row.Follow_Up_3_Sent_At,
-    ].some(v => isoDay(v) === today)).length;
+    const todaySent     = leads.reduce((sum, row) => {
+      return sum + campaignSendDates(row).filter(value => isoDay(value) === today).length;
+    }, 0);
     return {
       sender: email,
       domain: sender.Domain,
@@ -245,8 +276,11 @@ function buildDashboard(data: Record<string, { values?: string[][] }>) {
       standardLeads: standard.length,
       pending: tracker.filter(row => String(row.Status || '').toLowerCase() === 'pending').length,
       initialSent,
+      initialSentToday,
       followupsSent,
+      followupsSentToday,
       totalCampaignEmails,
+      campaignSentToday,
       replies: replies.length,
       hotLeads: hotLeads.length,
       positiveReplies,

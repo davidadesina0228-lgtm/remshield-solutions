@@ -150,6 +150,8 @@ function renderDashboard(data) {
   setText('pendingLeads', `${number(m.pending)} pending`);
   setText('followupsSent', number(m.followupsSent));
   setText('totalCampaignEmails', `${number(m.totalCampaignEmails)} campaign emails total`);
+  setText('campaignSentToday', number(m.campaignSentToday));
+  setText('campaignTodaySplit', `${number(m.initialSentToday)} initial / ${number(m.followupsSentToday)} follow-ups`);
   setText('replyCount', number(m.replies));
   setText('replyRate', `${percent(m.replyRate)} reply rate`);
   setText('hotLeads', number(m.hotLeads));

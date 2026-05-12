@@ -17,8 +17,10 @@ interface DashboardData {
   generatedAt: string;
   metrics: {
     totalLeads: number; personalizedLeads: number; standardLeads: number;
-    pending: number; initialSent: number; followupsSent: number;
-    totalCampaignEmails: number; replies: number; hotLeads: number;
+    pending: number; initialSent: number; initialSentToday: number;
+    followupsSent: number; followupsSentToday: number;
+    totalCampaignEmails: number; campaignSentToday: number;
+    replies: number; hotLeads: number;
     positiveReplies: number; bounces: number; errors: number;
     replyRate: number; positiveRate: number; bounceRate: number;
     warmupSentToday: number; activeWarmupSenders: number; activeWarmupRecipients: number;
@@ -276,6 +278,11 @@ export default function ClientDashboard() {
             <span>Follow-ups sent</span>
             <strong>{n(m?.followupsSent)}</strong>
             <small>{n(m?.totalCampaignEmails)} campaign emails total</small>
+          </article>
+          <article className="metric accent">
+            <span>Campaign today</span>
+            <strong>{n(m?.campaignSentToday)}</strong>
+            <small>{n(m?.initialSentToday)} initial / {n(m?.followupsSentToday)} follow-ups</small>
           </article>
           <article className="metric accent">
             <span>Replies</span>

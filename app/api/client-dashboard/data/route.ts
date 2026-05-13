@@ -1,7 +1,21 @@
 import { createSign } from 'crypto';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-const SPREADSHEET_ID = process.env.GOOGLE_SHEETS_ID || '1-nm-ad_GoIIzlkKQEcCdcRPu0jGDV8CtnwKeMwrQpG8';
+const DEFAULT_SHEET_ID = process.env.GOOGLE_SHEETS_ID || '1-nm-ad_GoIIzlkKQEcCdcRPu0jGDV8CtnwKeMwrQpG8';
+
+function resolveSheetId(clientId: string | undefined): string {
+  const raw = process.env.CLIENT_REGISTRY;
+  if (raw && clientId) {
+    try {
+      const registry = JSON.parse(raw) as Record<string, { id: string; sheetId: string }>;
+      const entry = Object.values(registry).find(e => e.id === clientId);
+      if (entry?.sheetId) return entry.sheetId;
+    } catch {
+      // fall through
+    }
+  }
+  return DEFAULT_SHEET_ID;
+}
 
 const SHEETS = [
   'Campaign Tracker', 'Hot Leads', 'Reply Log', 'Senders',
@@ -86,14 +100,14 @@ async function getAccessToken(): Promise<string> {
 
 // ─── Sheets fetch ────────────────────────────────────────────────
 
-function valuesUrl(sheetName: string) {
+function valuesUrl(sheetName: string, spreadsheetId: string) {
   const safe = sheetName.replace(/'/g, "''");
   const range = encodeURIComponent(`'${safe}'!A1:ZZ10000`);
-  return `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${range}`;
+  return `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`;
 }
 
-async function fetchSheet(sheetName: string, accessToken: string) {
-  const res = await fetch(valuesUrl(sheetName), {
+async function fetchSheet(sheetName: string, accessToken: string, spreadsheetId: string) {
+  const res = await fetch(valuesUrl(sheetName, spreadsheetId), {
     headers: { Authorization: `Bearer ${accessToken}` },
     next: { revalidate: 0 },
   });
@@ -386,14 +400,16 @@ function assertSheetsSynced(data: Record<string, { values?: string[][]; error?: 
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const clientId = req.cookies.get('dashboard_client_id')?.value;
+    const spreadsheetId = resolveSheetId(clientId);
     const accessToken = await getAccessToken();
 
     const results = await Promise.all(
       SHEETS.map(async name => {
         try {
-          const data = await fetchSheet(name, accessToken);
+          const data = await fetchSheet(name, accessToken, spreadsheetId);
           return [name, data] as const;
         } catch (err) {
           return [name, { values: [], error: (err as Error).message }] as const;

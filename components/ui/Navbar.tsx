@@ -92,8 +92,14 @@ export default function Navbar() {
           })}
         </ul>
 
-        {/* CTA Button */}
-        <div className="hidden md:block">
+        {/* CTA Buttons */}
+        <div className="hidden md:flex items-center gap-3">
+          <Link
+            href="/client-dashboard/login"
+            className="text-sm font-medium text-silver hover:text-teal transition-colors duration-200 border border-white/10 px-4 py-2 rounded-lg hover:border-teal/40"
+          >
+            Client Portal
+          </Link>
           <a
             href="/contact"
             className="inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold text-white transition-all duration-300 hover:scale-[1.03]"
@@ -155,9 +161,16 @@ export default function Navbar() {
                 </div>
                 );
               })}
+              <Link
+                href="/client-dashboard/login"
+                onClick={() => setMenuOpen(false)}
+                className="mt-2 inline-flex items-center justify-center px-5 py-3 rounded-lg text-sm font-medium text-silver border border-white/10 hover:border-teal/40 hover:text-teal transition-colors duration-200"
+              >
+                Client Portal
+              </Link>
               <a
                 href="/contact"
-                className="mt-2 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-sm font-semibold text-white transition-all duration-300"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-sm font-semibold text-white transition-all duration-300"
                 style={{
                   background: "linear-gradient(135deg, #00AAFF 0%, #00D4C8 100%)",
                   boxShadow: "0 2px 12px rgba(0,170,255,0.25)",

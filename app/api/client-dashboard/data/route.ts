@@ -134,7 +134,7 @@ function mergeTrackerRows(rows: Row[]): Row[] {
     byLeadId.set(leadId, merged);
   }
 
-  return [...byLeadId.values(), ...passthrough];
+  return Array.from(byLeadId.values()).concat(passthrough);
 }
 
 function toNumber(value: string | undefined): number {
@@ -221,7 +221,7 @@ function buildSenderCatalog(senders: Row[], trackerBySender: Record<string, Row[
     });
   }
 
-  return [...byEmail.values()].filter(sender => {
+  return Array.from(byEmail.values()).filter(sender => {
     const email = String(sender.Sender_Email || sender.Assigned_Sender || '').trim();
     return Boolean(email) && (isTrue(sender.Active) || Boolean(trackerBySender[email]?.length));
   });

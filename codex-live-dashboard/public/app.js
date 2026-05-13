@@ -95,7 +95,7 @@ function renderSenders(rows = []) {
   setText('senderSummary', `${number(rows.length)} active senders`);
   const target = $('senderTable');
   if (!rows.length) {
-    target.innerHTML = '<tr><td colspan="7"><div class="empty-state"><p>No sender data yet.</p></div></td></tr>';
+    target.innerHTML = '<tr><td colspan="9"><div class="empty-state"><p>No sender data yet.</p></div></td></tr>';
     return;
   }
   target.innerHTML = rows.map(row => `
@@ -105,8 +105,10 @@ function renderSenders(rows = []) {
         <div class="muted">${escapeHtml(row.company || '')} ${escapeHtml(row.domain || '')}</div>
       </td>
       <td class="numeric" data-label="Leads">${number(row.leads)}</td>
-      <td class="numeric" data-label="Initial sent">${number(row.sent)}</td>
-      <td class="numeric" data-label="Today / Limit">${number(row.todaySent)} / ${number(row.limit)}</td>
+      <td class="numeric" data-label="Campaign sent">${number(row.sent)}</td>
+      <td class="numeric" data-label="Campaign today">${number(row.todaySent)} / ${number(row.limit)}</td>
+      <td class="numeric" data-label="Warmup today">${number(row.warmupToday)}</td>
+      <td class="numeric" data-label="Today total">${number(row.totalToday)}</td>
       <td class="numeric" data-label="Replies">${number(row.replies)}</td>
       <td class="numeric" data-label="Positive">${number(row.positives)}</td>
       <td class="numeric" data-label="Reply rate">${percent(row.replyRate)}</td>
@@ -193,7 +195,7 @@ async function loadDashboard() {
     if (!response.ok) throw new Error(payload.error || payload.message || 'Dashboard request failed');
     renderDashboard(payload);
   } catch (error) {
-    setStatus('bad', 'Data refresh failed — retrying in 60s');
+    setStatus('bad', error instanceof Error && error.message ? error.message : 'Data refresh failed — retrying in 60s');
     setText('lastUpdated', `Failed at ${new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}`);
   } finally {
     state.loading = false;

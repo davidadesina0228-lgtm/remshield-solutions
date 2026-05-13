@@ -88,7 +88,7 @@ async function getAccessToken(): Promise<string> {
 
 function valuesUrl(sheetName: string) {
   const safe = sheetName.replace(/'/g, "''");
-  const range = encodeURIComponent(`'${safe}'!A1:Z5000`);
+  const range = encodeURIComponent(`'${safe}'!A1:ZZ10000`);
   return `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${range}`;
 }
 
@@ -115,6 +115,28 @@ function rowsFromValues(values: string[][] = []): Row[] {
     .map(row => Object.fromEntries(headers.map((h, i) => [h, row[i] || ''])));
 }
 
+function mergeTrackerRows(rows: Row[]): Row[] {
+  const byLeadId = new Map<string, Row>();
+  const passthrough: Row[] = [];
+
+  for (const row of rows) {
+    const leadId = String(row.Lead_ID || '').trim();
+    if (!leadId) {
+      passthrough.push(row);
+      continue;
+    }
+
+    const existing = byLeadId.get(leadId) || {};
+    const merged = { ...existing };
+    for (const [key, value] of Object.entries(row)) {
+      if (String(value || '').trim()) merged[key] = value;
+    }
+    byLeadId.set(leadId, merged);
+  }
+
+  return [...byLeadId.values(), ...passthrough];
+}
+
 function toNumber(value: string | undefined): number {
   const n = Number(value);
   return Number.isFinite(n) ? n : 0;
@@ -128,7 +150,8 @@ const CAMPAIGN_TIME_ZONE = process.env.CAMPAIGN_TIME_ZONE || 'Europe/London';
 
 function isoDay(value?: string, timeZone = CAMPAIGN_TIME_ZONE): string {
   const raw = String(value || '').trim();
-  const date = raw ? new Date(raw) : new Date();
+  if (!raw) return '';
+  const date = new Date(raw);
   if (Number.isNaN(date.getTime())) return raw.slice(0, 10);
 
   const parts = new Intl.DateTimeFormat('en-GB', {
@@ -177,11 +200,38 @@ function campaignSendDates(row: Row): string[] {
   ].filter(Boolean);
 }
 
+function buildSenderCatalog(senders: Row[], trackerBySender: Record<string, Row[]>): Row[] {
+  const byEmail = new Map<string, Row>();
+
+  for (const sender of senders) {
+    const email = String(sender.Sender_Email || sender.Assigned_Sender || '').trim();
+    if (!email) continue;
+    byEmail.set(email, sender);
+  }
+
+  for (const [email, leads] of Object.entries(trackerBySender)) {
+    if (!email || byEmail.has(email)) continue;
+    const sample = leads[0] || {};
+    byEmail.set(email, {
+      Sender_Email: email,
+      Domain: sample.Campaign_Domain || email.split('@')[1] || '',
+      Campaign_Company: sample.Campaign_Company || '',
+      Daily_Send_Limit: '0',
+      Active: 'TRUE',
+    });
+  }
+
+  return [...byEmail.values()].filter(sender => {
+    const email = String(sender.Sender_Email || sender.Assigned_Sender || '').trim();
+    return Boolean(email) && (isTrue(sender.Active) || Boolean(trackerBySender[email]?.length));
+  });
+}
+
 // ─── Dashboard builder ───────────────────────────────────────────
 
 function buildDashboard(data: Record<string, { values?: string[][] }>) {
   const trackerRows = rowsFromValues(data['Campaign Tracker']?.values);
-  const tracker = trackerRows.filter(row =>
+  const tracker = mergeTrackerRows(trackerRows).filter(row =>
     row.Lead_ID && row.Recipient_Email && row.Campaign_Domain && row.Email_Type
   );
   const hotLeads   = rowsFromValues(data['Hot Leads']?.values);
@@ -192,8 +242,7 @@ function buildDashboard(data: Record<string, { values?: string[][] }>) {
   const warmupLog  = rowsFromValues(data['Warmup Log']?.values);
   const errors     = rowsFromValues(data['Error Log']?.values);
 
-  const today = isoDay();
-  const activeSenders         = senders.filter(row => isTrue(row.Active));
+  const today = isoDay(new Date().toISOString());
   const activeWarmupSenders   = warmupSenders.filter(row => isTrue(row.Active) && !isTrue(row.Paused));
   const activeWarmupRecipients = warmupRecipients.filter(row => isTrue(row.Active));
 
@@ -223,6 +272,10 @@ function buildDashboard(data: Record<string, { values?: string[][] }>) {
   const replyTypeCounts = countBy(replies, row => row.Reply_Type || row.Reply_Type_Normalized || row.classification);
   const statusCounts    = countBy(tracker, row => row.Status || 'blank');
   const domainCounts    = countBy(tracker, row => row.Campaign_Domain || 'Unknown');
+  const warmupToday   = warmupLog.filter(row => isoDay(row.Run_Date || row.Sent_At || row.Planned_Send_At) === today);
+  const warmupSentRows = warmupToday.filter(row => String(row.Status || '').toLowerCase() === 'sent');
+  const warmupSentToday = warmupSentRows.length;
+  const warmupSentBySender = countBy(warmupSentRows, row => row.Sender_Email);
 
   const trackerBySender = tracker.reduce<Record<string, Row[]>>((acc, row) => {
     const key = row.Assigned_Sender || '';
@@ -231,15 +284,18 @@ function buildDashboard(data: Record<string, { values?: string[][] }>) {
     return acc;
   }, {});
 
-  const senderRows = activeSenders.map(sender => {
-    const email = sender.Sender_Email;
+  const senderCatalog = buildSenderCatalog(senders, trackerBySender);
+  const senderRows = senderCatalog.map(sender => {
+    const email = String(sender.Sender_Email || sender.Assigned_Sender || '').trim();
     const leads = trackerBySender[email] || [];
-    const sent  = leads.filter(row => row.Email_1_Sent_At).length;
+    const initialSentForSender = leads.filter(row => row.Email_1_Sent_At).length;
+    const sent  = leads.reduce((sum, row) => sum + campaignSendDates(row).length, 0);
     const senderReplies = leads.filter(row => isTrue(row.Has_Replied)).length;
     const positives     = leads.filter(row => String(row.Reply_Type || '').toLowerCase() === 'positive').length;
     const todaySent     = leads.reduce((sum, row) => {
       return sum + campaignSendDates(row).filter(value => isoDay(value) === today).length;
     }, 0);
+    const warmupTodayForSender = warmupSentBySender[email] || 0;
     return {
       sender: email,
       domain: sender.Domain,
@@ -248,16 +304,14 @@ function buildDashboard(data: Record<string, { values?: string[][] }>) {
       leads: leads.length,
       sent,
       todaySent,
+      warmupToday: warmupTodayForSender,
+      totalToday: todaySent + warmupTodayForSender,
       replies: senderReplies,
       positives,
-      replyRate: pct(senderReplies, Math.max(sent, 1)),
+      replyRate: pct(senderReplies, Math.max(initialSentForSender, 1)),
     };
-  }).sort((a, b) => b.sent - a.sent || a.sender.localeCompare(b.sender));
+  }).sort((a, b) => b.totalToday - a.totalToday || b.sent - a.sent || a.sender.localeCompare(b.sender));
 
-  const warmupToday   = warmupLog.filter(row => isoDay(row.Run_Date || row.Sent_At || row.Planned_Send_At) === today);
-  const warmupSentRows = warmupToday.filter(row => String(row.Status || '').toLowerCase() === 'sent');
-  const warmupSentToday = warmupSentRows.length;
-  const warmupSentBySender = countBy(warmupSentRows, row => row.Sender_Email);
   const warmupBySender = activeWarmupSenders
     .map(sender => ({
       name: sender.Sender_Email || 'Unknown',
@@ -285,7 +339,7 @@ function buildDashboard(data: Record<string, { values?: string[][] }>) {
       hotLeads: hotLeads.length,
       positiveReplies,
       bounces,
-      activeSenders: activeSenders.length,
+      activeSenders: senderCatalog.length,
       warmupSentToday,
       activeWarmupSenders: activeWarmupSenders.length,
       activeWarmupRecipients: activeWarmupRecipients.length,
@@ -317,6 +371,21 @@ function buildDashboard(data: Record<string, { values?: string[][] }>) {
 
 // ─── Route handler ───────────────────────────────────────────────
 
+function assertSheetsSynced(data: Record<string, { values?: string[][]; error?: string }>) {
+  const failed = Object.entries(data)
+    .filter(([, sheet]) => sheet.error)
+    .map(([name, sheet]) => `${name}: ${sheet.error}`);
+
+  if (failed.length) {
+    throw new Error(`Google Sheets sync failed. ${failed.join(' | ')}`);
+  }
+
+  const trackerRows = data['Campaign Tracker']?.values || [];
+  if (trackerRows.length <= 1) {
+    throw new Error('Google Sheets sync returned no Campaign Tracker rows.');
+  }
+}
+
 export async function GET() {
   try {
     const accessToken = await getAccessToken();
@@ -333,6 +402,7 @@ export async function GET() {
     );
 
     const data = Object.fromEntries(results);
+    assertSheetsSynced(data);
     return NextResponse.json(buildDashboard(data));
   } catch (err) {
     const message = (err as Error).message || 'Unknown error';
@@ -340,6 +410,6 @@ export async function GET() {
     if (message.includes('No Google auth')) {
       return NextResponse.json({ error: message }, { status: 503 });
     }
-    return NextResponse.json({ error: 'Failed to load dashboard data' }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

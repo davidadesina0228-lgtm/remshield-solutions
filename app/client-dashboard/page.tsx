@@ -9,7 +9,8 @@ interface EmailType { name: string; leads: number; replies: number; rate: number
 interface SenderRow {
   sender: string; domain: string; company: string;
   limit: number; leads: number; sent: number;
-  todaySent: number; replies: number; positives: number; replyRate: number;
+  todaySent: number; warmupToday: number; totalToday: number;
+  replies: number; positives: number; replyRate: number;
 }
 type FeedRow = Record<string, string>;
 
@@ -104,7 +105,7 @@ function EmailTypes({ items }: { items: EmailType[] }) {
 
 function SenderRows({ rows }: { rows: SenderRow[] }) {
   if (!rows.length) {
-    return <tr><td colSpan={7}><div className="empty-state"><p>No sender data yet.</p></div></td></tr>;
+    return <tr><td colSpan={9}><div className="empty-state"><p>No sender data yet.</p></div></td></tr>;
   }
   return (
     <>
@@ -115,8 +116,10 @@ function SenderRows({ rows }: { rows: SenderRow[] }) {
             <div className="muted">{row.company} {row.domain}</div>
           </td>
           <td className="numeric" data-label="Leads">{n(row.leads)}</td>
-          <td className="numeric" data-label="Initial sent">{n(row.sent)}</td>
-          <td className="numeric" data-label="Sent today">{n(row.todaySent)} / {n(row.limit)}</td>
+          <td className="numeric" data-label="Campaign sent">{n(row.sent)}</td>
+          <td className="numeric" data-label="Campaign today">{n(row.todaySent)} / {n(row.limit)}</td>
+          <td className="numeric" data-label="Warmup today">{n(row.warmupToday)}</td>
+          <td className="numeric" data-label="Today total">{n(row.totalToday)}</td>
           <td className="numeric" data-label="Replies">{n(row.replies)}</td>
           <td className="numeric" data-label="Positive">{n(row.positives)}</td>
           <td className="numeric" data-label="Reply rate">{pct(row.replyRate)}</td>
@@ -199,9 +202,10 @@ export default function ClientDashboard() {
       setStatusKind('ok');
       setStatusText('Campaign data live');
       setLastUpdated(`Updated ${relativeTime(json.generatedAt)}`);
-    } catch {
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Data refresh failed';
       setStatusKind('bad');
-      setStatusText('Data refresh failed — retrying in 60s');
+      setStatusText(message);
       setLastUpdated(`Failed at ${new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}`);
     } finally {
       loadingRef.current = false;
@@ -354,8 +358,10 @@ export default function ClientDashboard() {
                 <tr>
                   <th>Sender</th>
                   <th>Leads</th>
-                  <th>Initial sent</th>
-                  <th>Sent today</th>
+                  <th>Campaign sent</th>
+                  <th>Campaign today</th>
+                  <th>Warmup today</th>
+                  <th>Today total</th>
                   <th>Replies</th>
                   <th>Positive</th>
                   <th>Reply rate</th>

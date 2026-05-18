@@ -1,123 +1,80 @@
-# RemShield — AI Engineering Studio
-# https://remshield.solutions
+# RemShield
 
-> RemShield is an AI engineering studio that designs and builds AI-powered software, automation systems, and custom AI solutions for growing businesses. Founded in 2025 by David Adesina.
+> RemShield is an AI engineering studio building AI systems, automation infrastructure, and custom AI software for growing businesses.
 
-## What We Do
-RemShield provides three core services:
-- AI Systems: Intelligent assistants, voice agents, document analysis, and custom AI copilots
-- Automation Infrastructure: Workflow automation, CRM automation, and operations pipelines
-- Custom Software: SaaS platforms, internal tools, and AI-powered applications
-- SaaS Product: Answer Architect (answerarchitect.ai) — AI search visibility and GEO optimization platform
+## Key Facts
+
+- Official name: RemShield
+- Alternate name: RemShield Solutions
+- Website: https://remshield.solutions
+- Founded: 2025
+- Founder: David Adesina
+- Headquarters: Nigeria
+- Contact: support@remshield.solutions
+- Primary services: AI Systems, Automation Infrastructure, Custom Software
+- Pilot capability: AI Discoverability and Agent Readiness
+- SaaS product: Answer Architect, an AI search visibility and GEO optimization platform
+
+## Services
+
+- [AI Systems](https://remshield.solutions/contact?service=ai-systems): Intelligent assistants, customer support agents, voice agents, document analysis systems, and custom AI copilots built around client workflows and data.
+- [Automation Infrastructure](https://remshield.solutions/contact?service=automation-infrastructure): Workflow automation, CRM automation, lead qualification, operations pipelines, n8n orchestration, and monitored process automation.
+- [Custom Software](https://remshield.solutions/contact?service=custom-software): SaaS platforms, internal dashboards, client portals, admin tools, and AI-powered applications built for specific business workflows.
+- [AI Discoverability and Agent Readiness Pilot](https://remshield.solutions/api/ai-discovery/capabilities): Internal technical pilot for structured data, schema, feeds, OpenAPI documentation, and MCP-style read-only connector manifests.
+
+## AI Discovery Feeds
+
+- [AI Discovery Index](https://remshield.solutions/api/ai-discovery): Public index of RemShield's AI-readable feeds, documentation, usage policy, and discovery endpoints.
+- [Full Snapshot](https://remshield.solutions/api/ai-discovery/snapshot): Complete public AI-readable package for RemShield's approved company, founder, services, capabilities, products, FAQs, policies, and contact facts.
+- [Changes Feed](https://remshield.solutions/api/ai-discovery/changes): Versioned changelog and freshness feed showing what changed in RemShield's AI discovery layer.
+- [Security Policy](https://remshield.solutions/api/ai-discovery/security): Public data-safety policy explaining allowed public data, protected data, private exclusions, and production controls.
+- [Health Feed](https://remshield.solutions/api/ai-discovery/health): Machine-readable health, freshness, and monitoring status for RemShield's AI discovery layer.
+- [Proof Feed](https://remshield.solutions/api/ai-discovery/proof): Before-and-after proof data showing what changed after the AI discovery layer was implemented.
+- [Company Feed](https://remshield.solutions/api/ai-discovery/company): Canonical organization profile for RemShield, including description, founding facts, contact details, topics, and service areas.
+- [Founder Feed](https://remshield.solutions/api/ai-discovery/founder): Canonical public profile for David Adesina, founder and AI engineer at RemShield.
+- [Services Feed](https://remshield.solutions/api/ai-discovery/services): Public service definitions with descriptions, use cases, target customers, timelines, and outcomes.
+- [Capabilities Feed](https://remshield.solutions/api/ai-discovery/capabilities): Technical capabilities and productized service packages, including AI Discoverability and Agent Readiness.
+- [Products Feed](https://remshield.solutions/api/ai-discovery/products): Public product initiatives associated with RemShield, including Answer Architect.
+- [FAQ Feed](https://remshield.solutions/api/ai-discovery/faqs): Canonical question-and-answer set for AI systems and search engines.
+- [Policies Feed](https://remshield.solutions/api/ai-discovery/policies): Links and summaries for RemShield's public privacy and terms pages.
+- [Contact Feed](https://remshield.solutions/api/ai-discovery/contact): Official public contact and consultation information for RemShield.
+
+## Agent and API Documentation
+
+- [OpenAPI Specification](https://remshield.solutions/api/ai-discovery/openapi): Machine-readable API description for RemShield's public AI discovery endpoints.
+- [MCP-Style Manifest](https://remshield.solutions/api/ai-discovery/mcp): Read-only connector blueprint describing public tools AI agents can use to fetch trusted RemShield data.
+- [Sitemap](https://remshield.solutions/sitemap.xml): XML sitemap covering public RemShield pages and blog posts.
+- [Robots Policy](https://remshield.solutions/robots.txt): Crawler access policy for search and AI crawlers.
 
 ## Public Pages
-- /: Homepage — AI engineering studio overview, services, and consultation booking
-- /about: About RemShield — founder story, team, and company background
-- /blog: AI insights, automation guides, and thought leadership
-- /contact: Project enquiries and strategy call booking
-- /privacy: Privacy policy
-- /terms: Terms of service
 
-## Pillar Content (High-Priority)
-- /blog/ai-automation-for-businesses: Complete guide to business AI automation
-- /blog/ai-systems-development: Guide to building AI systems from the ground up
-- /blog/ai-agents-for-business: Guide to AI agents for businesses
+- [Homepage](https://remshield.solutions/): Overview of RemShield's AI engineering studio positioning, services, process, and consultation call to action.
+- [About](https://remshield.solutions/about): Founder story, company background, RemShield mission, and public organization details.
+- [Blog](https://remshield.solutions/blog): AI insights, automation frameworks, GEO content, and strategic guides for business decision-makers.
+- [Contact](https://remshield.solutions/contact): Project enquiry page for AI systems, automation infrastructure, and custom software work.
+- [Privacy Policy](https://remshield.solutions/privacy): Public privacy policy covering information collection, use, storage, and protection.
+- [Terms of Service](https://remshield.solutions/terms): Public service terms, project agreement notes, IP ownership, and liability information.
 
-## AI Automation Guides
-- /blog/what-is-ai-automation: What is AI automation — business leader's explanation
-- /blog/rpa-vs-ai-automation: RPA vs AI automation — which does your business need
-- /blog/ai-automation-for-startups: AI automation for startups
-- /blog/ai-automation-customer-support: AI automation for customer support
-- /blog/ai-automation-sales-teams: AI automation for sales teams
-- /blog/ai-automation-business-operations: AI automation for business operations
-- /blog/ai-automation-marketing: AI automation for marketing
-- /blog/ai-automation-finance: AI automation for finance teams
-- /blog/ai-automation-hr-recruiting: AI automation for HR and recruiting
-- /blog/ai-automation-legal: AI automation for legal
-- /blog/ai-automation-tools: AI automation tools complete guide
-- /blog/best-ai-automation-tools: Best AI automation tools 2026
-- /blog/ai-workflow-automation-guide: AI workflow automation practical guide
-- /blog/ai-document-processing: AI document processing guide
-- /blog/ai-crm-automation: AI CRM automation guide
-- /blog/ai-sdr-automation: AI SDR automation for sales development
-- /blog/no-code-ai-tools: No-code AI tools guide
-- /blog/n8n-ai-automation: n8n AI automation platform guide
-- /blog/ai-automation-agency-services: AI automation agency services guide
-- /blog/ai-automation-agency-nigeria: AI automation agency Nigeria — how to find the right partner
+## Pillar Guides
 
-## AI Agents & Agentic AI
-- /blog/ai-agents-for-business: AI agents for business guide (pillar)
-- /blog/agentic-ai-business: Agentic AI for business — shift from tools to autonomous AI
-- /blog/ai-agent-vs-chatbot: AI agent vs chatbot — what is the actual difference
-- /blog/ai-agents-sales-customer-service: AI agents for sales and customer service
-- /blog/ai-copilots-for-teams: AI copilots for teams
-- /blog/ai-voice-agents: AI voice agents for business
-- /blog/ai-sdr-automation: AI SDR automation
-- /blog/multi-agent-systems: Multi-agent AI systems guide
-- /blog/what-is-openclaw: What is OpenClaw — the viral AI agent framework
-- /blog/openclaw-for-business: OpenClaw for business deployment guide
-- /blog/enterprise-ai-implementation: Enterprise AI implementation framework
+- [AI Automation for Businesses](https://remshield.solutions/blog/ai-automation-for-businesses): Complete guide to business AI automation, operational use cases, and implementation strategy.
+- [AI Systems Development](https://remshield.solutions/blog/ai-systems-development): Guide to building intelligent software systems from the ground up.
+- [AI Agents for Business](https://remshield.solutions/blog/ai-agents-for-business): Guide to AI agents as autonomous software systems for sales, support, and operations.
 
-## AI Systems Development
-- /blog/ai-systems-development: AI systems development guide (pillar)
-- /blog/what-is-ai-engineering-studio: What is an AI engineering studio
-- /blog/custom-ai-software-development: Custom AI software development guide
-- /blog/custom-ai-development-cost: Custom AI development cost — honest pricing guide
-- /blog/ai-engineering-vs-traditional-development: AI engineering vs traditional development
-- /blog/ai-infrastructure-for-companies: AI infrastructure for companies
-- /blog/rag-for-business: RAG for business — how to make AI know your company
-- /blog/rag-vs-fine-tuning: RAG vs fine-tuning — which does your business need
-- /blog/ai-workflow-automation-guide: AI workflow automation guide
-- /blog/ai-data-analysis: AI data analysis for business
-- /blog/vibe-coding-founders: Vibe coding for founders
-- /blog/mcp-model-context-protocol: Model Context Protocol (MCP) explained
-- /blog/ai-in-saas-products: AI in SaaS products guide
+## High-Priority Topic Clusters
 
-## LLMs & Model Selection
-- /blog/what-is-llm-business-guide: What is an LLM — plain-English business guide
-- /blog/choosing-right-llm: Choosing the right LLM — decision framework
-- /blog/llm-costs-explained: LLM costs explained — how to budget for AI
-- /blog/claude-vs-chatgpt-vs-gemini: Claude vs ChatGPT vs Gemini 2026 comparison
-- /blog/claude-anthropic-enterprise: Claude by Anthropic for enterprises
-- /blog/chatgpt-for-business: ChatGPT for business practical guide
-- /blog/google-gemini-business: Google Gemini for business guide
-- /blog/gpt-5-openai-2026: GPT-5 and OpenAI in 2026
-- /blog/deepseek-business-guide: DeepSeek for business guide
-- /blog/chinese-llms-guide: Chinese LLMs guide — DeepSeek, Qwen, and more
-- /blog/open-source-llms-business: Open-source LLMs for business
-
-## AI Strategy & Governance
-- /blog/how-to-build-ai-strategy: How to build an AI strategy
-- /blog/ai-first-company-strategy: Becoming an AI-first company
-- /blog/ai-governance-framework: AI governance framework
-- /blog/measuring-ai-roi: Measuring AI ROI framework
-- /blog/ai-vendor-evaluation: AI vendor evaluation — how to choose without getting burned
-- /blog/prompt-engineering-business: Prompt engineering for business
-- /blog/enterprise-ai-implementation: Enterprise AI implementation framework
-
-## Africa & Nigeria AI
-- /blog/ai-for-african-businesses: AI for African businesses — the leapfrogging opportunity
-- /blog/ai-for-nigerian-businesses: AI for Nigerian businesses — where to start in 2026
-
-## Industry-Specific AI
-- /blog/ai-for-ecommerce: AI for e-commerce
-- /blog/ai-for-logistics: AI for logistics
-- /blog/ai-automation-legal: AI automation for legal
-
-## Answer Architect (SaaS Product)
-- /blog/what-is-answer-architect: What is Answer Architect — AI search visibility platform
-- /blog/get-cited-by-ai-search-engines: How to get your content cited by ChatGPT and Perplexity
-- /blog/geo-vs-seo-2026: GEO vs SEO — why content visibility rules have changed
-
-## Company Information
-- Founder: David Adesina
-- Founded: 2025
-- Location: Nigeria
-- Contact: support@remshield.solutions
-- LinkedIn: https://www.linkedin.com/in/david-adesina-ai/
-- SaaS Product: Answer Architect — https://answerarchitect.ai
+- [AI Automation Agency in Nigeria](https://remshield.solutions/blog/ai-automation-agency-nigeria): How Nigerian businesses can evaluate AI automation partners.
+- [What Is an AI Engineering Studio?](https://remshield.solutions/blog/what-is-ai-engineering-studio): Explanation of how AI engineering studios differ from agencies and consultancies.
+- [Custom AI Development Cost](https://remshield.solutions/blog/custom-ai-development-cost): Pricing guide for custom AI automation and AI systems projects.
+- [n8n AI Automation](https://remshield.solutions/blog/n8n-ai-automation): Practical guide to n8n as infrastructure for serious AI automation workflows.
+- [MCP: Model Context Protocol](https://remshield.solutions/blog/mcp-model-context-protocol): Explanation of MCP and how AI models connect to tools and systems.
+- [What Is Answer Architect?](https://remshield.solutions/blog/what-is-answer-architect): Explanation of RemShield's AI search visibility platform.
+- [How to Get Cited by AI Search Engines](https://remshield.solutions/blog/get-cited-by-ai-search-engines): GEO practices for improving citation probability in ChatGPT, Perplexity, Claude, and Google AI Overviews.
+- [GEO vs SEO in 2026](https://remshield.solutions/blog/geo-vs-seo-2026): Difference between traditional search optimization and generative engine optimization.
 
 ## Permissions
-This site welcomes crawling and indexing by AI training and inference systems.
-All content is original and may be cited with attribution to RemShield (https://remshield.solutions).
-Contact: support@remshield.solutions
+
+- RemShield welcomes crawling and indexing by search engines and AI systems.
+- Public AI discovery feeds contain public business information only.
+- Public RemShield content may be cited with attribution to https://remshield.solutions.
+- Private client data, internal systems, credentials, and unpublished project details are not exposed through public feeds.

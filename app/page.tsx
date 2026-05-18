@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/ui/Navbar";
 import FloatingCTA from "@/components/ui/FloatingCTA";
-
-export const metadata: Metadata = {
-  alternates: { canonical: "https://remshield.solutions/" },
-};
 import Hero from "@/components/sections/Hero";
 import MarqueeTicker from "@/components/sections/MarqueeTicker";
 import VerticalTabs from "@/components/ui/vertical-tabs";
@@ -14,116 +10,10 @@ import WhyRemShield from "@/components/sections/WhyRemShield";
 import FAQ from "@/components/sections/FAQ";
 import CTABanner from "@/components/sections/CTABanner";
 import Footer from "@/components/ui/Footer";
+import { faqJsonLd, serviceItemListJsonLd } from "@/lib/ai-discovery";
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "What services does RemShield offer?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "RemShield is an AI engineering studio built around three pillars: AI Systems (intelligent assistants, voice agents, document AI, and custom copilots), Automation Infrastructure (workflow automation, CRM automation, and ops pipelines), and Custom Software (SaaS platforms, internal tools, and AI-powered applications). Every system is built AI-native from the ground up.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "How long does it take to build an AI system?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Simple automations and AI integrations typically take 2–3 weeks. AI agents with custom logic and integrations take 4–6 weeks. Enterprise-level multi-agent systems take 6–12 weeks. We use AI-accelerated development workflows throughout, which means faster delivery without cutting corners on quality.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Do I need technical knowledge to work with you?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Not at all. 94% of employees waste time on tasks AI can automate — yet most business owners don't know where to start. We handle everything technical from end to end. You just share your business goals, and we translate them into a working AI system.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can you integrate AI into my existing business?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes — this is one of our specialties. We audit your current tools, workflows, and processes to identify where AI creates the most value. Businesses with a defined AI strategy grow 3.5x faster than those without one. We give you that strategy, then build the systems to execute it.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What makes RemShield different from other agencies?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Most agencies bolt AI onto traditional software development. We're an AI engineering studio — AI is the only thing we do. That means faster delivery (2–6 weeks vs months), 40% lower operational costs for clients, and systems built to scale from day one.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "How do I get started?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Book a free 30-minute strategy call. We'll audit your operations, identify your highest-ROI AI opportunities, and give you a clear action plan — no obligation. Most clients come out of the call with a specific roadmap, even if they don't hire us.",
-      },
-    },
-  ],
-};
-
-const serviceSchema = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "RemShield Services",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      item: {
-        "@type": "Service",
-        name: "AI Systems",
-        description:
-          "Intelligent systems that handle complex decisions and support your team — AI assistants, customer support agents, voice agents, document analysis, and custom AI copilots built for your workflows.",
-        provider: {
-          "@type": "Organization",
-          name: "RemShield",
-          url: "https://remshield.solutions",
-        },
-        url: "https://remshield.solutions/contact?service=ai-systems",
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      item: {
-        "@type": "Service",
-        name: "Automation Infrastructure",
-        description:
-          "We design automation infrastructure that connects your tools, qualifies leads, and runs your operations pipelines — without hiring more people.",
-        provider: {
-          "@type": "Organization",
-          name: "RemShield",
-          url: "https://remshield.solutions",
-        },
-        url: "https://remshield.solutions/contact?service=automation-infrastructure",
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      item: {
-        "@type": "Service",
-        name: "Custom Software",
-        description:
-          "From SaaS platforms to internal tools and dashboards — we design, develop, and ship custom AI-powered software products built to scale from day one.",
-        provider: {
-          "@type": "Organization",
-          name: "RemShield",
-          url: "https://remshield.solutions",
-        },
-        url: "https://remshield.solutions/contact?service=custom-software",
-      },
-    },
-  ],
+export const metadata: Metadata = {
+  alternates: { canonical: "https://remshield.solutions/" },
 };
 
 export default function Home() {
@@ -131,11 +21,11 @@ export default function Home() {
     <main className="relative bg-navy overflow-x-hidden">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd()) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceItemListJsonLd()) }}
       />
       <Navbar />
       <FloatingCTA />

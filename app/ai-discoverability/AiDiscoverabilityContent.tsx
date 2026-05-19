@@ -191,7 +191,7 @@ export default function AiDiscoverabilityContent() {
 
             <p className="text-silver/65 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-10">
               AI search engines, agents, and tools are replacing traditional search — but most
-              businesses aren't built for them to read. We add the structured data layer, public
+              businesses aren&apos;t built for them to read. We add the structured data layer, public
               feeds, OpenAPI docs, and agent-ready connectors that let AI systems find, trust,
               and cite your business accurately.
             </p>

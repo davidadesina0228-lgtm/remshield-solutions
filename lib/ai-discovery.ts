@@ -1,7 +1,9 @@
-const SITE_URL = "https://remshield.solutions";
-const UPDATED_AT = "2026-05-18";
+import { allPosts } from "./blog-posts";
 
-export const aiDiscoveryVersion = "2026-05-18.1";
+const SITE_URL = "https://remshield.solutions";
+const UPDATED_AT = "2026-05-19";
+
+export const aiDiscoveryVersion = "2026-05-19.1";
 
 export type AiDiscoveryResource =
   | "company"
@@ -9,6 +11,8 @@ export type AiDiscoveryResource =
   | "services"
   | "capabilities"
   | "products"
+  | "articles"
+  | "case-studies"
   | "faqs"
   | "policies"
   | "contact";
@@ -19,6 +23,8 @@ export const aiDiscoveryResources: AiDiscoveryResource[] = [
   "services",
   "capabilities",
   "products",
+  "articles",
+  "case-studies",
   "faqs",
   "policies",
   "contact",
@@ -26,6 +32,45 @@ export const aiDiscoveryResources: AiDiscoveryResource[] = [
 
 function absolute(path: string) {
   return `${SITE_URL}${path}`;
+}
+
+const monthNumbers: Record<string, string> = {
+  January: "01",
+  February: "02",
+  March: "03",
+  April: "04",
+  May: "05",
+  June: "06",
+  July: "07",
+  August: "08",
+  September: "09",
+  October: "10",
+  November: "11",
+  December: "12",
+};
+
+function toIsoDate(date: string) {
+  const match = date.match(/^([A-Za-z]+)\s+(\d{1,2}),\s+(\d{4})$/);
+  if (!match) {
+    return date;
+  }
+
+  const [, monthName, day, year] = match;
+  const month = monthNumbers[monthName];
+
+  if (!month) {
+    return date;
+  }
+
+  return `${year}-${month}-${day.padStart(2, "0")}`;
+}
+
+function toPascalCase(value: string) {
+  return value
+    .split(/[-_\s]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join("");
 }
 
 export const remshieldCompany = {
@@ -62,6 +107,15 @@ export const remshieldCompany = {
     "Worldwide",
   ],
   sameAs: ["https://www.linkedin.com/in/david-adesina-ai/"],
+  publicProofPoints: [
+    {
+      label: "Systems deployed",
+      value: "50+",
+      sourceUrl: SITE_URL,
+      verificationLevel:
+        "Public homepage claim. Individual client names and private implementation details are not exposed without approval.",
+    },
+  ],
   knowsAbout: [
     "AI engineering",
     "AI automation",
@@ -256,11 +310,131 @@ export const remshieldProducts = [
   {
     id: "answer-architect",
     name: "Answer Architect",
+    alternateNames: ["AnswerArchitect.ai"],
+    domain: "answerarchitect.ai",
     url: "https://answerarchitect.ai",
+    signupUrl: "https://answerarchitect.ai",
+    learnMoreUrl: absolute("/blog/what-is-answer-architect"),
     status: "SaaS product",
     description:
       "AI search visibility and GEO optimization platform for helping brands understand and improve how they appear in AI-generated answers.",
     category: "AI search visibility",
+    targetUsers: [
+      "B2B companies",
+      "SaaS companies",
+      "agencies",
+      "content teams",
+      "founders who want visibility in AI-generated answers",
+    ],
+    features: [
+      "AI search visibility auditing",
+      "GEO content recommendations",
+      "AI citability analysis",
+      "entity and topic gap identification",
+      "structured guidance for getting cited by AI search engines",
+    ],
+    relatedArticleUrl: absolute("/blog/what-is-answer-architect"),
+    pricing: {
+      status: "not_public",
+      note:
+        "Public pricing is not exposed in the RemShield AI discovery layer. Pricing should be added only when approved for public release or protected behind authentication.",
+    },
+    dataClassification: "public",
+  },
+];
+
+export const remshieldArticles = allPosts.map((post) => ({
+  id: post.slug,
+  slug: post.slug,
+  title: post.title,
+  url: absolute(`/blog/${post.slug}`),
+  metaDescription: post.metaDescription,
+  excerpt: post.excerpt,
+  publishedAt: toIsoDate(post.date),
+  originalPublishedDate: post.date,
+  readTime: post.readTime,
+  category: post.category,
+  tag: post.tag,
+  isPillar: post.isPillar,
+  author: post.author,
+  faqQuestions: post.faq.map((item) => item.q),
+  relatedArticleUrls: post.relatedSlugs.map((slug) => absolute(`/blog/${slug}`)),
+  dataExposed:
+    "Article metadata, summaries, FAQ questions, and related article links. Full article content remains available on the public article URL.",
+  dataClassification: "public",
+}));
+
+export const remshieldCaseStudies = [
+  {
+    id: "campaign-intelligence-dashboard",
+    name: "Campaign intelligence dashboard for cold email operations",
+    status: "public_anonymized",
+    clientName: "Not disclosed",
+    serviceAreas: ["Automation Infrastructure", "Custom Software"],
+    summary:
+      "RemShield built a read-only campaign intelligence dashboard and workflow layer for tracking outreach sends, replies, hot leads, sender performance, warmup activity, and workflow errors.",
+    problem:
+      "Cold email campaign data can become scattered across sheets, inboxes, sending tools, and workflow logs, making it hard to see performance and operational issues in one place.",
+    solutionComponents: [
+      "Client dashboard",
+      "Google Sheets or database-backed tracker",
+      "n8n workflow monitoring",
+      "Reply and lead outcome classification",
+      "Sender performance visibility",
+      "Workflow error reporting",
+    ],
+    publicOutcomes: [
+      "Centralised campaign reporting",
+      "Clearer visibility into sends, replies, warmup activity, and hot leads",
+      "Read-only client access to operational campaign intelligence",
+      "Private campaign data kept outside public AI discovery feeds",
+    ],
+    publicEvidenceUrls: [
+      absolute("/client-dashboard/login"),
+      absolute("/api/ai-discovery/capabilities"),
+    ],
+    privacyNote:
+      "Client names, campaign records, email addresses, reply content, private metrics, and CRM data are intentionally not exposed publicly.",
+    evidenceLevel: "Anonymized public portfolio summary",
+    dataClassification: "public",
+  },
+  {
+    id: "remshield-ai-discoverability-pilot",
+    name: "RemShield AI Discoverability and Agent Readiness pilot",
+    status: "internal_pilot",
+    clientName: "RemShield",
+    serviceAreas: ["AI Systems", "Automation Infrastructure", "Custom Software"],
+    summary:
+      "RemShield implemented its own AI-readable data layer to prove the AI Discoverability and Agent Readiness service before selling it to clients.",
+    problem:
+      "AI systems could read the normal website, but there was no single structured source for official RemShield facts, article summaries, proof data, or safe read-only agent actions.",
+    solutionComponents: [
+      "Canonical entity model",
+      "AI discovery index",
+      "Full public snapshot",
+      "Changes feed",
+      "Security policy",
+      "Health feed",
+      "Proof feed",
+      "OpenAPI documentation",
+      "MCP-style read-only manifest",
+      "Article and case-study feeds",
+    ],
+    publicOutcomes: [
+      "AI tools can fetch official RemShield business facts directly",
+      "Approved public data is separated from private data",
+      "Agent builders can inspect safe read-only actions",
+      "The pilot can be shown as a before-and-after proof asset for future clients",
+    ],
+    publicEvidenceUrls: [
+      absolute("/api/ai-discovery"),
+      absolute("/api/ai-discovery/proof"),
+      absolute("/api/ai-discovery/mcp"),
+      absolute("/api/ai-discovery/health"),
+    ],
+    privacyNote:
+      "Only public RemShield data is exposed. Private clients, credentials, campaign data, proposals, and payment data remain excluded.",
+    evidenceLevel: "Direct public implementation evidence",
     dataClassification: "public",
   },
 ];
@@ -339,6 +513,8 @@ export const aiDiscoverySecurityPolicy = {
     "Service descriptions",
     "Capability descriptions",
     "Product summaries",
+    "Article summaries and metadata",
+    "Anonymized case study summaries",
     "FAQ answers",
     "Policy summaries and links",
     "Contact details",
@@ -349,6 +525,7 @@ export const aiDiscoverySecurityPolicy = {
     "Custom pricing",
     "Partner-only documentation",
     "Client-specific service data",
+    "Named case studies with client-specific metrics",
   ],
   privateDataNeverExpose: [
     "Customer records",
@@ -360,6 +537,7 @@ export const aiDiscoverySecurityPolicy = {
     "Unpublished proposals",
     "Private pricing",
     "Internal campaign data",
+    "Named client outcomes without written approval",
   ],
   currentControls: [
     "Only public RemShield business data is included.",
@@ -386,6 +564,7 @@ export const aiDiscoverySecurityPolicy = {
     "Broken URLs",
     "Unexpected private fields",
     "Outdated prices, availability, policies, or service details",
+    "Outdated article summaries or portfolio proof",
   ],
 };
 
@@ -393,6 +572,23 @@ export const aiDiscoveryChangeLog = [
   {
     version: aiDiscoveryVersion,
     changedAt: UPDATED_AT,
+    changeType: "structured_content_added",
+    affectedResources: [
+      "articles",
+      "case-studies",
+      "products",
+      "company",
+      "openapi",
+      "mcp",
+      "llms.txt",
+    ],
+    summary:
+      "Added structured article summaries, anonymized case-study proof, richer Answer Architect product data, and new MCP-style read-only tools for articles and case studies.",
+    dataClassification: "public",
+  },
+  {
+    version: "2026-05-18.1",
+    changedAt: "2026-05-18",
     changeType: "foundation_created",
     affectedResources: [
       "company",
@@ -489,6 +685,22 @@ export const aiDiscoveryFeeds = [
     freshness: "Updated when product facts change.",
   },
   {
+    id: "articles",
+    name: "Articles feed",
+    url: absolute("/api/ai-discovery/articles"),
+    description:
+      "Structured public article summaries, metadata, categories, FAQ questions, and related article links.",
+    freshness: "Updated when RemShield publishes or changes blog article metadata.",
+  },
+  {
+    id: "case-studies",
+    name: "Case studies and portfolio proof feed",
+    url: absolute("/api/ai-discovery/case-studies"),
+    description:
+      "Public anonymized case-study and portfolio proof summaries for RemShield work that can be safely exposed.",
+    freshness: "Updated when approved public case studies or portfolio summaries change.",
+  },
+  {
     id: "faqs",
     name: "FAQ feed",
     url: absolute("/api/ai-discovery/faqs"),
@@ -517,6 +729,8 @@ const publicResourcePayloads: Record<AiDiscoveryResource, unknown> = {
   services: remshieldServices,
   capabilities: remshieldCapabilities,
   products: remshieldProducts,
+  articles: remshieldArticles,
+  "case-studies": remshieldCaseStudies,
   faqs: remshieldFaqs,
   policies: remshieldPolicies,
   contact: remshieldContact,
@@ -575,7 +789,7 @@ export function getAiDiscoverySnapshot() {
     lastVerified: UPDATED_AT,
     freshnessPolicy: {
       stableFacts:
-        "Company, founder, service, policy, FAQ, product, and contact facts are updated when approved public information changes.",
+        "Company, founder, service, policy, FAQ, product, article, case-study, and contact facts are updated when approved public information changes.",
       clientPattern:
         "For clients with live data, this endpoint would act as the full daily snapshot for services, products, packages, locations, prices, availability, policies, and reviews.",
       changesFeed: absolute("/api/ai-discovery/changes"),
@@ -587,6 +801,8 @@ export function getAiDiscoverySnapshot() {
       openApi: absolute("/api/ai-discovery/openapi"),
       mcpStyleManifest: absolute("/api/ai-discovery/mcp"),
       proof: absolute("/api/ai-discovery/proof"),
+      articles: absolute("/api/ai-discovery/articles"),
+      caseStudies: absolute("/api/ai-discovery/case-studies"),
       llmsTxt: absolute("/llms.txt"),
       sitemap: absolute("/sitemap.xml"),
     },
@@ -668,6 +884,18 @@ export function getAiDiscoveryHealth() {
         endpoint: absolute("/api/ai-discovery/mcp"),
       },
       {
+        name: "articles_feed",
+        status: "ok",
+        detail: "Structured article summaries and metadata feed is configured.",
+        endpoint: absolute("/api/ai-discovery/articles"),
+      },
+      {
+        name: "case_studies_feed",
+        status: "ok",
+        detail: "Anonymized public case-study and portfolio proof feed is configured.",
+        endpoint: absolute("/api/ai-discovery/case-studies"),
+      },
+      {
         name: "proof_report",
         status: "ok",
         detail: "Before-and-after proof endpoint is configured for demos and client reporting.",
@@ -702,6 +930,8 @@ export function getAiDiscoveryProof() {
         "No MCP-style manifest describing read-only agent actions.",
         "No explicit public security policy for what AI feeds may and may not expose.",
         "No health endpoint to monitor whether the discovery layer is working.",
+        "No structured article summary feed for blog content.",
+        "No public case-study or portfolio proof feed.",
       ],
     },
     afterState: {
@@ -755,6 +985,18 @@ export function getAiDiscoveryProof() {
           value:
             "The layer can be checked regularly for freshness, availability, and private-data exposure risks.",
           evidence: absolute("/api/ai-discovery/health"),
+        },
+        {
+          improvement: "Structured article feed",
+          value:
+            "AI systems can retrieve public blog metadata, summaries, categories, FAQ questions, and related article links without crawling every article first.",
+          evidence: absolute("/api/ai-discovery/articles"),
+        },
+        {
+          improvement: "Case-study proof feed",
+          value:
+            "AI systems can see approved anonymized portfolio proof while private client and campaign details remain protected.",
+          evidence: absolute("/api/ai-discovery/case-studies"),
         },
       ],
     },
@@ -928,7 +1170,7 @@ export function aiDiscoveryWebApiJsonLd() {
     "@id": `${SITE_URL}/api/ai-discovery#webapi`,
     name: "RemShield AI Discovery API",
     description:
-      "Read-only public API exposing canonical RemShield company, service, product, FAQ, policy, and contact data for AI discovery and agent-readiness testing.",
+      "Read-only public API exposing canonical RemShield company, service, product, article, case-study, FAQ, policy, and contact data for AI discovery and agent-readiness testing.",
     provider: { "@id": `${SITE_URL}/#organization` },
     documentation: absolute("/api/ai-discovery/openapi"),
     endpointUrl: absolute("/api/ai-discovery"),
@@ -944,7 +1186,7 @@ export function openApiSpec() {
         get: {
           summary: `Get RemShield ${resource} data`,
           description: `Returns the public canonical ${resource} data for RemShield.`,
-          operationId: `getRemshield${resource.charAt(0).toUpperCase()}${resource.slice(1)}`,
+          operationId: `getRemshield${toPascalCase(resource)}`,
           responses: {
             "200": {
               description: "Public RemShield AI discovery payload.",
@@ -1135,6 +1377,43 @@ export function mcpStyleManifest() {
         readOnly: true,
         inputSchema: { type: "object", properties: {} },
         dataEndpoint: absolute("/api/ai-discovery/capabilities"),
+      },
+      {
+        name: "get_remshield_products",
+        description: "Fetch RemShield public product initiatives, including Answer Architect.",
+        readOnly: true,
+        inputSchema: { type: "object", properties: {} },
+        dataEndpoint: absolute("/api/ai-discovery/products"),
+      },
+      {
+        name: "search_remshield_articles",
+        description: "Find RemShield blog article summaries by keyword.",
+        readOnly: true,
+        inputSchema: {
+          type: "object",
+          properties: {
+            query: {
+              type: "string",
+              description: "Search term such as MCP, n8n, GEO, AI agents, or Answer Architect.",
+            },
+          },
+          required: ["query"],
+        },
+        dataEndpoint: absolute("/api/ai-discovery/articles"),
+      },
+      {
+        name: "get_remshield_articles",
+        description: "Fetch structured RemShield article summaries and metadata.",
+        readOnly: true,
+        inputSchema: { type: "object", properties: {} },
+        dataEndpoint: absolute("/api/ai-discovery/articles"),
+      },
+      {
+        name: "get_remshield_case_studies",
+        description: "Fetch approved public anonymized RemShield case-study and portfolio proof summaries.",
+        readOnly: true,
+        inputSchema: { type: "object", properties: {} },
+        dataEndpoint: absolute("/api/ai-discovery/case-studies"),
       },
       {
         name: "get_remshield_faqs",

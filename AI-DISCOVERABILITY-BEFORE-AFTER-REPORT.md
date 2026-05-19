@@ -26,6 +26,8 @@ The pilot added a public, read-only data layer:
 - `/api/ai-discovery/services`
 - `/api/ai-discovery/capabilities`
 - `/api/ai-discovery/products`
+- `/api/ai-discovery/articles`
+- `/api/ai-discovery/case-studies`
 - `/api/ai-discovery/faqs`
 - `/api/ai-discovery/policies`
 - `/api/ai-discovery/contact`
@@ -37,6 +39,7 @@ It also updated:
 - `/llms.txt`
 - global Organization, WebSite, and WebAPI JSON-LD
 - homepage Service and FAQ JSON-LD
+- local read-only MCP server tooling
 
 All of this is generated from one canonical file:
 
@@ -51,7 +54,10 @@ All of this is generated from one canonical file:
 | Full data package | No single complete AI snapshot | `/api/ai-discovery/snapshot` | One approved source for all public facts |
 | Freshness | No dedicated AI changelog | `/api/ai-discovery/changes` | AI/tools can see what changed |
 | Agent access | No tool manifest | `/api/ai-discovery/mcp` | Gives agents safe read-only actions |
+| MCP server | No real MCP server | `tools/remshield-mcp-server.mjs` | MCP clients can call safe read-only RemShield tools |
 | API documentation | No discovery API docs | `/api/ai-discovery/openapi` | Developers and tools can understand the API |
+| Blog content | AI had to crawl article URLs individually | `/api/ai-discovery/articles` | AI can retrieve article summaries and metadata directly |
+| Portfolio proof | No structured public case-study proof | `/api/ai-discovery/case-studies` | AI can see approved anonymized proof without private client data |
 | Data safety | Data safety was implicit | `/api/ai-discovery/security` | Clear public/protected/private boundary |
 | Monitoring | No discovery health check | `/api/ai-discovery/health` | Easy to test if the layer is alive |
 | Client proof | No dedicated proof artifact | `/api/ai-discovery/proof` | Easy before/after evidence for demos |
@@ -70,6 +76,9 @@ Use these URLs after deployment:
 | Proof report | `https://remshield.solutions/api/ai-discovery/proof` | The machine-readable before/after case |
 | OpenAPI docs | `https://remshield.solutions/api/ai-discovery/openapi` | API documentation for tools and developers |
 | MCP-style manifest | `https://remshield.solutions/api/ai-discovery/mcp` | Read-only agent connector blueprint |
+| Real MCP server | `tools/remshield-mcp-server.mjs` | Local stdio server exposing read-only MCP tools and resources |
+| Articles feed | `https://remshield.solutions/api/ai-discovery/articles` | Structured blog article summaries and metadata |
+| Case studies feed | `https://remshield.solutions/api/ai-discovery/case-studies` | Approved anonymized portfolio proof |
 | llms.txt | `https://remshield.solutions/llms.txt` | AI-friendly site map and priority guidance |
 
 ## Demo Script For A Client
@@ -120,8 +129,11 @@ This proves we can build the first technical layer of the service:
 - health endpoint
 - OpenAPI documentation
 - MCP-style agent connector manifest
+- local read-only MCP server
 - llms.txt integration
 - schema generated from the same data model
+- structured article summaries
+- anonymized portfolio proof
 
 This is the foundation of the offer.
 
@@ -137,6 +149,8 @@ This RemShield pilot is intentionally simple. It does not yet prove:
 - edge rate limiting inside the application code
 - request logging dashboard
 - full production MCP server
+- named client case studies with private metrics
+- founder personal website connection, until the approved URL is confirmed
 
 That is fine. RemShield mostly has stable public business information. The next client pilot should add one live-data use case, such as availability, inventory, package pricing, or appointment slots.
 
@@ -194,4 +208,3 @@ Then show:
 3. The cleaner after answer.
 4. The security boundary.
 5. The monitoring plan.
-

@@ -52,7 +52,19 @@ search tools, and partner integrations can read without guessing from page copy.
   - Technical capabilities, including the AI Discoverability and Agent Readiness pilot.
 
 - `/api/ai-discovery/products`
-  - Public product initiatives, including Answer Architect.
+  - Public product initiatives, including richer Answer Architect details and
+    the official `answerarchitect.ai` domain.
+
+- `/api/ai-discovery/articles`
+  - Structured blog article summaries, categories, FAQ questions, metadata,
+    and related article links.
+  - This fixes the gap where AI had to crawl every blog post to understand the
+    blog library.
+
+- `/api/ai-discovery/case-studies`
+  - Approved anonymized case-study and portfolio proof summaries.
+  - This gives AI systems public proof without exposing client names, campaign
+    records, CRM data, or private metrics.
 
 - `/api/ai-discovery/faqs`
   - Canonical FAQ answers.
@@ -88,6 +100,19 @@ search tools, and partner integrations can read without guessing from page copy.
   - Local command-line tester that behaves like a simple read-only agent.
   - It can fetch feeds, list MCP-style tools, search services, and run a full
     endpoint check against production or local development.
+
+- `tools/remshield-mcp-server.mjs`
+  - Real read-only MCP stdio server for RemShield's AI discovery layer.
+  - It exposes tools and resources that MCP clients can use to fetch trusted
+    public RemShield data.
+
+- `tools/remshield-mcp-smoke-test.ps1`
+  - MCP smoke test that checks initialization, tools, tool calls, resources,
+    and resource reads.
+
+- `REMSHIELD-MCP-SERVER.md`
+  - Plain-English and technical explanation of how the MCP server works,
+    how to configure it, and how this becomes a client service.
 
 ## Source Of Truth
 
@@ -212,6 +237,8 @@ Use the local tester after starting the site locally or after deployment:
 node tools/remshield-ai-discovery-agent.mjs check_all --base http://localhost:3000
 node tools/remshield-ai-discovery-agent.mjs get_services --base http://localhost:3000
 node tools/remshield-ai-discovery-agent.mjs search_services automation --base http://localhost:3000
+node tools/remshield-ai-discovery-agent.mjs search_articles mcp --base http://localhost:3000
+node tools/remshield-ai-discovery-agent.mjs search_case_studies campaign --base http://localhost:3000
 node tools/remshield-ai-discovery-agent.mjs list_tools --base http://localhost:3000
 ```
 
@@ -220,6 +247,48 @@ Against production:
 ```bash
 node tools/remshield-ai-discovery-agent.mjs check_all
 ```
+
+## Real MCP Server
+
+Run the local read-only MCP server:
+
+```bash
+npm run mcp:remshield
+```
+
+Run the MCP smoke test:
+
+```bash
+npm run mcp:smoke
+```
+
+Against local development:
+
+```bash
+npm run mcp:smoke -- -Base http://localhost:3000
+```
+
+This server exposes RemShield's public AI discovery data through MCP tools and
+resources. It is read-only and does not connect to private client data, CRM
+records, credentials, payment data, or internal campaign data.
+
+## Gap Fixes Added After First Proof Test
+
+The first before-and-after test showed these gaps:
+
+- Answer Architect details were too thin.
+- Blog content existed, but no structured article feed existed.
+- Portfolio/case-study proof was not machine-readable.
+
+This follow-up adds:
+
+- richer Answer Architect product data
+- structured article feed at `/api/ai-discovery/articles`
+- anonymized case-study feed at `/api/ai-discovery/case-studies`
+- extra MCP-style tools for articles, products, and case studies
+
+Founder personal site links are still not added until the exact approved URL is
+confirmed.
 
 ## First Client Pilot Criteria
 

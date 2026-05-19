@@ -234,6 +234,8 @@ Start simple:
 - `/api/ai-discovery/services`
 - `/api/ai-discovery/products`
 - `/api/ai-discovery/locations`
+- `/api/ai-discovery/articles`
+- `/api/ai-discovery/case-studies`
 - `/api/ai-discovery/faqs`
 - `/api/ai-discovery/policies`
 - `/api/ai-discovery/contact`
@@ -241,6 +243,7 @@ Start simple:
 For stable clients:
 
 - update manually when approved facts change
+- expose article summaries and approved case studies as structured feeds
 
 For live-data clients:
 
@@ -290,6 +293,15 @@ Only move to a real MCP server when:
 - the data model is stable
 - protected data needs controlled access
 - authentication and logging are ready
+
+For the RemShield pilot, the first real MCP server is implemented as a local
+read-only stdio server:
+
+- it exposes approved public data as MCP tools
+- it exposes approved public feeds as MCP resources
+- it does not write to any system
+- it does not expose private campaign, CRM, payment, or customer data
+- it uses the AI discovery API as the source of truth
 
 ## Phase 8: Security
 
@@ -418,4 +430,3 @@ Monthly monitoring:
 - GBP 500 to GBP 3,000+
 
 Price depends on platform, data messiness, live-data complexity, security requirements, and how many systems need integration.
-

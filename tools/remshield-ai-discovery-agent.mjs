@@ -14,6 +14,8 @@ const endpointMap = {
   get_services: "/api/ai-discovery/services",
   get_capabilities: "/api/ai-discovery/capabilities",
   get_products: "/api/ai-discovery/products",
+  get_articles: "/api/ai-discovery/articles",
+  get_case_studies: "/api/ai-discovery/case-studies",
   get_faqs: "/api/ai-discovery/faqs",
   get_policies: "/api/ai-discovery/policies",
   get_contact: "/api/ai-discovery/contact",
@@ -49,11 +51,15 @@ Examples:
   node tools/remshield-ai-discovery-agent.mjs get_index
   node tools/remshield-ai-discovery-agent.mjs get_services
   node tools/remshield-ai-discovery-agent.mjs search_services automation
+  node tools/remshield-ai-discovery-agent.mjs search_articles mcp
+  node tools/remshield-ai-discovery-agent.mjs search_case_studies campaign
   node tools/remshield-ai-discovery-agent.mjs check_all --base http://localhost:3000
 
 Commands:
   ${Object.keys(endpointMap).join("\n  ")}
   search_services <query>
+  search_articles <query>
+  search_case_studies <query>
   list_tools
   check_all
 `);
@@ -124,6 +130,28 @@ async function searchServices(baseUrl, query) {
   });
 }
 
+async function searchResource(baseUrl, command, endpoint, query) {
+  if (!query) {
+    throw new Error(`${command} needs a query`);
+  }
+
+  const result = await fetchJson(baseUrl, endpoint);
+  const items = Array.isArray(result.data.data) ? result.data.data : [];
+  const normalizedQuery = query.toLowerCase();
+
+  const matches = items.filter((item) =>
+    textForSearch(item).toLowerCase().includes(normalizedQuery)
+  );
+
+  printJson({
+    command,
+    source: result.url,
+    query,
+    matchCount: matches.length,
+    matches,
+  });
+}
+
 async function listTools(baseUrl) {
   const result = await fetchJson(baseUrl, endpointMap.get_mcp);
   printJson({
@@ -175,6 +203,16 @@ async function main() {
 
   if (command === "search_services") {
     await searchServices(baseUrl, rest.join(" "));
+    return;
+  }
+
+  if (command === "search_articles") {
+    await searchResource(baseUrl, command, endpointMap.get_articles, rest.join(" "));
+    return;
+  }
+
+  if (command === "search_case_studies") {
+    await searchResource(baseUrl, command, endpointMap.get_case_studies, rest.join(" "));
     return;
   }
 

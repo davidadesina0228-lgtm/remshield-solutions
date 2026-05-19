@@ -34,7 +34,9 @@
 - [Founder Feed](https://remshield.solutions/api/ai-discovery/founder): Canonical public profile for David Adesina, founder and AI engineer at RemShield.
 - [Services Feed](https://remshield.solutions/api/ai-discovery/services): Public service definitions with descriptions, use cases, target customers, timelines, and outcomes.
 - [Capabilities Feed](https://remshield.solutions/api/ai-discovery/capabilities): Technical capabilities and productized service packages, including AI Discoverability and Agent Readiness.
-- [Products Feed](https://remshield.solutions/api/ai-discovery/products): Public product initiatives associated with RemShield, including Answer Architect.
+- [Products Feed](https://remshield.solutions/api/ai-discovery/products): Public product initiatives associated with RemShield, including richer Answer Architect details and the official answerarchitect.ai domain.
+- [Articles Feed](https://remshield.solutions/api/ai-discovery/articles): Structured blog article summaries, categories, FAQ questions, metadata, and related article links.
+- [Case Studies Feed](https://remshield.solutions/api/ai-discovery/case-studies): Approved anonymized case-study and portfolio proof summaries that can be safely exposed publicly.
 - [FAQ Feed](https://remshield.solutions/api/ai-discovery/faqs): Canonical question-and-answer set for AI systems and search engines.
 - [Policies Feed](https://remshield.solutions/api/ai-discovery/policies): Links and summaries for RemShield's public privacy and terms pages.
 - [Contact Feed](https://remshield.solutions/api/ai-discovery/contact): Official public contact and consultation information for RemShield.
@@ -71,6 +73,11 @@
 - [What Is Answer Architect?](https://remshield.solutions/blog/what-is-answer-architect): Explanation of RemShield's AI search visibility platform.
 - [How to Get Cited by AI Search Engines](https://remshield.solutions/blog/get-cited-by-ai-search-engines): GEO practices for improving citation probability in ChatGPT, Perplexity, Claude, and Google AI Overviews.
 - [GEO vs SEO in 2026](https://remshield.solutions/blog/geo-vs-seo-2026): Difference between traditional search optimization and generative engine optimization.
+
+## Public Portfolio Proof
+
+- [Campaign Intelligence Case Study Feed](https://remshield.solutions/api/ai-discovery/case-studies): Anonymized public summary of RemShield campaign intelligence and workflow dashboard work.
+- [RemShield AI Discoverability Pilot Proof](https://remshield.solutions/api/ai-discovery/proof): Before-and-after proof for RemShield's own AI discovery implementation.
 
 ## Permissions
 

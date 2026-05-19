@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "mcp:remshield": "node tools/remshield-mcp-server.mjs",
+    "mcp:smoke": "powershell -ExecutionPolicy Bypass -File tools/remshield-mcp-smoke-test.ps1"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.0",

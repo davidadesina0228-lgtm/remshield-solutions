@@ -114,6 +114,21 @@ search tools, and partner integrations can read without guessing from page copy.
   - Plain-English and technical explanation of how the MCP server works,
     how to configure it, and how this becomes a client service.
 
+- `REMSHIELD-AI-DISCOVERABILITY-CASE-STUDY.md`
+  - Final RemShield proof asset showing the problem, what changed, proof URLs,
+    before-and-after comparison, MCP value, and client examples.
+
+- `AI-DISCOVERABILITY-SALES-ONE-PAGER.md`
+  - Simple client-facing one-pager your partner can use to explain and sell the
+    offer.
+
+- `AI-DISCOVERABILITY-LAUNCH-MONITORING.md`
+  - Launch checklist, monitor commands, monthly retainer checklist, demo prompt,
+    and partner talk track.
+
+- `tools/remshield-ai-discovery-monitor.mjs`
+  - Live endpoint monitor for the deployed AI discovery layer.
+
 ## Source Of Truth
 
 All public AI discovery data currently lives in:
@@ -246,6 +261,12 @@ Against production:
 
 ```bash
 node tools/remshield-ai-discovery-agent.mjs check_all
+```
+
+Run the live monitor:
+
+```bash
+npm run ai-discovery:monitor
 ```
 
 ## Real MCP Server

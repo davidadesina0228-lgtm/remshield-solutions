@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "mcp:remshield": "node tools/remshield-mcp-server.mjs",
-    "mcp:smoke": "powershell -ExecutionPolicy Bypass -File tools/remshield-mcp-smoke-test.ps1"
+    "mcp:smoke": "powershell -ExecutionPolicy Bypass -File tools/remshield-mcp-smoke-test.ps1",
+    "ai-discovery:monitor": "node tools/remshield-ai-discovery-monitor.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.0",

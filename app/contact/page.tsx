@@ -28,6 +28,14 @@ const serviceMeta: Record<string, { title: string; badge: string; heading: strin
     accentColor: "#00D4C8",
     accentRgb: "0,212,200",
   },
+  "ai-discoverability": {
+    title: "AI Discoverability Pilot — RemShield",
+    badge: "Pilot — Limited Spots",
+    heading: "Make Your Business AI-Discoverable",
+    subheading: "Tell us about your website and data. We'll audit your AI discoverability gaps and give you a clear implementation plan.",
+    accentColor: "#00D4C8",
+    accentRgb: "0,212,200",
+  },
 };
 
 const defaultMeta = {

@@ -1,0 +1,351 @@
+{
+  "name": "MARCUS — AI Lead Generation Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## 🤖 MARCUS\n**Autonomous AI Lead Generation Agent**\n\nRuns every Monday 8AM UTC\n\n✅ Finds ICP-matched leads via Apollo.io\n✅ Scores & saves qualified leads to Google Sheets\n✅ Writes personalised cold emails\n✅ Sends via SMTP automatically\n✅ Self-logs learnings to improve each run\n\nBuilt by **RemShield Solutions**",
+        "height": 300,
+        "width": 320,
+        "color": 4
+      },
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-60, 120]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 1"
+            }
+          ]
+        }
+      },
+      "id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+      "name": "Every Monday 8AM UTC",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [300, 280]
+    },
+    {
+      "parameters": {
+        "systemMessage": "You are MARCUS, RemShield's autonomous AI lead generation agent. Your job is to find high-quality B2B leads, qualify them against our ICP, save them to our database, write personalised cold emails, send them, and log your learnings after each run.\n\nICP: Founders, CEOs, COOs, CTOs, Ops Directors at growth-stage companies (11-500 employees) with manual workflow pain points.\n\nTarget Markets: Nigeria, Ghana, Kenya, South Africa, USA, UK, Germany, Netherlands, Canada, Australia.\n\nRun sequence every Monday:\n1. Search Apollo for 10-15 fresh ICP-matched leads\n2. Read existing leads to avoid duplicates\n3. Score each new lead (0-10)\n4. Save qualified leads (score >= 7)\n5. Write personalised cold emails\n6. Send emails via SMTP\n7. Read previous learning log\n8. Save new learnings and observations for next run",
+        "options": {}
+      },
+      "id": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+      "name": "MARCUS AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [640, 280]
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-sonnet-4-5",
+        "options": {}
+      },
+      "id": "d4e5f6a7-b8c9-0123-defa-234567890123",
+      "name": "Claude via OpenRouter",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [640, 520],
+      "credentials": {
+        "openRouterApi": {
+          "id": "XCN7CrgU2LltzECD",
+          "name": "GP1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "find_leads",
+        "description": "Search Apollo.io for ICP-matched leads. Pass a search query describing the type of leads to find.",
+        "workflowId": {
+          "__rl": true,
+          "value": "l9NGoxjkrAwLFJAS",
+          "mode": "id"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $fromAI('search_focus', 'Describe the type of leads to search for on Apollo', 'string') }}"
+          },
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        }
+      },
+      "id": "e5f6a7b8-c9d0-1234-efab-345678901234",
+      "name": "Find Leads (Apollo)",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [200, 520]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "1mP-J0j0Y511k4LgZvWKyWvBijY7edaI9U8wFI6-WTx8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "f6a7b8c9-d0e1-2345-fabc-456789012345",
+      "name": "Read All Leads",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [400, 520],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oYAfNhbWmUNleFda",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1mP-J0j0Y511k4LgZvWKyWvBijY7edaI9U8wFI6-WTx8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $fromAI('name', 'Full name of the lead', 'string') }}",
+            "Company": "={{ $fromAI('company', 'Company name', 'string') }}",
+            "Title": "={{ $fromAI('title', 'Job title', 'string') }}",
+            "Email": "={{ $fromAI('email', 'Email address', 'string') }}",
+            "LinkedIn URL": "={{ $fromAI('linkedin_url', 'LinkedIn profile URL', 'string') }}",
+            "ICP Type": "={{ $fromAI('icp_type', 'ICP category this lead falls into', 'string') }}",
+            "Score": "={{ $fromAI('score', 'Lead quality score 0-10', 'number') }}",
+            "Status": "={{ $fromAI('status', 'Current lead status', 'string') }}",
+            "Personalization Notes": "={{ $fromAI('notes', 'Personalisation context for email', 'string') }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "a7b8c9d0-e1f2-3456-abcd-567890123456",
+      "name": "Save Lead",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [600, 620],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oYAfNhbWmUNleFda",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "1mP-J0j0Y511k4LgZvWKyWvBijY7edaI9U8wFI6-WTx8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Learning",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "b8c9d0e1-f2a3-4567-bcde-678901234567",
+      "name": "Read Learning Log",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [800, 520],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oYAfNhbWmUNleFda",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1mP-J0j0Y511k4LgZvWKyWvBijY7edaI9U8wFI6-WTx8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Learning",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $fromAI('date', 'Date of this run', 'string') }}",
+            "Run Summary": "={{ $fromAI('run_summary', 'Summary of what happened this run', 'string') }}",
+            "What Worked": "={{ $fromAI('what_worked', 'What worked well this run', 'string') }}",
+            "What to Avoid": "={{ $fromAI('what_to_avoid', 'What to avoid next time', 'string') }}",
+            "ICP Observations": "={{ $fromAI('icp_observations', 'Observations about ICP targeting', 'string') }}",
+            "Next Run Notes": "={{ $fromAI('next_run_notes', 'Notes and strategy for next Monday', 'string') }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "c9d0e1f2-a3b4-5678-cdef-789012345678",
+      "name": "Save Learning",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [1000, 520],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oYAfNhbWmUNleFda",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI('to', 'Recipient email address', 'string') }}",
+        "subject": "={{ $fromAI('subject', 'Email subject line', 'string') }}",
+        "emailType": "text",
+        "message": "={{ $fromAI('body', 'Full email body text', 'string') }}",
+        "options": {
+          "from": "David Adesina <support@remshield.solutions>"
+        }
+      },
+      "id": "d0e1f2a3-b4c5-6789-defa-890123456789",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.emailSendTool",
+      "typeVersion": 2.1,
+      "position": [1200, 520],
+      "credentials": {
+        "smtp": {
+          "id": "dHixPp3NpT1UaOUD",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every Monday 8AM UTC": {
+      "main": [
+        [
+          {
+            "node": "MARCUS AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude via OpenRouter": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "MARCUS AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Leads (Apollo)": {
+      "ai_tool": [
+        [
+          {
+            "node": "MARCUS AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read All Leads": {
+      "ai_tool": [
+        [
+          {
+            "node": "MARCUS AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Lead": {
+      "ai_tool": [
+        [
+          {
+            "node": "MARCUS AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Learning Log": {
+      "ai_tool": [
+        [
+          {
+            "node": "MARCUS AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Learning": {
+      "ai_tool": [
+        [
+          {
+            "node": "MARCUS AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email": {
+      "ai_tool": [
+        [
+          {
+            "node": "MARCUS AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "id": "nXBzFFlhZSAYhK3u",
+  "tags": [
+    {
+      "name": "Lead Generation"
+    }
+  ]
+}

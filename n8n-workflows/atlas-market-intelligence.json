@@ -1,0 +1,302 @@
+{
+  "name": "ATLAS — Weekly Market Intelligence Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# 🌐 ATLAS\n## Weekly Market Intelligence Agent\n\nRuns every **Friday at 7AM UTC**\n\n**What ATLAS does:**\n• Scans industry news & trends from the past week\n• Monitors community discussions (Reddit, HackerNews)\n• Tracks emerging technology movements\n• Reads previous reports to spot patterns\n• Compiles a structured weekly intelligence brief\n• Delivers the brief via email automatically\n\n**Output:** Structured weekly market brief saved to Google Sheets + emailed to team",
+        "height": 320,
+        "width": 360,
+        "color": 4
+      },
+      "id": "atlas-sticky-overview",
+      "name": "Sticky Note — Overview",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-80, 80]
+    },
+    {
+      "parameters": {
+        "content": "## ⏰ TRIGGER\n**Every Friday**\n**7:00 AM UTC**\n\nWeekly cadence ensures\nfresh intelligence without\ninformation overload.",
+        "height": 160,
+        "width": 200,
+        "color": 5
+      },
+      "id": "atlas-sticky-trigger",
+      "name": "Sticky Note — Trigger",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [320, 80]
+    },
+    {
+      "parameters": {
+        "content": "## 🧠 AI BRAIN\n**Claude via OpenRouter**\n\nAnalyses all research\nfindings, identifies patterns,\nformats the brief, and\ndetermines what is\nactionable vs noise.",
+        "height": 180,
+        "width": 220,
+        "color": 7
+      },
+      "id": "atlas-sticky-agent",
+      "name": "Sticky Note — Agent",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [600, 80]
+    },
+    {
+      "parameters": {
+        "content": "## 🔬 RESEARCH TOOLS\n\n1. **Industry News** — Tavily news scan\n2. **Community Pulse** — Reddit + HN discussions\n3. **Tech Trends** — Emerging tool tracking\n4. **Memory** — Previous reports for pattern detection",
+        "height": 180,
+        "width": 280,
+        "color": 3
+      },
+      "id": "atlas-sticky-tools",
+      "name": "Sticky Note — Tools",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [900, 80]
+    },
+    {
+      "parameters": {
+        "content": "## 📤 OUTPUT\n\n• Save report to\n  Google Sheets\n• Email weekly brief\n  to team inbox\n\nAll reports archived\nfor trend analysis.",
+        "height": 180,
+        "width": 200,
+        "color": 2
+      },
+      "id": "atlas-sticky-output",
+      "name": "Sticky Note — Output",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1280, 80]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * 5"
+            }
+          ]
+        }
+      },
+      "id": "atlas-trigger",
+      "name": "Every Friday 7AM UTC",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [320, 300]
+    },
+    {
+      "parameters": {
+        "systemMessage": "You are ATLAS, RemShield's autonomous market intelligence agent. Every Friday you conduct a thorough scan of the market landscape relevant to AI engineering, automation, and business software.\n\nYour research mission each week:\n1. Scan industry news from the past 7 days — focus on AI, automation, SaaS, and business technology\n2. Check community discussions on Reddit and HackerNews for what practitioners are talking about\n3. Identify emerging technology trends that could affect RemShield's market positioning\n4. Read the previous week's report to identify recurring themes and track developments over time\n5. Compile a structured intelligence brief with: Top News, Community Sentiment, Emerging Trends, Competitor Signals, and Strategic Recommendations\n6. Save the full report to Google Sheets\n7. Send the formatted brief via email\n\nFocus on insights that are ACTIONABLE for an AI engineering studio. Filter out noise. Highlight opportunities.",
+        "options": {}
+      },
+      "id": "atlas-agent",
+      "name": "ATLAS AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [640, 300]
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-sonnet-4-5",
+        "options": {}
+      },
+      "id": "atlas-llm",
+      "name": "Claude via OpenRouter",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [640, 560],
+      "credentials": {
+        "openRouterApi": {
+          "id": "XCN7CrgU2LltzECD",
+          "name": "GP1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for the latest industry news and developments in AI automation, business software, and technology. Use this to find what is happening in the market this week.",
+        "query": "={{ $fromAI('query', 'What industry news topic to research', 'string') }}",
+        "options": {
+          "topic": "news",
+          "timeRange": "week",
+          "includeAnswer": "basic",
+          "maxResults": 10
+        }
+      },
+      "id": "atlas-tool-industry",
+      "name": "Research Industry News",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [220, 560],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Research what practitioners and founders are discussing on Reddit and HackerNews about AI, automation, and business tools. Use this to understand community sentiment and pain points.",
+        "query": "={{ $fromAI('query', 'What topic to research in community discussions', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "week",
+          "includeAnswer": "basic",
+          "maxResults": 10,
+          "includeDomains": ["reddit.com", "news.ycombinator.com", "dev.to", "medium.com"]
+        }
+      },
+      "id": "atlas-tool-community",
+      "name": "Research Community Discussions",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [420, 560],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Track emerging technology trends, new tool launches, and market movements in AI and automation over the past month.",
+        "query": "={{ $fromAI('query', 'What technology trend to investigate', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "month",
+          "includeAnswer": "advanced",
+          "maxResults": 8
+        }
+      },
+      "id": "atlas-tool-trends",
+      "name": "Track Technology Trends",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [620, 660],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "1mP-J0j0Y511k4LgZvWKyWvBijY7edaI9U8wFI6-WTx8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Market Research",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "atlas-tool-read",
+      "name": "Read Previous Reports",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [820, 560],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oYAfNhbWmUNleFda",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1mP-J0j0Y511k4LgZvWKyWvBijY7edaI9U8wFI6-WTx8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Market Research",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $fromAI('date', 'Date of this report', 'string') }}",
+            "Top News": "={{ $fromAI('top_news', 'Top 3-5 news items this week', 'string') }}",
+            "Community Sentiment": "={{ $fromAI('community_sentiment', 'What practitioners are discussing', 'string') }}",
+            "Emerging Trends": "={{ $fromAI('emerging_trends', 'Technology trends identified', 'string') }}",
+            "Competitor Signals": "={{ $fromAI('competitor_signals', 'Competitor activity observed', 'string') }}",
+            "Strategic Recommendations": "={{ $fromAI('recommendations', 'Actionable recommendations for RemShield', 'string') }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "atlas-tool-save",
+      "name": "Save Weekly Report",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [1020, 560],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oYAfNhbWmUNleFda",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI('to', 'Recipient email for the intelligence brief', 'string') }}",
+        "subject": "={{ $fromAI('subject', 'Email subject with week date', 'string') }}",
+        "emailType": "text",
+        "message": "={{ $fromAI('body', 'Full formatted weekly intelligence brief', 'string') }}",
+        "options": {
+          "from": "ATLAS Intelligence <support@remshield.solutions>"
+        }
+      },
+      "id": "atlas-tool-email",
+      "name": "Send Intelligence Brief",
+      "type": "n8n-nodes-base.emailSendTool",
+      "typeVersion": 2.1,
+      "position": [1220, 560],
+      "credentials": {
+        "smtp": {
+          "id": "dHixPp3NpT1UaOUD",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every Friday 7AM UTC": {
+      "main": [[{"node": "ATLAS AI Agent", "type": "main", "index": 0}]]
+    },
+    "Claude via OpenRouter": {
+      "ai_languageModel": [[{"node": "ATLAS AI Agent", "type": "ai_languageModel", "index": 0}]]
+    },
+    "Research Industry News": {
+      "ai_tool": [[{"node": "ATLAS AI Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Research Community Discussions": {
+      "ai_tool": [[{"node": "ATLAS AI Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Track Technology Trends": {
+      "ai_tool": [[{"node": "ATLAS AI Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Read Previous Reports": {
+      "ai_tool": [[{"node": "ATLAS AI Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Save Weekly Report": {
+      "ai_tool": [[{"node": "ATLAS AI Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Send Intelligence Brief": {
+      "ai_tool": [[{"node": "ATLAS AI Agent", "type": "ai_tool", "index": 0}]]
+    }
+  },
+  "active": true,
+  "settings": {"executionOrder": "v1"},
+  "id": "atlas-market-intelligence-v1",
+  "tags": [{"name": "Market Research"}, {"name": "Intelligence"}]
+}

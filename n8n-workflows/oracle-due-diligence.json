@@ -1,0 +1,324 @@
+{
+  "name": "ORACLE — Business Due Diligence Research Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# 🔮 ORACLE\n## Business Due Diligence Research Agent\n\nTriggered **on demand via Webhook** — send a company name and get back a full research dossier.\n\n**What ORACLE researches:**\n• Company overview — founding story, mission, size, stage\n• Leadership team — founders, executives, track record\n• Financial signals — funding, revenue estimates, growth trajectory\n• Reputation & reviews — customer sentiment, G2, Glassdoor, Trustpilot\n• Recent news — press, announcements, controversies\n• Competitive position — market standing vs alternatives\n• Risk signals — anything concerning before engaging\n\n**Use cases:** Evaluating partners, qualifying enterprise clients, investor research, vendor assessment",
+        "height": 360,
+        "width": 380,
+        "color": 4
+      },
+      "id": "oracle-sticky-overview",
+      "name": "Sticky Note — Overview",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-100, 60]
+    },
+    {
+      "parameters": {
+        "content": "## 🔗 TRIGGER\n**Webhook**\n\nPOST request with:\n• company_name\n• company_domain\n• research_depth\n  (standard / deep)\n• requester_email\n\nFires instantly on\nrequest — no wait.",
+        "height": 220,
+        "width": 210,
+        "color": 5
+      },
+      "id": "oracle-sticky-trigger",
+      "name": "Sticky Note — Trigger",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [340, 60]
+    },
+    {
+      "parameters": {
+        "content": "## 🧠 AI ANALYST\n**Claude via OpenRouter**\n\nSynthesises all research\ninto a structured report:\n\n• Executive Summary\n• Company Profile\n• Leadership Assessment\n• Financial Health\n• Reputation Score\n• Risk Flags\n• Recommendation",
+        "height": 240,
+        "width": 230,
+        "color": 7
+      },
+      "id": "oracle-sticky-agent",
+      "name": "Sticky Note — Agent",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [630, 60]
+    },
+    {
+      "parameters": {
+        "content": "## 🔍 RESEARCH ARSENAL\n\n1. **Company Overview** — General profile & background\n2. **Leadership Research** — Founder & exec backgrounds\n3. **Financial Signals** — Funding, revenue, growth data\n4. **Reputation Scanner** — Reviews, ratings, sentiment\n5. **News Monitor** — Press, controversies, announcements\n6. **Risk Scanner** — Legal issues, complaints, red flags",
+        "height": 220,
+        "width": 280,
+        "color": 3
+      },
+      "id": "oracle-sticky-tools",
+      "name": "Sticky Note — Tools",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [960, 60]
+    },
+    {
+      "parameters": {
+        "content": "## 📄 REPORT DELIVERY\n\n• Full report saved\n  to Google Sheets\n• PDF-ready formatted\n  report emailed to\n  requester\n• Turnaround: ~3-5\n  minutes from\n  webhook trigger",
+        "height": 200,
+        "width": 210,
+        "color": 2
+      },
+      "id": "oracle-sticky-output",
+      "name": "Sticky Note — Output",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1340, 60]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "oracle-due-diligence",
+        "options": {}
+      },
+      "id": "oracle-trigger",
+      "name": "Webhook — Research Request",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [340, 300],
+      "webhookId": "oracle-dd-webhook"
+    },
+    {
+      "parameters": {
+        "systemMessage": "You are ORACLE, a business due diligence research agent. When given a company name and domain, you conduct thorough research and produce a structured due diligence report.\n\nYou will receive: company_name, company_domain, research_depth (standard or deep), and requester_email.\n\nYour research process:\n\n1. COMPANY OVERVIEW\n   - Research founding story, mission, core products/services\n   - Identify company size (employees), location, industry verticals\n   - Determine company stage (startup/growth/enterprise)\n\n2. LEADERSHIP TEAM\n   - Research founders and key executives\n   - Check their backgrounds, previous companies, track record\n   - Look for any red flags in their history\n\n3. FINANCIAL SIGNALS\n   - Search for funding rounds (Crunchbase, press releases)\n   - Look for revenue estimates or public financial data\n   - Assess growth trajectory signals (hiring rate, expansion)\n\n4. REPUTATION & REVIEWS\n   - Check G2, Trustpilot, Glassdoor, Capterra for customer and employee reviews\n   - Identify overall sentiment score (positive/neutral/negative)\n   - Note recurring complaints or praise themes\n\n5. RECENT NEWS\n   - Search for news from the past 90 days\n   - Look for product launches, partnerships, awards, controversies\n   - Flag anything time-sensitive\n\n6. RISK SIGNALS\n   - Search for legal issues, regulatory actions, lawsuits\n   - Check for negative press or controversy\n   - Assess any operational or reputational risks\n\nSTRUCTURE YOUR FINAL REPORT:\n- Executive Summary (3-5 sentences)\n- Company Profile\n- Leadership Assessment\n- Financial Health Rating (Strong / Moderate / Weak / Unknown)\n- Reputation Score (0-10)\n- Risk Flags (none / low / medium / high + details)\n- Overall Recommendation (Proceed / Proceed with Caution / Do Not Proceed)\n\nSave the report to Google Sheets and email it to the requester.",
+        "options": {}
+      },
+      "id": "oracle-agent",
+      "name": "ORACLE Due Diligence Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [660, 300]
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-sonnet-4-5",
+        "options": {}
+      },
+      "id": "oracle-llm",
+      "name": "Claude via OpenRouter",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [660, 560],
+      "credentials": {
+        "openRouterApi": {
+          "id": "XCN7CrgU2LltzECD",
+          "name": "GP1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Research a company's general profile — founding story, products, services, industry, size, locations, and mission. Pass the company name and domain.",
+        "query": "={{ $fromAI('query', 'Company name, domain, and what overview information to find', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "year",
+          "includeAnswer": "advanced",
+          "maxResults": 10
+        }
+      },
+      "id": "oracle-tool-overview",
+      "name": "Research Company Overview",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [220, 560],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Research the company's leadership team — founders, CEO, C-suite executives. Look for their background, previous companies, LinkedIn profiles, and track record.",
+        "query": "={{ $fromAI('query', 'Leader name and company to research their background and track record', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "year",
+          "includeAnswer": "basic",
+          "maxResults": 8
+        }
+      },
+      "id": "oracle-tool-leadership",
+      "name": "Research Leadership Team",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [420, 560],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Find financial signals about a company — funding rounds, investors, revenue estimates, valuations, financial news. Search Crunchbase, TechCrunch, and business press.",
+        "query": "={{ $fromAI('query', 'Company name and what financial data to find', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "year",
+          "includeAnswer": "basic",
+          "maxResults": 8,
+          "includeDomains": ["crunchbase.com", "techcrunch.com", "bloomberg.com", "forbes.com", "pitchbook.com"]
+        }
+      },
+      "id": "oracle-tool-financial",
+      "name": "Research Financial Signals",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [620, 660],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for customer and employee reviews of a company on G2, Glassdoor, Trustpilot, Capterra, and other review platforms to assess reputation.",
+        "query": "={{ $fromAI('query', 'Company name and what reputation or review data to find', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "year",
+          "includeAnswer": "basic",
+          "maxResults": 8,
+          "includeDomains": ["g2.com", "glassdoor.com", "trustpilot.com", "capterra.com", "reddit.com"]
+        }
+      },
+      "id": "oracle-tool-reputation",
+      "name": "Scan Reputation and Reviews",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [820, 560],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for recent news about the company — press releases, controversies, lawsuits, regulatory actions, partnerships, or any significant events in the last 90 days.",
+        "query": "={{ $fromAI('query', 'Company name and what news or risk signals to search for', 'string') }}",
+        "options": {
+          "topic": "news",
+          "timeRange": "3months",
+          "includeAnswer": "basic",
+          "maxResults": 10
+        }
+      },
+      "id": "oracle-tool-news",
+      "name": "Monitor Recent News and Risks",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [1020, 560],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1mP-J0j0Y511k4LgZvWKyWvBijY7edaI9U8wFI6-WTx8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Due Diligence",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $fromAI('date', 'Date of research', 'string') }}",
+            "Company Name": "={{ $fromAI('company_name', 'Company researched', 'string') }}",
+            "Executive Summary": "={{ $fromAI('executive_summary', '3-5 sentence executive summary', 'string') }}",
+            "Company Profile": "={{ $fromAI('company_profile', 'Full company profile', 'string') }}",
+            "Leadership Assessment": "={{ $fromAI('leadership', 'Leadership team assessment', 'string') }}",
+            "Financial Health": "={{ $fromAI('financial_health', 'Strong / Moderate / Weak / Unknown', 'string') }}",
+            "Reputation Score": "={{ $fromAI('reputation_score', 'Score out of 10', 'number') }}",
+            "Risk Flags": "={{ $fromAI('risk_flags', 'None / Low / Medium / High + details', 'string') }}",
+            "Recommendation": "={{ $fromAI('recommendation', 'Proceed / Proceed with Caution / Do Not Proceed', 'string') }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "oracle-tool-save",
+      "name": "Save Due Diligence Report",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [1220, 560],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oYAfNhbWmUNleFda",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI('to', 'Requester email address', 'string') }}",
+        "subject": "={{ $fromAI('subject', 'Email subject with company name and date', 'string') }}",
+        "emailType": "text",
+        "message": "={{ $fromAI('body', 'Full formatted due diligence report with all sections', 'string') }}",
+        "options": {
+          "from": "ORACLE Research <support@remshield.solutions>"
+        }
+      },
+      "id": "oracle-tool-deliver",
+      "name": "Deliver Research Report",
+      "type": "n8n-nodes-base.emailSendTool",
+      "typeVersion": 2.1,
+      "position": [1420, 560],
+      "credentials": {
+        "smtp": {
+          "id": "dHixPp3NpT1UaOUD",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook — Research Request": {
+      "main": [[{"node": "ORACLE Due Diligence Agent", "type": "main", "index": 0}]]
+    },
+    "Claude via OpenRouter": {
+      "ai_languageModel": [[{"node": "ORACLE Due Diligence Agent", "type": "ai_languageModel", "index": 0}]]
+    },
+    "Research Company Overview": {
+      "ai_tool": [[{"node": "ORACLE Due Diligence Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Research Leadership Team": {
+      "ai_tool": [[{"node": "ORACLE Due Diligence Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Research Financial Signals": {
+      "ai_tool": [[{"node": "ORACLE Due Diligence Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Scan Reputation and Reviews": {
+      "ai_tool": [[{"node": "ORACLE Due Diligence Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Monitor Recent News and Risks": {
+      "ai_tool": [[{"node": "ORACLE Due Diligence Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Save Due Diligence Report": {
+      "ai_tool": [[{"node": "ORACLE Due Diligence Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Deliver Research Report": {
+      "ai_tool": [[{"node": "ORACLE Due Diligence Agent", "type": "ai_tool", "index": 0}]]
+    }
+  },
+  "active": true,
+  "settings": {"executionOrder": "v1"},
+  "id": "oracle-due-diligence-v1",
+  "tags": [{"name": "Due Diligence"}, {"name": "Business Research"}]
+}

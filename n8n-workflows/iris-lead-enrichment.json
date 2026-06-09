@@ -1,0 +1,329 @@
+{
+  "name": "IRIS — Lead Intelligence & Enrichment Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# 🔎 IRIS\n## Lead Intelligence & Enrichment Agent\n\nRuns **every morning at 7AM UTC** to process new leads\n\n**What IRIS does:**\n• Reads new leads pending research from Google Sheets\n• Researches each person's background & role context\n• Researches each company — size, stage, recent news\n• Identifies pain points, triggers, and buying signals\n• Writes personalised outreach angles for each lead\n• Updates lead record with full intelligence profile\n• Notifies team when enrichment is complete\n\n**Result:** Every lead arrives at outreach with a full intelligence dossier — not just a name and email.",
+        "height": 340,
+        "width": 380,
+        "color": 4
+      },
+      "id": "iris-sticky-overview",
+      "name": "Sticky Note — Overview",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-100, 80]
+    },
+    {
+      "parameters": {
+        "content": "## ⏰ TRIGGER\n**Every Morning**\n**7:00 AM UTC**\n\nProcesses leads added\nthe previous day.\nKeeps enrichment\ncurrent without\nmanual effort.",
+        "height": 180,
+        "width": 200,
+        "color": 5
+      },
+      "id": "iris-sticky-trigger",
+      "name": "Sticky Note — Trigger",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [340, 80]
+    },
+    {
+      "parameters": {
+        "content": "## 🧠 AI RESEARCHER\n**Claude via OpenRouter**\n\nFor each lead:\n• Reads company & person\n  research findings\n• Synthesises into a\n  usable intelligence\n  profile\n• Writes personalised\n  outreach angle\n• Scores lead quality",
+        "height": 220,
+        "width": 230,
+        "color": 7
+      },
+      "id": "iris-sticky-agent",
+      "name": "Sticky Note — Agent",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [620, 80]
+    },
+    {
+      "parameters": {
+        "content": "## 🔬 RESEARCH TOOLS\n\n1. **Lead Queue** — Reads pending leads from Sheets\n2. **Person Research** — Role, background, activity\n3. **Company Research** — Size, stage, tech stack\n4. **Recent News** — Hiring, funding, launches\n5. **Pain Signal Scanner** — Job posts, community posts",
+        "height": 200,
+        "width": 270,
+        "color": 3
+      },
+      "id": "iris-sticky-tools",
+      "name": "Sticky Note — Tools",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [940, 80]
+    },
+    {
+      "parameters": {
+        "content": "## 📋 ENRICHMENT OUTPUT\n\n• Updates lead record\n  in Google Sheets with:\n  - Company profile\n  - Person context\n  - Pain signals\n  - Outreach angle\n  - Lead score\n• Sends completion\n  notification email",
+        "height": 220,
+        "width": 210,
+        "color": 2
+      },
+      "id": "iris-sticky-output",
+      "name": "Sticky Note — Output",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1300, 80]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * *"
+            }
+          ]
+        }
+      },
+      "id": "iris-trigger",
+      "name": "Every Morning 7AM UTC",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [340, 300]
+    },
+    {
+      "parameters": {
+        "systemMessage": "You are IRIS, RemShield's lead intelligence and enrichment agent. Every morning you process new leads that have been added to the lead database and need research before outreach.\n\nFor each lead marked Status = 'Pending Research', you will:\n\n1. Read the lead queue to find all leads pending enrichment\n2. For each lead, research the PERSON:\n   - Their professional background and current role context\n   - Recent activity, posts, or publications\n   - Decision-making authority\n   - Any signals they are looking for solutions\n3. For each lead, research the COMPANY:\n   - Company size, stage, industry, and tech stack\n   - Recent news: funding rounds, hiring sprees, product launches, leadership changes\n   - Signs of growth pain: lots of open ops/engineering roles = scaling challenges\n4. Identify PAIN SIGNALS:\n   - Job posts that signal manual processes (operations manager, data entry, etc.)\n   - Community posts about tool frustrations\n   - Company stage signals (Series A/B = scaling pain)\n5. Write a PERSONALISED OUTREACH ANGLE — one compelling first line tailored to this specific person and company\n6. Assign a RESEARCH CONFIDENCE score (0-10)\n7. Update each lead record with the full intelligence profile\n8. After processing all leads, send an email summary of what was enriched\n\nBe thorough but concise. Focus on what is ACTIONABLE for cold outreach.",
+        "options": {}
+      },
+      "id": "iris-agent",
+      "name": "IRIS Research Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [660, 300]
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-sonnet-4-5",
+        "options": {}
+      },
+      "id": "iris-llm",
+      "name": "Claude via OpenRouter",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [660, 560],
+      "credentials": {
+        "openRouterApi": {
+          "id": "XCN7CrgU2LltzECD",
+          "name": "GP1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "1mP-J0j0Y511k4LgZvWKyWvBijY7edaI9U8wFI6-WTx8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "iris-tool-queue",
+      "name": "Read Lead Queue",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [220, 560],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oYAfNhbWmUNleFda",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Research a specific person — their professional background, current role, seniority, recent online activity, and any signals they may be looking for solutions. Pass their name, title, and company.",
+        "query": "={{ $fromAI('query', 'Person name, title and company to research', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "month",
+          "includeAnswer": "advanced",
+          "maxResults": 8
+        }
+      },
+      "id": "iris-tool-person",
+      "name": "Research Person Background",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [420, 560],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Research a company — their size, stage, industry, products, key clients, technology stack, and business model. Pass the company name and domain.",
+        "query": "={{ $fromAI('query', 'Company name and domain to research', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "month",
+          "includeAnswer": "advanced",
+          "maxResults": 10
+        }
+      },
+      "id": "iris-tool-company",
+      "name": "Research Company Profile",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [620, 660],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for recent news about a company — funding rounds, product launches, leadership changes, expansion, layoffs, or any significant events in the past 30-60 days.",
+        "query": "={{ $fromAI('query', 'Company name and what recent events to look for', 'string') }}",
+        "options": {
+          "topic": "news",
+          "timeRange": "month",
+          "includeAnswer": "basic",
+          "maxResults": 8
+        }
+      },
+      "id": "iris-tool-news",
+      "name": "Find Recent Company News",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [820, 560],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Scan for pain signals from the company — job postings that indicate manual processes, community posts about tool frustrations, reviews mentioning operational challenges. Search job boards and review sites.",
+        "query": "={{ $fromAI('query', 'Company name and what pain signals to look for', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "month",
+          "includeAnswer": "basic",
+          "maxResults": 6,
+          "includeDomains": ["linkedin.com", "glassdoor.com", "indeed.com", "reddit.com", "g2.com"]
+        }
+      },
+      "id": "iris-tool-pain",
+      "name": "Scan for Pain Signals",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [1020, 560],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1mP-J0j0Y511k4LgZvWKyWvBijY7edaI9U8wFI6-WTx8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Person Context": "={{ $fromAI('person_context', 'Person background and role context', 'string') }}",
+            "Company Context": "={{ $fromAI('company_context', 'Company profile summary', 'string') }}",
+            "Trigger Signal": "={{ $fromAI('trigger_signal', 'Key trigger or buying signal identified', 'string') }}",
+            "Pain or Opportunity": "={{ $fromAI('pain_opportunity', 'Identified pain point or opportunity', 'string') }}",
+            "Personalization Angle": "={{ $fromAI('personalization_angle', 'Suggested first line for cold email', 'string') }}",
+            "Research Confidence": "={{ $fromAI('confidence', 'Research confidence score 0-10', 'number') }}",
+            "Status": "Enriched"
+          }
+        },
+        "options": {}
+      },
+      "id": "iris-tool-update",
+      "name": "Update Lead Record",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [1220, 560],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oYAfNhbWmUNleFda",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI('to', 'Team email to notify of completed enrichment', 'string') }}",
+        "subject": "={{ $fromAI('subject', 'Email subject with number of leads enriched and date', 'string') }}",
+        "emailType": "text",
+        "message": "={{ $fromAI('body', 'Summary of leads enriched today with key findings per lead', 'string') }}",
+        "options": {
+          "from": "IRIS Research <support@remshield.solutions>"
+        }
+      },
+      "id": "iris-tool-notify",
+      "name": "Send Enrichment Summary",
+      "type": "n8n-nodes-base.emailSendTool",
+      "typeVersion": 2.1,
+      "position": [1420, 560],
+      "credentials": {
+        "smtp": {
+          "id": "dHixPp3NpT1UaOUD",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every Morning 7AM UTC": {
+      "main": [[{"node": "IRIS Research Agent", "type": "main", "index": 0}]]
+    },
+    "Claude via OpenRouter": {
+      "ai_languageModel": [[{"node": "IRIS Research Agent", "type": "ai_languageModel", "index": 0}]]
+    },
+    "Read Lead Queue": {
+      "ai_tool": [[{"node": "IRIS Research Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Research Person Background": {
+      "ai_tool": [[{"node": "IRIS Research Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Research Company Profile": {
+      "ai_tool": [[{"node": "IRIS Research Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Find Recent Company News": {
+      "ai_tool": [[{"node": "IRIS Research Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Scan for Pain Signals": {
+      "ai_tool": [[{"node": "IRIS Research Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Update Lead Record": {
+      "ai_tool": [[{"node": "IRIS Research Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Send Enrichment Summary": {
+      "ai_tool": [[{"node": "IRIS Research Agent", "type": "ai_tool", "index": 0}]]
+    }
+  },
+  "active": true,
+  "settings": {"executionOrder": "v1"},
+  "id": "iris-lead-enrichment-v1",
+  "tags": [{"name": "Lead Research"}, {"name": "Enrichment"}]
+}

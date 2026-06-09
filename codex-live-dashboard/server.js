@@ -171,6 +171,22 @@ function rowsFromValues(values = []) {
 function mergeTrackerRows(rows) {
   const byLeadId = new Map();
   const passthrough = [];
+  const dateFields = new Set([
+    'Last_Email_Sent_At',
+    'Email_1_Sent_At',
+    'Follow_Up_1_Sent_At',
+    'Follow_Up_2_Sent_At',
+    'Follow_Up_3_Sent_At',
+    'Reply_Received_At',
+  ]);
+
+  function isNewerDate(candidate, current) {
+    const candidateDate = new Date(candidate || '');
+    const currentDate = new Date(current || '');
+    if (Number.isNaN(candidateDate.getTime())) return false;
+    if (Number.isNaN(currentDate.getTime())) return true;
+    return candidateDate.getTime() > currentDate.getTime();
+  }
 
   for (const row of rows) {
     const leadId = String(row.Lead_ID || '').trim();
@@ -182,8 +198,37 @@ function mergeTrackerRows(rows) {
     const existing = byLeadId.get(leadId) || {};
     const merged = { ...existing };
     for (const [key, value] of Object.entries(row)) {
-      if (String(value || '').trim()) merged[key] = value;
+      if (!String(value || '').trim()) continue;
+
+      if (dateFields.has(key)) {
+        if (isNewerDate(value, merged[key])) merged[key] = value;
+        continue;
+      }
+
+      if (key === 'Follow_Up_Count') {
+        const current = parseInt(merged[key] || '0', 10) || 0;
+        const incoming = parseInt(value || '0', 10) || 0;
+        if (incoming > current) merged[key] = String(incoming);
+        continue;
+      }
+
+      if (key === 'Has_Replied') {
+        if (isTrue(value)) merged[key] = value;
+        else if (!String(merged[key] || '').trim()) merged[key] = value;
+        continue;
+      }
+
+      if (!String(merged[key] || '').trim()) merged[key] = value;
     }
+
+    const TERMINAL = new Set(['replied', 'bounced', 'unsubscribed', 'opted_out', 'positive', 'negative']);
+    if (!TERMINAL.has(String(merged.Status || '').toLowerCase())) {
+      if (merged.Follow_Up_3_Sent_At) merged.Status = 'follow_up_3_sent';
+      else if (merged.Follow_Up_2_Sent_At) merged.Status = 'follow_up_2_sent';
+      else if (merged.Follow_Up_1_Sent_At) merged.Status = 'follow_up_1_sent';
+      else if (merged.Email_1_Sent_At && String(merged.Status || '').toLowerCase() === 'pending') merged.Status = 'email_1_sent';
+    }
+
     byLeadId.set(leadId, merged);
   }
 

@@ -1,0 +1,331 @@
+{
+  "name": "PULSE — Customer & Market Sentiment Research Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# 💓 PULSE\n## Customer & Market Sentiment Research Agent\n\nRuns **every Wednesday at 8AM UTC**\n\n**What PULSE monitors:**\n• What customers are saying about your industry on Reddit, Twitter, and review sites\n• Pain points and frustrations being expressed publicly\n• What features / solutions customers are ASKING for\n• Sentiment trends — is the market getting more or less positive?\n• Specific complaints about competitors that are opportunities for you\n• Emerging customer needs before they become mainstream\n\n**Output:** Weekly sentiment report with direct quotes, trends, and opportunity signals — delivered to your inbox and saved to Google Sheets",
+        "height": 360,
+        "width": 380,
+        "color": 4
+      },
+      "id": "pulse-sticky-overview",
+      "name": "Sticky Note — Overview",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-100, 80]
+    },
+    {
+      "parameters": {
+        "content": "## ⏰ TRIGGER\n**Every Wednesday**\n**8:00 AM UTC**\n\nMid-week cadence\ncaptures fresh\ncommunity activity\nbefore it gets buried.",
+        "height": 180,
+        "width": 200,
+        "color": 5
+      },
+      "id": "pulse-sticky-trigger",
+      "name": "Sticky Note — Trigger",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [340, 80]
+    },
+    {
+      "parameters": {
+        "content": "## 🧠 AI ANALYST\n**Claude via OpenRouter**\n\nAnalyses all community\nposts and reviews to:\n• Identify recurring\n  pain themes\n• Spot unmet needs\n• Detect sentiment\n  direction (improving\n  or worsening)\n• Find your best\n  opportunity angles",
+        "height": 240,
+        "width": 230,
+        "color": 7
+      },
+      "id": "pulse-sticky-agent",
+      "name": "Sticky Note — Agent",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [620, 80]
+    },
+    {
+      "parameters": {
+        "content": "## 📡 LISTENING POSTS\n\n1. **Reddit Scanner** — Subreddit discussions & complaints\n2. **HackerNews Pulse** — Tech community sentiment\n3. **Review Aggregator** — G2, Trustpilot, Capterra data\n4. **Social Mentions** — Public mentions of key topics\n5. **Historical Compare** — Last 4 weeks for trend lines",
+        "height": 200,
+        "width": 280,
+        "color": 3
+      },
+      "id": "pulse-sticky-tools",
+      "name": "Sticky Note — Tools",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [960, 80]
+    },
+    {
+      "parameters": {
+        "content": "## 📊 REPORT OUTPUT\n\n**Weekly Sentiment Report:**\n• Top Pain Themes\n• Direct Quotes\n• Sentiment Score\n  (0-10 positive)\n• Opportunity Signals\n• Recommended Content\n  Topics Based on Pain\n\nSaved to Sheets +\nEmailed to team.",
+        "height": 240,
+        "width": 210,
+        "color": 2
+      },
+      "id": "pulse-sticky-output",
+      "name": "Sticky Note — Output",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1340, 80]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 3"
+            }
+          ]
+        }
+      },
+      "id": "pulse-trigger",
+      "name": "Every Wednesday 8AM UTC",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [340, 320]
+    },
+    {
+      "parameters": {
+        "systemMessage": "You are PULSE, a market and customer sentiment research agent. Every Wednesday you scan communities, review platforms, and social channels to understand what customers in the AI automation and business software space are feeling, needing, and complaining about.\n\nYour weekly research mission:\n\n1. REDDIT SCAN\n   - Scan relevant subreddits: r/automation, r/n8n, r/entrepreneur, r/smallbusiness, r/SaaS, r/MachineLearning, r/startups\n   - Find posts where people complain about manual work, tool frustrations, or ask for automation solutions\n   - Collect direct quotes and post URLs\n\n2. HACKERNEWS PULSE\n   - Search HackerNews for discussions about AI tools, automation, and business software\n   - Note what practitioners are frustrated with and what they praise\n\n3. REVIEW PLATFORM SCAN\n   - Search for recent reviews of automation tools (Make, Zapier, n8n Cloud) on G2, Capterra, Trustpilot\n   - Look for common complaints that represent opportunities for better alternatives\n\n4. SOCIAL MENTIONS\n   - Search Twitter/X discussions and LinkedIn posts about AI automation pain points\n   - Find thought leaders discussing what is missing in the market\n\n5. TREND ANALYSIS\n   - Compare findings to previous reports (read history first)\n   - Identify: is customer frustration increasing or decreasing?\n   - What new needs are emerging that were not present last month?\n\nSTRUCTURE YOUR REPORT:\n- Top 5 Pain Themes (with direct quotes)\n- Sentiment Score this week (0-10 where 10 = very positive market)\n- Trending Topics (what is being discussed most)\n- Competitor Weaknesses (complaints about competitors = your opportunities)\n- Emerging Needs (new pain points appearing for the first time)\n- Recommended Content Topics (5 blog/social post ideas based on what the market is asking about)\n\nSave the report to Google Sheets and email it.",
+        "options": {}
+      },
+      "id": "pulse-agent",
+      "name": "PULSE Sentiment Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [660, 320]
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-sonnet-4-5",
+        "options": {}
+      },
+      "id": "pulse-llm",
+      "name": "Claude via OpenRouter",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [660, 580],
+      "credentials": {
+        "openRouterApi": {
+          "id": "XCN7CrgU2LltzECD",
+          "name": "GP1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Scan Reddit for posts where people discuss automation pain points, tool frustrations, manual workflow problems, or ask for AI and automation solutions. Focus on subreddits: r/automation, r/entrepreneur, r/smallbusiness, r/SaaS, r/n8n, r/startups.",
+        "query": "={{ $fromAI('query', 'What topic or pain point to search for on Reddit', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "week",
+          "includeAnswer": "basic",
+          "maxResults": 10,
+          "includeDomains": ["reddit.com"]
+        }
+      },
+      "id": "pulse-tool-reddit",
+      "name": "Scan Reddit Discussions",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [220, 580],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search HackerNews for discussions about AI tools, automation software, business software complaints, and what tech practitioners are saying about the automation and AI market.",
+        "query": "={{ $fromAI('query', 'What topic to search for on HackerNews', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "week",
+          "includeAnswer": "basic",
+          "maxResults": 8,
+          "includeDomains": ["news.ycombinator.com"]
+        }
+      },
+      "id": "pulse-tool-hn",
+      "name": "Monitor HackerNews Pulse",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [420, 580],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for recent customer reviews of automation and AI tools on G2, Capterra, Trustpilot, and ProductHunt. Focus on finding common complaints and feature requests that represent market opportunities.",
+        "query": "={{ $fromAI('query', 'Tool name and what review or rating data to search for', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "month",
+          "includeAnswer": "basic",
+          "maxResults": 8,
+          "includeDomains": ["g2.com", "capterra.com", "trustpilot.com", "producthunt.com"]
+        }
+      },
+      "id": "pulse-tool-reviews",
+      "name": "Aggregate Platform Reviews",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [620, 680],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search the broader web for social mentions, blog posts, and news articles discussing AI automation pain points, customer frustrations with tools, or requests for solutions in the business automation market.",
+        "query": "={{ $fromAI('query', 'What market sentiment or social mention topic to research', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "week",
+          "includeAnswer": "basic",
+          "maxResults": 8
+        }
+      },
+      "id": "pulse-tool-social",
+      "name": "Scan Social Mentions",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [820, 580],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "1mP-J0j0Y511k4LgZvWKyWvBijY7edaI9U8wFI6-WTx8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sentiment Reports",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "pulse-tool-history",
+      "name": "Read Sentiment History",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [1020, 580],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oYAfNhbWmUNleFda",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1mP-J0j0Y511k4LgZvWKyWvBijY7edaI9U8wFI6-WTx8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sentiment Reports",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $fromAI('date', 'Date of this report', 'string') }}",
+            "Top Pain Themes": "={{ $fromAI('pain_themes', 'Top 5 pain themes with direct quotes', 'string') }}",
+            "Sentiment Score": "={{ $fromAI('sentiment_score', 'Sentiment score 0-10', 'number') }}",
+            "Trending Topics": "={{ $fromAI('trending_topics', 'What is being discussed most this week', 'string') }}",
+            "Competitor Weaknesses": "={{ $fromAI('competitor_weaknesses', 'Competitor complaints representing opportunities', 'string') }}",
+            "Emerging Needs": "={{ $fromAI('emerging_needs', 'New needs appearing for the first time', 'string') }}",
+            "Content Recommendations": "={{ $fromAI('content_recs', '5 content topic recommendations', 'string') }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "pulse-tool-save",
+      "name": "Save Sentiment Report",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [1220, 580],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oYAfNhbWmUNleFda",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI('to', 'Team email for weekly sentiment report', 'string') }}",
+        "subject": "={{ $fromAI('subject', 'Email subject with week date and sentiment score', 'string') }}",
+        "emailType": "text",
+        "message": "={{ $fromAI('body', 'Full formatted weekly sentiment report with all sections and direct quotes', 'string') }}",
+        "options": {
+          "from": "PULSE Intelligence <support@remshield.solutions>"
+        }
+      },
+      "id": "pulse-tool-email",
+      "name": "Deliver Sentiment Report",
+      "type": "n8n-nodes-base.emailSendTool",
+      "typeVersion": 2.1,
+      "position": [1420, 580],
+      "credentials": {
+        "smtp": {
+          "id": "dHixPp3NpT1UaOUD",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every Wednesday 8AM UTC": {
+      "main": [[{"node": "PULSE Sentiment Agent", "type": "main", "index": 0}]]
+    },
+    "Claude via OpenRouter": {
+      "ai_languageModel": [[{"node": "PULSE Sentiment Agent", "type": "ai_languageModel", "index": 0}]]
+    },
+    "Scan Reddit Discussions": {
+      "ai_tool": [[{"node": "PULSE Sentiment Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Monitor HackerNews Pulse": {
+      "ai_tool": [[{"node": "PULSE Sentiment Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Aggregate Platform Reviews": {
+      "ai_tool": [[{"node": "PULSE Sentiment Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Scan Social Mentions": {
+      "ai_tool": [[{"node": "PULSE Sentiment Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Read Sentiment History": {
+      "ai_tool": [[{"node": "PULSE Sentiment Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Save Sentiment Report": {
+      "ai_tool": [[{"node": "PULSE Sentiment Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Deliver Sentiment Report": {
+      "ai_tool": [[{"node": "PULSE Sentiment Agent", "type": "ai_tool", "index": 0}]]
+    }
+  },
+  "active": true,
+  "settings": {"executionOrder": "v1"},
+  "id": "pulse-sentiment-monitor-v1",
+  "tags": [{"name": "Sentiment Research"}, {"name": "Market Intelligence"}]
+}

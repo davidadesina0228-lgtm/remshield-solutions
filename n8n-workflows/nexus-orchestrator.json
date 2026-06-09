@@ -1,0 +1,321 @@
+{
+  "name": "NEXUS — Multi-Agent Business Intelligence System",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# 🧠 NEXUS\n## Multi-Agent Business Intelligence System\n\n**Architecture: Orchestrator → Worker Agents**\n\nNEXUS receives a research request and deploys 4 specialist AI agents simultaneously — each an expert in its domain. The Orchestrator collects all findings and synthesises a comprehensive intelligence report.\n\n**4 Specialist Agents:**\n🔵 Market Research Agent — market size, trends, opportunities\n🔴 Competitor Analysis Agent — competitive landscape, positioning\n🟢 Customer Intelligence Agent — pain points, personas, buying behaviour\n🟡 Financial Research Agent — funding, revenue, business viability\n\n**Use cases:**\n• New market entry research\n• Investor due diligence\n• Competitive strategy briefs\n• Client qualification research\n• Partnership evaluation",
+        "height": 440,
+        "width": 380,
+        "color": 4
+      },
+      "id": "nexus-sticky-overview",
+      "name": "Sticky Note — NEXUS Overview",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-120, 40]
+    },
+    {
+      "parameters": {
+        "content": "## 🔗 INPUT\n**Webhook Trigger**\n\nPOST with:\n• company_name\n• industry\n• research_depth\n• requester_email\n\nFires all 4 agents\nfrom one request.",
+        "height": 200,
+        "width": 200,
+        "color": 5
+      },
+      "id": "nexus-sticky-trigger",
+      "name": "Sticky Note — Trigger",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [340, 40]
+    },
+    {
+      "parameters": {
+        "content": "## 🎯 ORCHESTRATOR\n**Master Intelligence Agent**\n\nReceives the research brief.\nDelegates to all 4 specialist agents.\nWaits for results.\nSynthesises into one\ncoherent report.\n\nModel: Claude Sonnet\nvia OpenRouter",
+        "height": 220,
+        "width": 240,
+        "color": 7
+      },
+      "id": "nexus-sticky-orchestrator",
+      "name": "Sticky Note — Orchestrator",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [640, 40]
+    },
+    {
+      "parameters": {
+        "content": "## ⚙️ SPECIALIST AGENTS — Each is a fully independent AI agent with its own LLM, tools, and domain expertise\n🔵 Market Research  |  🔴 Competitor Analysis  |  🟢 Customer Intelligence  |  🟡 Financial Research",
+        "height": 100,
+        "width": 740,
+        "color": 3
+      },
+      "id": "nexus-sticky-agents-banner",
+      "name": "Sticky Note — Agents Banner",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [200, 440]
+    },
+    {
+      "parameters": {
+        "content": "## 📊 OUTPUT\n**Consolidated Report**\n\n• Executive Summary\n• Market Analysis\n• Competitor Map\n• Customer Profile\n• Financial Snapshot\n• Strategic Recs\n\nSaved to Sheets\n+ Emailed to\nrequester.",
+        "height": 260,
+        "width": 210,
+        "color": 2
+      },
+      "id": "nexus-sticky-output",
+      "name": "Sticky Note — Output",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1100, 40]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nexus-intelligence",
+        "options": {}
+      },
+      "id": "nexus-webhook",
+      "name": "Webhook — Research Request",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [340, 280],
+      "webhookId": "nexus-main-webhook"
+    },
+    {
+      "parameters": {
+        "systemMessage": "You are NEXUS, a master orchestrator AI that coordinates a team of 4 specialist research agents to produce comprehensive business intelligence reports.\n\nWhen you receive a research request, your job is to:\n\n1. DELEGATE to all 4 specialist agents by calling them in logical order:\n   a. Call market_research_agent first — understand the market landscape\n   b. Call competitor_analysis_agent — understand the competitive environment\n   c. Call customer_intelligence_agent — understand the customer base\n   d. Call financial_research_agent — understand the financial picture\n\n2. COLLECT all findings from each agent\n\n3. SYNTHESISE a comprehensive intelligence report with these sections:\n   - EXECUTIVE SUMMARY (5-7 sentences covering the key insight)\n   - MARKET ANALYSIS (from Market Research Agent)\n   - COMPETITIVE LANDSCAPE (from Competitor Analysis Agent)\n   - CUSTOMER INTELLIGENCE (from Customer Intelligence Agent)\n   - FINANCIAL SNAPSHOT (from Financial Research Agent)\n   - STRATEGIC RECOMMENDATIONS (3-5 actionable recommendations based on all findings)\n   - OVERALL OPPORTUNITY SCORE (0-10 with reasoning)\n\n4. SAVE the consolidated report to Google Sheets\n\n5. EMAIL the full report to the requester\n\nYou are the intelligence brain. The specialist agents do the research. You synthesise the meaning. Be thorough, direct, and actionable.",
+        "options": {}
+      },
+      "id": "nexus-orchestrator-agent",
+      "name": "NEXUS Orchestrator Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [660, 280]
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-sonnet-4-5",
+        "options": {}
+      },
+      "id": "nexus-orchestrator-llm",
+      "name": "Claude — Orchestrator Brain",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [440, 500],
+      "credentials": {
+        "openRouterApi": {
+          "id": "XCN7CrgU2LltzECD",
+          "name": "GP1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "market_research_agent",
+        "description": "Call the Market Research specialist agent. Pass the company name and industry. This agent researches market size, growth trends, key opportunities, and market dynamics. Returns a structured market research report.",
+        "workflowId": {
+          "__rl": true,
+          "value": "nexus-sub-market-v1",
+          "mode": "id"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "company_name": "={{ $fromAI('company_name', 'The company or market to research', 'string') }}",
+            "industry": "={{ $fromAI('industry', 'The industry or sector to research', 'string') }}",
+            "research_focus": "={{ $fromAI('research_focus', 'Specific market aspects to focus on', 'string') }}"
+          },
+          "schema": [
+            {"id": "company_name", "displayName": "company_name", "type": "string"},
+            {"id": "industry", "displayName": "industry", "type": "string"},
+            {"id": "research_focus", "displayName": "research_focus", "type": "string"}
+          ]
+        }
+      },
+      "id": "nexus-tool-market",
+      "name": "🔵 Market Research Agent",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [200, 580]
+    },
+    {
+      "parameters": {
+        "name": "competitor_analysis_agent",
+        "description": "Call the Competitor Analysis specialist agent. Pass the company name and industry. This agent maps the competitive landscape, identifies key competitors, analyses their positioning, pricing, strengths and weaknesses. Returns a structured competitor analysis.",
+        "workflowId": {
+          "__rl": true,
+          "value": "nexus-sub-competitor-v1",
+          "mode": "id"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "company_name": "={{ $fromAI('company_name', 'The company to analyse competitors for', 'string') }}",
+            "industry": "={{ $fromAI('industry', 'The industry to map competitors in', 'string') }}",
+            "competitor_focus": "={{ $fromAI('competitor_focus', 'Specific competitive dimensions to analyse', 'string') }}"
+          },
+          "schema": [
+            {"id": "company_name", "displayName": "company_name", "type": "string"},
+            {"id": "industry", "displayName": "industry", "type": "string"},
+            {"id": "competitor_focus", "displayName": "competitor_focus", "type": "string"}
+          ]
+        }
+      },
+      "id": "nexus-tool-competitor",
+      "name": "🔴 Competitor Analysis Agent",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [420, 580]
+    },
+    {
+      "parameters": {
+        "name": "customer_intelligence_agent",
+        "description": "Call the Customer Intelligence specialist agent. Pass the company name and industry. This agent researches customer segments, pain points, buying behaviour, community discussions, and customer feedback. Returns a structured customer intelligence report.",
+        "workflowId": {
+          "__rl": true,
+          "value": "nexus-sub-customer-v1",
+          "mode": "id"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "company_name": "={{ $fromAI('company_name', 'The company or product to research customer intelligence for', 'string') }}",
+            "industry": "={{ $fromAI('industry', 'The industry to research customer behaviour in', 'string') }}",
+            "customer_focus": "={{ $fromAI('customer_focus', 'Specific customer segments or pain points to investigate', 'string') }}"
+          },
+          "schema": [
+            {"id": "company_name", "displayName": "company_name", "type": "string"},
+            {"id": "industry", "displayName": "industry", "type": "string"},
+            {"id": "customer_focus", "displayName": "customer_focus", "type": "string"}
+          ]
+        }
+      },
+      "id": "nexus-tool-customer",
+      "name": "🟢 Customer Intelligence Agent",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [640, 680]
+    },
+    {
+      "parameters": {
+        "name": "financial_research_agent",
+        "description": "Call the Financial Research specialist agent. Pass the company name and industry. This agent researches funding history, revenue estimates, business model, financial health indicators, and investment activity in the space. Returns a structured financial research report.",
+        "workflowId": {
+          "__rl": true,
+          "value": "nexus-sub-financial-v1",
+          "mode": "id"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "company_name": "={{ $fromAI('company_name', 'The company to research financial data for', 'string') }}",
+            "industry": "={{ $fromAI('industry', 'The industry to research financial trends in', 'string') }}",
+            "financial_focus": "={{ $fromAI('financial_focus', 'Specific financial aspects to investigate', 'string') }}"
+          },
+          "schema": [
+            {"id": "company_name", "displayName": "company_name", "type": "string"},
+            {"id": "industry", "displayName": "industry", "type": "string"},
+            {"id": "financial_focus", "displayName": "financial_focus", "type": "string"}
+          ]
+        }
+      },
+      "id": "nexus-tool-financial",
+      "name": "🟡 Financial Research Agent",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [860, 580]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1mP-J0j0Y511k4LgZvWKyWvBijY7edaI9U8wFI6-WTx8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "NEXUS Reports",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $fromAI('date', 'Date of research', 'string') }}",
+            "Company": "={{ $fromAI('company', 'Company researched', 'string') }}",
+            "Industry": "={{ $fromAI('industry', 'Industry', 'string') }}",
+            "Executive Summary": "={{ $fromAI('executive_summary', 'Executive summary', 'string') }}",
+            "Market Analysis": "={{ $fromAI('market_analysis', 'Market research findings', 'string') }}",
+            "Competitive Landscape": "={{ $fromAI('competitive_landscape', 'Competitor analysis findings', 'string') }}",
+            "Customer Intelligence": "={{ $fromAI('customer_intelligence', 'Customer research findings', 'string') }}",
+            "Financial Snapshot": "={{ $fromAI('financial_snapshot', 'Financial research findings', 'string') }}",
+            "Strategic Recommendations": "={{ $fromAI('recommendations', 'Strategic recommendations', 'string') }}",
+            "Opportunity Score": "={{ $fromAI('opportunity_score', 'Overall opportunity score 0-10', 'number') }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "nexus-tool-save",
+      "name": "Save Consolidated Report",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [1060, 500],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oYAfNhbWmUNleFda",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI('to', 'Requester email address', 'string') }}",
+        "subject": "={{ $fromAI('subject', 'Report subject with company name', 'string') }}",
+        "emailType": "text",
+        "message": "={{ $fromAI('body', 'Complete formatted intelligence report from all 4 agents plus synthesis', 'string') }}",
+        "options": {
+          "from": "NEXUS Intelligence <support@remshield.solutions>"
+        }
+      },
+      "id": "nexus-tool-email",
+      "name": "Deliver Intelligence Package",
+      "type": "n8n-nodes-base.emailSendTool",
+      "typeVersion": 2.1,
+      "position": [1260, 500],
+      "credentials": {
+        "smtp": {
+          "id": "dHixPp3NpT1UaOUD",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook — Research Request": {
+      "main": [[{"node": "NEXUS Orchestrator Agent", "type": "main", "index": 0}]]
+    },
+    "Claude — Orchestrator Brain": {
+      "ai_languageModel": [[{"node": "NEXUS Orchestrator Agent", "type": "ai_languageModel", "index": 0}]]
+    },
+    "🔵 Market Research Agent": {
+      "ai_tool": [[{"node": "NEXUS Orchestrator Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "🔴 Competitor Analysis Agent": {
+      "ai_tool": [[{"node": "NEXUS Orchestrator Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "🟢 Customer Intelligence Agent": {
+      "ai_tool": [[{"node": "NEXUS Orchestrator Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "🟡 Financial Research Agent": {
+      "ai_tool": [[{"node": "NEXUS Orchestrator Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Save Consolidated Report": {
+      "ai_tool": [[{"node": "NEXUS Orchestrator Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Deliver Intelligence Package": {
+      "ai_tool": [[{"node": "NEXUS Orchestrator Agent", "type": "ai_tool", "index": 0}]]
+    }
+  },
+  "active": true,
+  "settings": {"executionOrder": "v1"},
+  "id": "nexus-orchestrator-main",
+  "tags": [{"name": "Multi-Agent"}, {"name": "Business Intelligence"}, {"name": "NEXUS"}]
+}

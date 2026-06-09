@@ -1,0 +1,631 @@
+{
+  "name": "NEXUS — Multi-Agent Business Intelligence System",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# 🧠 NEXUS\n## Multi-Agent Business Intelligence System\n\n**Architecture:** Sequential Agent Pipeline\n6 specialised AI agents, each with its own LLM and research tools, passing enriched intelligence from one to the next.\n\n**Pipeline Flow:**\n① Orchestrator → sets the research brief\n② Market Research Agent → market size, trends, TAM\n③ Competitor Analysis Agent → landscape, positioning\n④ Customer Intelligence Agent → pain points, personas\n⑤ Financial Research Agent → funding, revenue signals\n⑥ Synthesis Agent → full report + delivery\n\n**Built by RemShield Solutions**\nai.remshield.solutions",
+        "height": 400,
+        "width": 360,
+        "color": 4
+      },
+      "id": "nexus-sticky-overview",
+      "name": "Sticky Note — NEXUS Overview",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-100, -20]
+    },
+    {
+      "parameters": {
+        "content": "## ① ORCHESTRATOR\n**Mission Briefing**\n\nReceives the research\nrequest via Webhook.\nExtracts company,\nindustry & depth.\nBriefs all downstream\nagents on the goal.",
+        "height": 200,
+        "width": 200,
+        "color": 5
+      },
+      "id": "nexus-sticky-phase1",
+      "name": "Sticky Note — Phase 1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [360, -20]
+    },
+    {
+      "parameters": {
+        "content": "## ② MARKET RESEARCH\n**Market Analyst Agent**\n\nResearches TAM, growth\nrate, trends & opportunities.\nTools:\n• Market size databases\n• Industry trend scanner\n• Opportunity finder",
+        "height": 220,
+        "width": 220,
+        "color": 3
+      },
+      "id": "nexus-sticky-phase2",
+      "name": "Sticky Note — Phase 2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [680, -20]
+    },
+    {
+      "parameters": {
+        "content": "## ③ COMPETITOR ANALYSIS\n**Competitive Intel Agent**\n\nMaps the competitive\nlandscape, pricing,\npositioning & weaknesses.\nTools:\n• Competitor news\n• Product tracker\n• Review scanner",
+        "height": 220,
+        "width": 220,
+        "color": 6
+      },
+      "id": "nexus-sticky-phase3",
+      "name": "Sticky Note — Phase 3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1000, -20]
+    },
+    {
+      "parameters": {
+        "content": "## ④ CUSTOMER INTELLIGENCE\n**Customer Research Agent**\n\nResearches customer\npain points, personas,\nbehaviour & community.\nTools:\n• Reddit + HN scanner\n• Review aggregator\n• Demand signals",
+        "height": 220,
+        "width": 220,
+        "color": 7
+      },
+      "id": "nexus-sticky-phase4",
+      "name": "Sticky Note — Phase 4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1320, -20]
+    },
+    {
+      "parameters": {
+        "content": "## ⑤ FINANCIAL RESEARCH\n**Financial Analyst Agent**\n\nResearches funding,\nrevenue estimates,\nbusiness model & health.\nTools:\n• Funding databases\n• Financial news\n• Business model scan",
+        "height": 220,
+        "width": 220,
+        "color": 2
+      },
+      "id": "nexus-sticky-phase5",
+      "name": "Sticky Note — Phase 5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1640, -20]
+    },
+    {
+      "parameters": {
+        "content": "## ⑥ SYNTHESIS & DELIVERY\n**Master Report Agent**\n\nSynthesises all findings\nfrom 4 research agents\ninto one comprehensive\nreport. Saves to Sheets.\nEmails to requester.\nScores opportunity 0-10.",
+        "height": 220,
+        "width": 220,
+        "color": 5
+      },
+      "id": "nexus-sticky-phase6",
+      "name": "Sticky Note — Phase 6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1960, -20]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nexus-research",
+        "options": {}
+      },
+      "id": "nexus-webhook",
+      "name": "Webhook — Research Request",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [360, 240],
+      "webhookId": "nexus-webhook-001"
+    },
+    {
+      "parameters": {
+        "systemMessage": "You are the NEXUS Orchestrator — the mission briefing agent for a multi-agent business intelligence system.\n\nYou receive a research request with: company_name (from $json.body.company_name), industry ($json.body.industry), research_depth ($json.body.research_depth), and requester_email ($json.body.requester_email).\n\nYour job:\n1. Acknowledge the research request\n2. Formulate a clear research brief that downstream agents will use\n3. Extract and structure: company name, industry, key research questions, research depth\n4. Pass a structured brief to the next agent\n\nOutput a JSON-formatted research brief with fields: company_name, industry, research_questions (array of 5 key questions to answer), research_depth, requester_email, initiated_at (timestamp).\n\nBe precise. The quality of the downstream research depends on your brief.",
+        "options": {}
+      },
+      "id": "nexus-orchestrator",
+      "name": "① Orchestrator Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [620, 240]
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-sonnet-4-5",
+        "options": {}
+      },
+      "id": "nexus-llm-1",
+      "name": "Claude — Orchestrator",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [620, 480],
+      "credentials": {
+        "openRouterApi": {
+          "id": "XCN7CrgU2LltzECD",
+          "name": "GP1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "systemMessage": "You are the Market Research specialist agent in the NEXUS pipeline. You receive a research brief from the Orchestrator and conduct deep market analysis.\n\nResearch the following for the company/industry provided:\n1. Total Addressable Market (TAM) — find specific dollar estimates with sources\n2. Market growth rate (CAGR) — is this market growing, stable, or declining?\n3. Key market trends 2024-2026 — what is disrupting or driving this market?\n4. Emerging opportunities — where are the gaps and underserved needs?\n5. Geographic hotspots — which regions have strongest demand?\n6. Market entry barriers — what makes this market hard to enter?\n\nUse your search tools to find real data. Cite sources. Be specific with numbers.\n\nOutput a structured MARKET RESEARCH REPORT and pass it downstream with the original brief attached.",
+        "options": {}
+      },
+      "id": "nexus-market-agent",
+      "name": "② Market Research Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [940, 240]
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-sonnet-4-5",
+        "options": {}
+      },
+      "id": "nexus-llm-2",
+      "name": "Claude — Market Analyst",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [860, 480],
+      "credentials": {
+        "openRouterApi": {
+          "id": "XCN7CrgU2LltzECD",
+          "name": "GP1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for market size data, TAM estimates, and market valuation reports. Find analyst reports and business news with specific market size figures in USD.",
+        "query": "={{ $fromAI('query', 'Market size TAM search query for the specific industry', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "year",
+          "includeAnswer": "advanced",
+          "maxResults": 10,
+          "includeDomains": ["statista.com", "grandviewresearch.com", "marketsandmarkets.com", "mordorintelligence.com", "businesswire.com", "forbes.com"]
+        }
+      },
+      "id": "nexus-tool-market-size",
+      "name": "Research Market Size & TAM",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [760, 640],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for industry trends, growth drivers, and market dynamics. Find what is changing in this market in 2024-2026 and what is driving growth.",
+        "query": "={{ $fromAI('query', 'Industry trends and growth drivers query', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "month",
+          "includeAnswer": "advanced",
+          "maxResults": 8
+        }
+      },
+      "id": "nexus-tool-market-trends",
+      "name": "Scan Industry Trends",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [960, 640],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for market gaps, emerging opportunities, and whitespace in the target market. Find where demand exceeds supply or where customers are underserved.",
+        "query": "={{ $fromAI('query', 'Market opportunity gaps and whitespace query', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "month",
+          "includeAnswer": "basic",
+          "maxResults": 8,
+          "includeDomains": ["techcrunch.com", "venturebeat.com", "hbr.org", "mckinsey.com", "a16z.com"]
+        }
+      },
+      "id": "nexus-tool-market-opps",
+      "name": "Find Market Opportunities",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [860, 780],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "systemMessage": "You are the Competitor Analysis specialist agent in the NEXUS pipeline. You receive enriched research from the Market Research Agent and add competitive intelligence.\n\nResearch the following:\n1. Who are the top 5 direct competitors? (product, pricing, positioning)\n2. Who are the top 3 indirect competitors or adjacent threats?\n3. What are the competitive strengths and weaknesses of each key player?\n4. How do competitors differentiate? (price, features, brand, distribution)\n5. What do customers complain about regarding existing competitors? (this = your opportunity)\n6. Are there any competitor funding rounds, acquisitions, or strategic moves in the last 6 months?\n\nUse your search tools. Include specific competitor names, pricing data, and customer complaints.\n\nOutput a structured COMPETITOR ANALYSIS REPORT and pass it downstream with all previous findings attached.",
+        "options": {}
+      },
+      "id": "nexus-competitor-agent",
+      "name": "③ Competitor Analysis Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [1260, 240]
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-sonnet-4-5",
+        "options": {}
+      },
+      "id": "nexus-llm-3",
+      "name": "Claude — Competitor Analyst",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [1180, 480],
+      "credentials": {
+        "openRouterApi": {
+          "id": "XCN7CrgU2LltzECD",
+          "name": "GP1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for competitor companies, their products, pricing, and positioning in the market. Find competitor websites, product pages, and comparison articles.",
+        "query": "={{ $fromAI('query', 'Competitor companies and product comparison search query', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "month",
+          "includeAnswer": "advanced",
+          "maxResults": 10
+        }
+      },
+      "id": "nexus-tool-comp-landscape",
+      "name": "Map Competitor Landscape",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [1160, 640],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for customer reviews and complaints about competitor products on G2, Trustpilot, Reddit, and Capterra. Find what customers hate about existing solutions.",
+        "query": "={{ $fromAI('query', 'Competitor complaints and customer reviews search query', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "month",
+          "includeAnswer": "basic",
+          "maxResults": 8,
+          "includeDomains": ["g2.com", "trustpilot.com", "capterra.com", "reddit.com", "producthunt.com"]
+        }
+      },
+      "id": "nexus-tool-comp-reviews",
+      "name": "Scan Competitor Weaknesses",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [1360, 640],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "systemMessage": "You are the Customer Intelligence specialist agent in the NEXUS pipeline. You receive enriched research from the Market and Competitor agents and add deep customer intelligence.\n\nResearch the following:\n1. Who are the primary customer personas? (role, company size, industry, budget)\n2. What are the top 5 pain points customers in this space experience?\n3. What triggers a customer to buy? (buying signals, urgency drivers)\n4. Where do customers research and make decisions? (communities, channels)\n5. What language do customers use to describe their problems? (exact phrases)\n6. What does the customer journey look like from awareness to purchase?\n\nSearch Reddit, HackerNews, LinkedIn, and review platforms. Find REAL customer voices — direct quotes preferred.\n\nOutput a structured CUSTOMER INTELLIGENCE REPORT and pass everything downstream.",
+        "options": {}
+      },
+      "id": "nexus-customer-agent",
+      "name": "④ Customer Intelligence Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [1580, 240]
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-sonnet-4-5",
+        "options": {}
+      },
+      "id": "nexus-llm-4",
+      "name": "Claude — Customer Analyst",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [1500, 480],
+      "credentials": {
+        "openRouterApi": {
+          "id": "XCN7CrgU2LltzECD",
+          "name": "GP1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search Reddit and HackerNews for discussions where customers describe their pain points, frustrations, and needs in the target industry. Find real customer voice posts.",
+        "query": "={{ $fromAI('query', 'Customer pain points and frustrations community discussion query', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "month",
+          "includeAnswer": "basic",
+          "maxResults": 10,
+          "includeDomains": ["reddit.com", "news.ycombinator.com", "linkedin.com"]
+        }
+      },
+      "id": "nexus-tool-cust-pain",
+      "name": "Research Customer Pain Points",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [1480, 640],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for customer reviews, testimonials, and case studies in the industry. Find what outcomes customers want and what success looks like for them.",
+        "query": "={{ $fromAI('query', 'Customer success stories and desired outcomes search query', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "year",
+          "includeAnswer": "basic",
+          "maxResults": 8,
+          "includeDomains": ["g2.com", "capterra.com", "trustpilot.com", "glassdoor.com"]
+        }
+      },
+      "id": "nexus-tool-cust-voice",
+      "name": "Capture Customer Voice",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [1680, 640],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "systemMessage": "You are the Financial Research specialist agent in the NEXUS pipeline. You receive enriched research from the Market, Competitor, and Customer agents and add financial intelligence.\n\nResearch the following:\n1. What is the funding landscape? (recent rounds, total investment in this space, top investors)\n2. What are revenue benchmarks for companies in this space? (ARR, growth rates)\n3. What is the typical business model and pricing model? (SaaS, usage-based, enterprise)\n4. What are the key financial metrics investors/buyers care about in this space?\n5. Are there any recent acquisitions, IPOs, or M&A activity?\n6. What does the financial health of key players look like?\n\nSearch Crunchbase, TechCrunch, Bloomberg, and financial news. Include specific funding amounts and dates.\n\nOutput a structured FINANCIAL RESEARCH REPORT and pass all accumulated intelligence downstream to the Synthesis Agent.",
+        "options": {}
+      },
+      "id": "nexus-financial-agent",
+      "name": "⑤ Financial Research Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [1900, 240]
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-sonnet-4-5",
+        "options": {}
+      },
+      "id": "nexus-llm-5",
+      "name": "Claude — Financial Analyst",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [1820, 480],
+      "credentials": {
+        "openRouterApi": {
+          "id": "XCN7CrgU2LltzECD",
+          "name": "GP1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for funding rounds, investor activity, and M&A in the target industry. Find specific funding amounts, investors, and valuations from Crunchbase and tech press.",
+        "query": "={{ $fromAI('query', 'Funding rounds investment and M&A activity search query', 'string') }}",
+        "options": {
+          "topic": "news",
+          "timeRange": "year",
+          "includeAnswer": "advanced",
+          "maxResults": 10,
+          "includeDomains": ["crunchbase.com", "techcrunch.com", "bloomberg.com", "forbes.com", "pitchbook.com"]
+        }
+      },
+      "id": "nexus-tool-fin-funding",
+      "name": "Research Funding Landscape",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [1800, 640],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for business model analysis, pricing strategies, and revenue benchmarks for companies in the target industry. Find ARR data, growth rates, and financial performance metrics.",
+        "query": "={{ $fromAI('query', 'Business model revenue benchmarks and pricing strategy query', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "year",
+          "includeAnswer": "basic",
+          "maxResults": 8,
+          "includeDomains": ["saastr.com", "openviewpartners.com", "a16z.com", "bessemer.com", "tomtunguz.com"]
+        }
+      },
+      "id": "nexus-tool-fin-model",
+      "name": "Analyse Business Models",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [2000, 640],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "systemMessage": "You are the Synthesis & Delivery agent — the final stage of the NEXUS multi-agent intelligence pipeline. You receive the complete accumulated research from all 4 specialist agents.\n\nYour job is to synthesise everything into one definitive intelligence report.\n\nSTRUCTURE YOUR REPORT:\n\n1. EXECUTIVE SUMMARY (5-7 sentences — the most important insight)\n2. MARKET ANALYSIS\n   - Market size & TAM\n   - Growth trajectory\n   - Key trends (top 5)\n3. COMPETITIVE LANDSCAPE\n   - Top competitors & positioning map\n   - Key competitor weaknesses (= your opportunities)\n4. CUSTOMER INTELLIGENCE\n   - Primary personas (2-3)\n   - Top pain points (top 5 with direct quotes)\n   - Buying triggers\n5. FINANCIAL SNAPSHOT\n   - Funding landscape\n   - Revenue benchmarks\n   - Business model patterns\n6. STRATEGIC RECOMMENDATIONS (5 actionable recommendations)\n7. OPPORTUNITY SCORE: X/10 with 3-sentence rationale\n8. RISKS & WATCHOUTS (top 3)\n\nThen:\n- Save the full report to Google Sheets\n- Email the formatted report to the requester\n\nBe decisive. Synthesise — don't just repeat. Add strategic interpretation.",
+        "options": {}
+      },
+      "id": "nexus-synthesis-agent",
+      "name": "⑥ Synthesis & Delivery Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [2220, 240]
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-sonnet-4-5",
+        "options": {}
+      },
+      "id": "nexus-llm-6",
+      "name": "Claude — Master Synthesiser",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [2140, 480],
+      "credentials": {
+        "openRouterApi": {
+          "id": "XCN7CrgU2LltzECD",
+          "name": "GP1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1mP-J0j0Y511k4LgZvWKyWvBijY7edaI9U8wFI6-WTx8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "NEXUS Reports",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $fromAI('date', 'Date of this intelligence report', 'string') }}",
+            "Company": "={{ $fromAI('company', 'Company or market researched', 'string') }}",
+            "Industry": "={{ $fromAI('industry', 'Industry researched', 'string') }}",
+            "Executive Summary": "={{ $fromAI('executive_summary', 'Executive summary of all findings', 'string') }}",
+            "Market Analysis": "={{ $fromAI('market_analysis', 'Market research section', 'string') }}",
+            "Competitive Landscape": "={{ $fromAI('competitive_landscape', 'Competitor analysis section', 'string') }}",
+            "Customer Intelligence": "={{ $fromAI('customer_intelligence', 'Customer research section', 'string') }}",
+            "Financial Snapshot": "={{ $fromAI('financial_snapshot', 'Financial research section', 'string') }}",
+            "Strategic Recommendations": "={{ $fromAI('recommendations', 'Strategic recommendations', 'string') }}",
+            "Opportunity Score": "={{ $fromAI('opportunity_score', 'Opportunity score 0-10', 'number') }}",
+            "Risks": "={{ $fromAI('risks', 'Top 3 risks and watchouts', 'string') }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "nexus-tool-save",
+      "name": "Save Intelligence Report",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [2140, 640],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oYAfNhbWmUNleFda",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI('to', 'Requester email address', 'string') }}",
+        "subject": "={{ $fromAI('subject', 'Report subject line with company name', 'string') }}",
+        "emailType": "text",
+        "message": "={{ $fromAI('body', 'Full formatted NEXUS intelligence report with all 6 sections', 'string') }}",
+        "options": {
+          "from": "NEXUS Intelligence <support@remshield.solutions>"
+        }
+      },
+      "id": "nexus-tool-email",
+      "name": "Deliver Intelligence Report",
+      "type": "n8n-nodes-base.emailSendTool",
+      "typeVersion": 2.1,
+      "position": [2340, 640],
+      "credentials": {
+        "smtp": {
+          "id": "dHixPp3NpT1UaOUD",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook — Research Request": {
+      "main": [[{"node": "① Orchestrator Agent", "type": "main", "index": 0}]]
+    },
+    "Claude — Orchestrator": {
+      "ai_languageModel": [[{"node": "① Orchestrator Agent", "type": "ai_languageModel", "index": 0}]]
+    },
+    "① Orchestrator Agent": {
+      "main": [[{"node": "② Market Research Agent", "type": "main", "index": 0}]]
+    },
+    "Claude — Market Analyst": {
+      "ai_languageModel": [[{"node": "② Market Research Agent", "type": "ai_languageModel", "index": 0}]]
+    },
+    "Research Market Size & TAM": {
+      "ai_tool": [[{"node": "② Market Research Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Scan Industry Trends": {
+      "ai_tool": [[{"node": "② Market Research Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Find Market Opportunities": {
+      "ai_tool": [[{"node": "② Market Research Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "② Market Research Agent": {
+      "main": [[{"node": "③ Competitor Analysis Agent", "type": "main", "index": 0}]]
+    },
+    "Claude — Competitor Analyst": {
+      "ai_languageModel": [[{"node": "③ Competitor Analysis Agent", "type": "ai_languageModel", "index": 0}]]
+    },
+    "Map Competitor Landscape": {
+      "ai_tool": [[{"node": "③ Competitor Analysis Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Scan Competitor Weaknesses": {
+      "ai_tool": [[{"node": "③ Competitor Analysis Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "③ Competitor Analysis Agent": {
+      "main": [[{"node": "④ Customer Intelligence Agent", "type": "main", "index": 0}]]
+    },
+    "Claude — Customer Analyst": {
+      "ai_languageModel": [[{"node": "④ Customer Intelligence Agent", "type": "ai_languageModel", "index": 0}]]
+    },
+    "Research Customer Pain Points": {
+      "ai_tool": [[{"node": "④ Customer Intelligence Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Capture Customer Voice": {
+      "ai_tool": [[{"node": "④ Customer Intelligence Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "④ Customer Intelligence Agent": {
+      "main": [[{"node": "⑤ Financial Research Agent", "type": "main", "index": 0}]]
+    },
+    "Claude — Financial Analyst": {
+      "ai_languageModel": [[{"node": "⑤ Financial Research Agent", "type": "ai_languageModel", "index": 0}]]
+    },
+    "Research Funding Landscape": {
+      "ai_tool": [[{"node": "⑤ Financial Research Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Analyse Business Models": {
+      "ai_tool": [[{"node": "⑤ Financial Research Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "⑤ Financial Research Agent": {
+      "main": [[{"node": "⑥ Synthesis & Delivery Agent", "type": "main", "index": 0}]]
+    },
+    "Claude — Master Synthesiser": {
+      "ai_languageModel": [[{"node": "⑥ Synthesis & Delivery Agent", "type": "ai_languageModel", "index": 0}]]
+    },
+    "Save Intelligence Report": {
+      "ai_tool": [[{"node": "⑥ Synthesis & Delivery Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Deliver Intelligence Report": {
+      "ai_tool": [[{"node": "⑥ Synthesis & Delivery Agent", "type": "ai_tool", "index": 0}]]
+    }
+  },
+  "active": true,
+  "settings": {"executionOrder": "v1"},
+  "id": "nexus-multi-agent-v1",
+  "tags": [{"name": "Multi-Agent"}, {"name": "Business Intelligence"}, {"name": "NEXUS"}]
+}

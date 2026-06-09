@@ -1,0 +1,328 @@
+{
+  "name": "VIPER — Daily Competitor Intelligence Monitor",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# 🐍 VIPER\n## Daily Competitor Intelligence Monitor\n\nRuns every **day at 6AM UTC**\n\n**What VIPER tracks:**\n• Competitor product launches & feature updates\n• Competitor pricing changes & positioning shifts\n• Industry news mentioning key competitors\n• New entrants in the AI automation market\n• Social & community buzz about competitors\n• Flags anything significant for immediate attention\n\n**Alert threshold:** Only notifies when genuinely new intelligence is found — no noise.",
+        "height": 320,
+        "width": 360,
+        "color": 4
+      },
+      "id": "viper-sticky-overview",
+      "name": "Sticky Note — Overview",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-80, 80]
+    },
+    {
+      "parameters": {
+        "content": "## ⏰ TRIGGER\n**Every Day**\n**6:00 AM UTC**\n\nDaily cadence catches\ncompetitor moves within\n24 hours of happening.",
+        "height": 160,
+        "width": 200,
+        "color": 5
+      },
+      "id": "viper-sticky-trigger",
+      "name": "Sticky Note — Trigger",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [320, 80]
+    },
+    {
+      "parameters": {
+        "content": "## 🧠 AI ANALYST\n**Claude via OpenRouter**\n\nReads all competitor\nresearch, compares to\nprevious log, identifies\nwhat is NEW vs already\nknown. Only flags\ngenuine new signals.",
+        "height": 200,
+        "width": 220,
+        "color": 7
+      },
+      "id": "viper-sticky-agent",
+      "name": "Sticky Note — Agent",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [600, 80]
+    },
+    {
+      "parameters": {
+        "content": "## 🔍 MONITORING TOOLS\n\n1. **Competitor News** — Latest press & announcements\n2. **Product Launches** — New features, tools, pricing\n3. **Social Signals** — What people say about competitors\n4. **Market Entrants** — New players in the space\n5. **Log Reader** — Previous intel for deduplication",
+        "height": 200,
+        "width": 280,
+        "color": 3
+      },
+      "id": "viper-sticky-tools",
+      "name": "Sticky Note — Tools",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [900, 80]
+    },
+    {
+      "parameters": {
+        "content": "## 🚨 ALERT OUTPUT\n\n• Log all findings\n  to Google Sheets\n• Email alert only\n  when NEW intel found\n\nNo alert = nothing\nsignificant happened.",
+        "height": 180,
+        "width": 200,
+        "color": 6
+      },
+      "id": "viper-sticky-output",
+      "name": "Sticky Note — Output",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1280, 80]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 6 * * *"
+            }
+          ]
+        }
+      },
+      "id": "viper-trigger",
+      "name": "Every Day 6AM UTC",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [320, 300]
+    },
+    {
+      "parameters": {
+        "systemMessage": "You are VIPER, RemShield's autonomous competitor intelligence monitor. Every morning you scan the competitive landscape for AI engineering and automation services.\n\nKey competitors to monitor:\n- Make (formerly Integromat) — no-code automation\n- Zapier — workflow automation\n- Relevance AI — AI agent builders\n- Bardeen AI — browser automation\n- n8n Cloud — self-hosted automation competitors\n- Any new AI automation agencies or studios gaining traction\n\nYour daily intelligence mission:\n1. Search for latest news about key competitors (product launches, pricing, partnerships, funding)\n2. Find any new competitor products or feature launches in AI automation\n3. Check what communities are saying about competitors (sentiment, complaints, praise)\n4. Look for new entrants in the AI engineering services market\n5. Read the previous monitoring log to avoid reporting old news\n6. Assess: is there anything GENUINELY NEW and significant today?\n7. Save your findings to the intelligence log\n8. Only send an email alert if there is real new intelligence worth flagging\n\nBe concise. Flag only what matters. Include source URLs for every finding.",
+        "options": {}
+      },
+      "id": "viper-agent",
+      "name": "VIPER Intelligence Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [640, 300]
+    },
+    {
+      "parameters": {
+        "model": "anthropic/claude-sonnet-4-5",
+        "options": {}
+      },
+      "id": "viper-llm",
+      "name": "Claude via OpenRouter",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [640, 560],
+      "credentials": {
+        "openRouterApi": {
+          "id": "XCN7CrgU2LltzECD",
+          "name": "GP1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for the latest news and press releases about AI automation competitors including Make, Zapier, Relevance AI, Bardeen, and other automation tools or AI agencies.",
+        "query": "={{ $fromAI('query', 'Competitor name or topic to search news for', 'string') }}",
+        "options": {
+          "topic": "news",
+          "timeRange": "day",
+          "includeAnswer": "basic",
+          "maxResults": 10
+        }
+      },
+      "id": "viper-tool-news",
+      "name": "Monitor Competitor News",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [220, 560],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for new product launches, feature releases, and pricing changes from competitors in the AI automation and workflow automation market.",
+        "query": "={{ $fromAI('query', 'What product launch or feature to research', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "week",
+          "includeAnswer": "basic",
+          "maxResults": 8
+        }
+      },
+      "id": "viper-tool-products",
+      "name": "Track Product Launches",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [420, 560],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search Reddit, HackerNews and other communities for what people are saying about competitor tools — complaints, praise, migration stories, comparisons.",
+        "query": "={{ $fromAI('query', 'Competitor tool or topic to check community sentiment for', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "week",
+          "includeAnswer": "basic",
+          "maxResults": 8,
+          "includeDomains": ["reddit.com", "news.ycombinator.com", "producthunt.com", "g2.com"]
+        }
+      },
+      "id": "viper-tool-social",
+      "name": "Scan Community Sentiment",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [620, 660],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search for new AI automation agencies, AI engineering studios, or new entrants entering the market that could be potential competitors.",
+        "query": "={{ $fromAI('query', 'What new market entrants or competitors to look for', 'string') }}",
+        "options": {
+          "topic": "general",
+          "timeRange": "month",
+          "includeAnswer": "basic",
+          "maxResults": 6
+        }
+      },
+      "id": "viper-tool-entrants",
+      "name": "Find New Market Entrants",
+      "type": "@tavily/n8n-nodes-tavily.tavilyTool",
+      "typeVersion": 1,
+      "position": [820, 560],
+      "credentials": {
+        "tavilyApi": {
+          "id": "xVwvORCHKi1TG4r2",
+          "name": "Tavily account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "1mP-J0j0Y511k4LgZvWKyWvBijY7edaI9U8wFI6-WTx8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Competitor Intel",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "viper-tool-read",
+      "name": "Read Intel Log",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [1020, 560],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oYAfNhbWmUNleFda",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1mP-J0j0Y511k4LgZvWKyWvBijY7edaI9U8wFI6-WTx8",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Competitor Intel",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $fromAI('date', 'Date of monitoring run', 'string') }}",
+            "Competitor": "={{ $fromAI('competitor', 'Competitor name or New Entrant', 'string') }}",
+            "Finding": "={{ $fromAI('finding', 'What was found', 'string') }}",
+            "Significance": "={{ $fromAI('significance', 'High / Medium / Low', 'string') }}",
+            "Source URL": "={{ $fromAI('source_url', 'Source URL for this finding', 'string') }}",
+            "Recommended Action": "={{ $fromAI('action', 'Recommended response or action', 'string') }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "viper-tool-save",
+      "name": "Save Intelligence Log",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [1220, 560],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "oYAfNhbWmUNleFda",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI('to', 'Recipient for the alert email', 'string') }}",
+        "subject": "={{ $fromAI('subject', 'Alert subject with competitor name and date', 'string') }}",
+        "emailType": "text",
+        "message": "={{ $fromAI('body', 'Full intelligence alert with findings and recommended actions', 'string') }}",
+        "options": {
+          "from": "VIPER Monitor <support@remshield.solutions>"
+        }
+      },
+      "id": "viper-tool-alert",
+      "name": "Send Intelligence Alert",
+      "type": "n8n-nodes-base.emailSendTool",
+      "typeVersion": 2.1,
+      "position": [1420, 560],
+      "credentials": {
+        "smtp": {
+          "id": "dHixPp3NpT1UaOUD",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every Day 6AM UTC": {
+      "main": [[{"node": "VIPER Intelligence Agent", "type": "main", "index": 0}]]
+    },
+    "Claude via OpenRouter": {
+      "ai_languageModel": [[{"node": "VIPER Intelligence Agent", "type": "ai_languageModel", "index": 0}]]
+    },
+    "Monitor Competitor News": {
+      "ai_tool": [[{"node": "VIPER Intelligence Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Track Product Launches": {
+      "ai_tool": [[{"node": "VIPER Intelligence Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Scan Community Sentiment": {
+      "ai_tool": [[{"node": "VIPER Intelligence Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Find New Market Entrants": {
+      "ai_tool": [[{"node": "VIPER Intelligence Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Read Intel Log": {
+      "ai_tool": [[{"node": "VIPER Intelligence Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Save Intelligence Log": {
+      "ai_tool": [[{"node": "VIPER Intelligence Agent", "type": "ai_tool", "index": 0}]]
+    },
+    "Send Intelligence Alert": {
+      "ai_tool": [[{"node": "VIPER Intelligence Agent", "type": "ai_tool", "index": 0}]]
+    }
+  },
+  "active": true,
+  "settings": {"executionOrder": "v1"},
+  "id": "viper-competitor-monitor-v1",
+  "tags": [{"name": "Competitor Intelligence"}, {"name": "Monitoring"}]
+}

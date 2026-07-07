@@ -19,6 +19,7 @@ export interface BlogPost {
 import { blogContent } from "./blog-content";
 import { blogContent2 } from "./blog-content-2";
 import { blogContent3 } from "./blog-content-3";
+import { blogContent4 } from "./blog-content-4";
 
 const blogMeta: Omit<BlogPost, "content" | "faq" | "relatedSlugs" | "author">[] = [
   {
@@ -827,10 +828,59 @@ const blogMeta: Omit<BlogPost, "content" | "faq" | "relatedSlugs" | "author">[] 
     tagColor: "teal",
     isPillar: false,
   },
+  // ── New posts (blog-content-4.ts) ────────────────────────────────────────
+  {
+    slug: "what-is-ai-automation-simple-guide",
+    title: "What Is AI Automation? A Simple Guide for Growing Businesses",
+    metaDescription: "Learn how AI automation reduces repetitive work, improves response times, supports teams, and helps businesses scale more efficiently.",
+    excerpt: "AI automation isn't about chasing the newest tool — it's about finding the repetitive, costly workflow in your business and building the right system around it. Here's the plain-English guide for growing businesses just getting started.",
+    date: "July 7, 2026",
+    readTime: "10 min read",
+    category: "AI Automation",
+    tag: "Getting Started",
+    tagColor: "teal",
+    isPillar: false,
+  },
+  {
+    slug: "why-manual-work-costs-you-money",
+    title: "Why Manual Work Is Quietly Costing Your Business Money",
+    metaDescription: "Find out how repetitive manual tasks create hidden costs, missed opportunities, and team pressure, and when to consider AI automation.",
+    excerpt: "Manual work rarely looks expensive day to day. But missed follow-ups, messy CRM data, and slow reporting compound into a real cost — this guide shows you where to look and what to do about it.",
+    date: "July 8, 2026",
+    readTime: "10 min read",
+    category: "AI Automation",
+    tag: "Operations",
+    tagColor: "blue",
+    isPillar: false,
+  },
+  {
+    slug: "ai-agents-vs-chatbots-guide",
+    title: "AI Agents vs Chatbots: What Business Owners Need to Know",
+    metaDescription: "Find out whether your business needs a chatbot, an AI agent, or a full automation workflow to reduce manual work and improve operations.",
+    excerpt: "Chatbots talk. AI agents act. Understanding which one your business actually needs — and when you need both — is the difference between a useful AI investment and an expensive disappointment.",
+    date: "July 9, 2026",
+    readTime: "9 min read",
+    category: "AI Agents",
+    tag: "AI Basics",
+    tagColor: "teal",
+    isPillar: false,
+  },
+  {
+    slug: "best-ai-automation-opportunities",
+    title: "How to Identify the Best AI Automation Opportunities in Your Business",
+    metaDescription: "Learn how to find AI automation use cases by reviewing repeatable workflows, data sources, manual steps, and business outcomes.",
+    excerpt: "Not every workflow deserves to be automated first. This guide gives you a practical scoring framework for finding the AI automation opportunity that will prove value fastest.",
+    date: "July 10, 2026",
+    readTime: "9 min read",
+    category: "AI Automation",
+    tag: "Automation Strategy",
+    tagColor: "blue",
+    isPillar: false,
+  },
 ];
 
-// Merge metadata with content — blogContent3 first to override existing slugs
-const allBlogContent = [...blogContent3, ...blogContent, ...blogContent2];
+// Merge metadata with content — blogContent4/blogContent3 first to override existing slugs
+const allBlogContent = [...blogContent4, ...blogContent3, ...blogContent, ...blogContent2];
 
 export const allPosts: BlogPost[] = blogMeta.map((meta) => {
   const contentData = allBlogContent.find((c) => c.slug === meta.slug);

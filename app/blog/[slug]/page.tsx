@@ -132,6 +132,55 @@ function renderContent(raw: string) {
       continue;
     }
 
+    // Markdown table
+    if (block.startsWith("|")) {
+      const rows = block
+        .split("\n")
+        .map((r) => r.trim())
+        .filter((r) => r.startsWith("|"))
+        .map((r) =>
+          r
+            .slice(1, r.endsWith("|") ? -1 : undefined)
+            .split("|")
+            .map((c) => c.trim())
+        );
+      const isSeparator = (row: string[]) => row.every((c) => /^:?-+:?$/.test(c));
+      const headerRow = rows[0];
+      const bodyRows = rows.slice(1).filter((r) => !isSeparator(r));
+
+      elements.push(
+        <div key={i} className="my-6 overflow-x-auto rounded-xl border border-white/10">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr className="bg-white/[0.04]">
+                {headerRow.map((cell, c) => (
+                  <th
+                    key={c}
+                    className="text-left text-white font-semibold px-4 py-3 border-b border-white/10 whitespace-nowrap"
+                    dangerouslySetInnerHTML={{ __html: processInline(cell) }}
+                  />
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {bodyRows.map((row, r) => (
+                <tr key={r} className="border-b border-white/[0.06] last:border-0">
+                  {row.map((cell, c) => (
+                    <td
+                      key={c}
+                      className="text-silver/75 px-4 py-3 align-top"
+                      dangerouslySetInnerHTML={{ __html: processInline(cell) }}
+                    />
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+      continue;
+    }
+
     // Default paragraph
     elements.push(
       <p

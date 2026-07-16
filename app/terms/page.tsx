@@ -36,7 +36,7 @@ export default function TermsPage() {
 
           <div className="prose prose-invert max-w-none">
             <p className="text-silver/70 leading-relaxed mb-6">
-              By accessing remshield.solutions, you agree to these terms. Please read them carefully.
+              By accessing remshield.solutions, operated by REMSHIELD SOLUTIONS LTD (trading as RemShield), you agree to these terms. Please read them carefully.
             </p>
 
             <h2 className="text-white font-bold text-xl mt-8 mb-3">Services</h2>

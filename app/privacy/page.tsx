@@ -36,7 +36,7 @@ export default function PrivacyPage() {
 
           <div className="prose prose-invert max-w-none">
             <p className="text-silver/70 leading-relaxed mb-6">
-              RemShield (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) is committed to protecting your privacy. This policy explains how we collect, use, store, and protect your information when you visit our website or engage our services. We operate in compliance with the Nigeria Data Protection Regulation (NDPR) and, where applicable, the EU General Data Protection Regulation (GDPR).
+              RemShield, the trading name of REMSHIELD SOLUTIONS LTD (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;), is committed to protecting your privacy. This policy explains how we collect, use, store, and protect your information when you visit our website or engage our services. We operate in compliance with the Nigeria Data Protection Regulation (NDPR) and, where applicable, the EU General Data Protection Regulation (GDPR).
             </p>
 
             <h2 className="text-white font-bold text-xl mt-8 mb-3">1. Information We Collect</h2>

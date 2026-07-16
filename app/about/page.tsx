@@ -29,6 +29,8 @@ const aboutSchema = {
     "@type": "Organization",
     "@id": "https://remshield.solutions/#organization",
     name: "RemShield",
+    legalName: "REMSHIELD SOLUTIONS LTD",
+    alternateName: "REMSHIELD SOLUTIONS LTD",
     url: "https://remshield.solutions",
     description: "AI engineering studio that designs and builds intelligent software, automation systems, and custom AI solutions for growing businesses.",
     foundingDate: "2025",
@@ -135,6 +137,9 @@ export default function AboutPage() {
             RemShield is an AI engineering studio. We design and build intelligent
             software, automation infrastructure, and custom AI solutions — engineered
             from the ground up for growing businesses.
+          </p>
+          <p className="text-silver/50 text-sm leading-relaxed max-w-2xl mt-4">
+            RemShield is the trading name of REMSHIELD SOLUTIONS LTD, registered in Nigeria.
           </p>
         </section>
 

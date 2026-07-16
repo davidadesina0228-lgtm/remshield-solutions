@@ -76,7 +76,7 @@ function toPascalCase(value: string) {
 export const remshieldCompany = {
   id: "remshield",
   name: "RemShield",
-  legalName: "RemShield Solutions",
+  legalName: "REMSHIELD SOLUTIONS LTD",
   url: SITE_URL,
   description:
     "RemShield is an AI engineering studio that designs and builds AI-powered software, automation infrastructure, and custom AI systems for growing businesses.",

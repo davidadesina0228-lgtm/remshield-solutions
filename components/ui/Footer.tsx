@@ -59,11 +59,17 @@ export default function Footer() {
                 className="h-10 w-auto object-contain group-hover:opacity-85 transition-opacity duration-200"
               />
             </Link>
-            <p className="text-silver/60 text-sm leading-relaxed max-w-xs mb-6">
+            <p className="text-silver/60 text-sm leading-relaxed max-w-xs mb-2">
               Building intelligent AI systems for the future of business.
+            </p>
+            <p className="text-silver/40 text-xs leading-relaxed max-w-xs mb-6">
+              RemShield is a trading name of REMSHIELD SOLUTIONS LTD.
             </p>
 
             {/* Contact */}
+            <h4 className="text-white font-semibold text-sm tracking-wide mb-3">
+              Contact
+            </h4>
             <div className="flex flex-col gap-3">
               <a
                 href="/contact"
@@ -142,7 +148,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-silver/55 text-sm">
-            © 2026 RemShield. All rights reserved.
+            © 2026 REMSHIELD SOLUTIONS LTD. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <Link

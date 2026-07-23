@@ -102,7 +102,7 @@ async function getAccessToken(): Promise<string> {
 
 function valuesUrl(sheetName: string, spreadsheetId: string) {
   const safe = sheetName.replace(/'/g, "''");
-  const range = encodeURIComponent(`'${safe}'!A1:ZZ10000`);
+  const range = encodeURIComponent(`'${safe}'!A:ZZ`);
   return `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`;
 }
 

@@ -7,47 +7,50 @@ import { cn } from "@/lib/utils";
 const SERVICES = [
   {
     id: "01",
-    title: "AI Systems",
+    category: "AI Systems",
+    title: "Stop losing customers to slow response times",
     description:
-      "Intelligent assistants, voice agents, document analysis, and custom AI copilots — built around your specific workflows and data.",
+      "Customers don't wait for business hours. When a lead messages at midnight or a customer needs an answer right now, an AI agent trained on your business responds instantly and accurately — so you stop losing people to slow replies.",
     accent: "#00D4C8",
     accentRgb: "0,212,200",
     href: "/contact?service=ai-systems",
     features: [
-      "Custom AI chatbots & voice agents",
-      "Document analysis & data extraction",
-      "AI copilots integrated into your tools",
-      "Connects to your existing stack",
+      "Leads and customer questions answered in seconds, not hours",
+      "Support handled around the clock without adding headcount",
+      "Documents and forms processed automatically, no manual re-entry",
+      "Works inside the tools you already use",
     ],
   },
   {
     id: "02",
-    title: "Automation Infrastructure",
+    category: "Automation Infrastructure",
+    title: "Stop doing the same task twice",
     description:
-      "End-to-end automation that connects your tools, qualifies leads, and runs your operations pipelines — without extra headcount.",
+      "Every manual handoff between tools costs your team time they could spend on higher-value work. We connect your systems so leads, data, and approvals move on their own — no copy-pasting between apps, no chasing status updates.",
     accent: "#00AAFF",
     accentRgb: "0,170,255",
     href: "/contact?service=automation-infrastructure",
     features: [
-      "End-to-end workflow automation",
-      "CRM & lead qualification pipelines",
-      "Multi-tool API orchestration",
-      "Real-time operations monitoring",
+      "Leads qualified and routed automatically",
+      "Data moves between your tools without anyone touching it",
+      "Approvals and handoffs happen without a status-check meeting",
+      "You see what's happening in real time, not after the fact",
     ],
   },
   {
     id: "03",
-    title: "Custom Software",
+    category: "Custom Software",
+    title: "Stop bending your business to fit someone else's software",
     description:
-      "SaaS platforms, internal tools, and AI-powered applications — designed, built, and shipped fast from day one.",
+      "Off-the-shelf tools force you to change how you work. We design software around your actual process — a client portal, an internal dashboard, a full platform — so the tool fits your business instead of the other way around.",
     accent: "#00D4C8",
     accentRgb: "0,212,200",
     href: "/contact?service=custom-software",
     features: [
-      "SaaS platforms built AI-native",
-      "Internal dashboards & portals",
-      "AI-powered web applications",
-      "Designed, built & shipped in weeks",
+      "Built around your workflow, not a generic template",
+      "One tool instead of five disconnected ones",
+      "Ships in weeks, not a year-long roadmap",
+      "Scales as your team and volume grow",
     ],
   },
 ];
@@ -85,10 +88,10 @@ export function VerticalTabs() {
           <div className="lg:col-span-5 flex flex-col justify-center order-2 lg:order-1 pt-4">
             <div className="mb-12">
               <span className="inline-block text-teal text-xs font-bold tracking-[0.2em] uppercase mb-3">
-                Three Pillars
+                What We Fix
               </span>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight tracking-tight">
-                What we<br />build for you
+                Find the bottleneck.<br />We build the fix.
               </h2>
             </div>
 
@@ -127,7 +130,13 @@ export function VerticalTabs() {
 
                     <div className="flex flex-col gap-2 flex-1">
                       <span
-                        className="text-2xl md:text-3xl font-semibold tracking-tight transition-colors duration-500"
+                        className="text-[11px] font-bold tracking-[0.15em] uppercase transition-colors duration-500"
+                        style={{ color: isActive ? service.accent : undefined, opacity: isActive ? 0.7 : 0.35 }}
+                      >
+                        {service.category}
+                      </span>
+                      <span
+                        className="text-xl md:text-2xl font-semibold tracking-tight leading-snug transition-colors duration-500"
                         style={isActive ? { color: service.accent } : {}}
                       >
                         {service.title}
@@ -151,7 +160,7 @@ export function VerticalTabs() {
                               style={{ color: service.accent }}
                               onClick={(e) => e.stopPropagation()}
                             >
-                              Get started
+                              Fix this for me
                               <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                 <path d="M5 12h14M12 5l7 7-7 7"/>
                               </svg>
@@ -194,7 +203,7 @@ export function VerticalTabs() {
                     className="text-xs font-bold tracking-[0.2em] uppercase"
                     style={{ color: active.accent }}
                   >
-                    /{active.id}
+                    /{active.id} — {active.category}
                   </span>
                   <div className="h-px flex-1" style={{ background: `rgba(${active.accentRgb},0.2)` }} />
                 </div>
@@ -242,7 +251,7 @@ export function VerticalTabs() {
                     color: active.accent,
                   }}
                 >
-                  Start this project
+                  Start fixing this
                   <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                   </svg>

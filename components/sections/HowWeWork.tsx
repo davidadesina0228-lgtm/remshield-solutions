@@ -8,7 +8,7 @@ const steps = [
     title: "Discover & Diagnose",
     tagline: "Understand first, automate second.",
     bullets: [
-      "We learn how your business actually works — your goals, constraints, handoffs, and what a 'win' looks like for you.",
+      "We learn how your business actually works — including the bottlenecks you've stopped noticing because you've worked around them for years.",
       "We map your tech stack and where your data lives: CRMs, inboxes, spreadsheets, and internal tools.",
       "We audit your processes to find real bottlenecks and decide what should — and shouldn't — be automated.",
     ],
@@ -74,7 +74,10 @@ export default function HowWeWork() {
             From your biggest bottleneck<br className="hidden sm:block" /> to a live AI system — in weeks.
           </h2>
           <p className="text-silver/60 text-lg max-w-xl leading-relaxed">
-            We don&apos;t start with AI. We start with understanding your business. The systems follow from there.
+            Most businesses have quietly lived with the same bottlenecks for years, assuming that&apos;s
+            just how it works — and not knowing where they&apos;d even start fixing it. We don&apos;t start
+            with AI. We start by learning your business end-to-end, then show you exactly what&apos;s
+            solvable and build the fix around it.
           </p>
         </motion.div>
 

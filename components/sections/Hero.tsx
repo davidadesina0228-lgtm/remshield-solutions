@@ -145,10 +145,10 @@ export default function Hero() {
             </motion.h1>
 
             <motion.p variants={fade} className="text-base sm:text-lg text-silver/70 leading-relaxed">
-              We build the AI systems you&apos;ve been meaning to build —
-              agents that handle leads and customer queries around the clock, automation that
-              eliminates the manual work slowing your team down, and{" "}
-              <span className="text-silver/90 font-medium">software designed around how your business actually runs.</span>
+              Most businesses have quietly lived with the same slow follow-ups, manual busywork,
+              and disconnected tools for years — without realizing they&apos;re fixable now. We audit
+              how yours actually runs, find exactly what&apos;s costing you, and{" "}
+              <span className="text-silver/90 font-medium">build the fix around it.</span>
             </motion.p>
 
             <motion.div variants={fade} className="flex flex-wrap gap-3 items-center">
@@ -167,17 +167,17 @@ export default function Hero() {
                 onClick={() => { const el = document.querySelector("#services"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold text-silver/80 border border-white/10 hover:border-teal/30 hover:text-teal bg-white/5 backdrop-blur-sm transition-all duration-300"
               >
-                See What We Build
+                See What We Fix
               </button>
             </motion.div>
 
             {/* Trust row */}
             <motion.div variants={fade} className="flex items-center gap-5 pt-2 flex-wrap">
               {[
-                { val: "50+", label: "Systems Deployed" },
-                { val: "2–6wk", label: "Delivery Time" },
-                { val: "40%", label: "Avg Cost Reduction" },
-                { val: "24/7", label: "Agents Run" },
+                { val: "50+", label: "Businesses Automated" },
+                { val: "2–6wk", label: "To See It Live" },
+                { val: "40%", label: "Avg Cost Cut" },
+                { val: "24/7", label: "Always-On Agents" },
               ].map((s) => (
                 <div key={s.label} className="flex items-center gap-2">
                   <span className="text-base font-bold text-teal">{s.val}</span>

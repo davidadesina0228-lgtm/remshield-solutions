@@ -38,8 +38,8 @@ const bentoItems = [
   },
   {
     type: "feature",
-    title: "You Describe the Problem. We Build the Fix.",
-    body: "You don't need an engineering team or technical knowledge. You need to tell us what's slowing your business down — a process that takes too long, a task your team does manually every day, a system that doesn't talk to another. We handle architecture, build, testing, and deployment end to end. You see a working system in weeks.",
+    title: "Don't Know What's Fixable? Most Founders Don't.",
+    body: "You don't need to know what's technically possible — that's exactly why we start with an audit, not a pitch. Tell us what's slowing you down, even vaguely: a process that takes too long, a task your team repeats every day, tools that don't talk to each other. We diagnose what's actually solvable and build the fix end to end. You see a working system in weeks.",
     accent: "teal",
     span: "col-span-1 md:col-span-2",
   },

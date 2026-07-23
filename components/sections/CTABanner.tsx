@@ -84,9 +84,10 @@ export default function CTABanner() {
           transition={{ duration: 0.6, delay: 0.25 }}
           className="text-lg text-silver/75 max-w-xl mx-auto mb-10"
         >
-          We&apos;ll audit your operations, identify your highest-ROI AI opportunities,
-          and hand you a concrete action plan. No pitch. No pressure. Most founders leave
-          with clarity they didn&apos;t have before — whether they work with us or not.
+          Most of what&apos;s slowing you down has been there so long it feels normal.
+          It doesn&apos;t have to be. We&apos;ll audit your operations, identify your highest-ROI
+          opportunities, and hand you a concrete action plan. No pitch. No pressure. Most
+          founders leave with clarity they didn&apos;t have before — whether they work with us or not.
         </motion.p>
 
         {/* CTA Button */}

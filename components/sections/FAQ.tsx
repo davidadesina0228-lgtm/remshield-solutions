@@ -9,7 +9,12 @@ const faqs = [
   {
     question: "What services does RemShield offer?",
     answer:
-      "RemShield is an AI engineering studio built around three pillars: AI Systems (intelligent assistants, voice agents, document AI, and custom copilots), Automation Infrastructure (workflow automation, CRM automation, and ops pipelines), and Custom Software (SaaS platforms, internal tools, and AI-powered applications). Every system is built AI-native from the ground up.",
+      "We find where manual work, slow response times, or disconnected tools are costing you money — then build whatever fixes it. That might be an AI agent that handles customer conversations, automation that connects your tools and qualifies leads without anyone touching it, or custom software built around exactly how your business runs. We start by understanding your business, not by picking a technology first.",
+  },
+  {
+    question: "I don't actually know what's possible to automate — where do I even start?",
+    answer:
+      "That's normal, and it's exactly what the free call is for. Most founders have lived with the same workarounds for so long they've stopped seeing them as a problem — you don't need to arrive with a technical wishlist. We ask how your business runs end-to-end, then tell you specifically what's solvable, what it would look like, and what it would take. No jargon, no assumption that you already know what to ask for.",
   },
   {
     question: "How long does it take to build an AI system?",

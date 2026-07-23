@@ -51,7 +51,7 @@ const stats = [
 
 const insight = {
   headline: "AI is not the future. It's the present competitive advantage.",
-  body: "Businesses that adopt AI today aren't just saving time — they're compounding advantages that will be nearly impossible for late adopters to catch up with. The cost of waiting is rising every quarter.",
+  body: "The businesses pulling ahead right now aren't smarter — they stopped tolerating slow, manual processes sooner. Every quarter you wait to fix what's broken, that gap gets harder to close.",
 };
 
 export default function IndustryStats() {
@@ -92,7 +92,7 @@ export default function IndustryStats() {
             The numbers don&apos;t lie
           </h2>
           <p className="text-silver/55 text-lg max-w-xl mx-auto">
-            Here&apos;s why thousands of businesses are making the move to AI right now.
+            This is what waiting is actually costing businesses like yours.
           </p>
         </motion.div>
 

@@ -129,7 +129,7 @@ function rowsFromValues(values: string[][] = []): Row[] {
     .map(row => Object.fromEntries(headers.map((h, i) => [h, row[i] || ''])));
 }
 
-function mergeTrackerRows(rows: Row[]): Row[] {
+function mergeTrackerRows(rows: Row[], matchField = 'Lead_ID'): Row[] {
   const byLeadId = new Map<string, Row>();
   const passthrough: Row[] = [];
   const dateFields = new Set([
@@ -150,7 +150,7 @@ function mergeTrackerRows(rows: Row[]): Row[] {
   }
 
   for (const row of rows) {
-    const leadId = String(row.Lead_ID || '').trim();
+    const leadId = String(row[matchField] || '').trim().toLowerCase();
     if (!leadId) {
       passthrough.push(row);
       continue;
@@ -291,7 +291,7 @@ function buildSenderCatalog(senders: Row[], trackerBySender: Record<string, Row[
 function buildDashboard(data: Record<string, { values?: string[][] }>) {
   const trackerRows = rowsFromValues(data['Campaign Tracker']?.values)
     .filter(row => String(row.Lead_ID || '').startsWith('AIVIS-'));
-  const tracker = mergeTrackerRows(trackerRows).filter(row =>
+  const tracker = mergeTrackerRows(trackerRows, 'Recipient_Email').filter(row =>
     row.Lead_ID && row.Recipient_Email && row.Campaign_Domain && row.Email_Type
   );
   const currentLeadIds = new Set(tracker.map(row => row.Lead_ID));

@@ -7,6 +7,8 @@ interface ClientEntry {
   title?: string;
 }
 
+const DEFAULT_SHEET_ID = process.env.GOOGLE_SHEETS_ID || '1S_QMQP_NrVAuzo-uig2gpDFZ2CGCKe2MvonmNsjv0t8';
+
 function getRegistry(): Record<string, ClientEntry> {
   const raw = process.env.CLIENT_REGISTRY;
   if (raw) {
@@ -18,7 +20,7 @@ function getRegistry(): Record<string, ClientEntry> {
   }
   // Legacy: single access code maps to a default client
   const legacyCode = process.env.DASHBOARD_ACCESS_CODE;
-  const sheetId = process.env.GOOGLE_SHEETS_ID || '';
+  const sheetId = DEFAULT_SHEET_ID;
   if (legacyCode && sheetId) {
     return {
       [legacyCode]: { id: 'default', name: 'Client', sheetId, title: 'Campaign Intelligence Center' },

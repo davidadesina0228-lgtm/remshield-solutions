@@ -2,10 +2,9 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 
-// ─── Types ───────────────────────────────────────────────────────
+// Types
 
 interface BarItem   { name: string; value: number; }
-interface EmailType { name: string; leads: number; replies: number; rate: number; }
 interface SenderRow {
   sender: string; domain: string; company: string;
   limit: number; leads: number; sent: number;
@@ -17,7 +16,7 @@ type FeedRow = Record<string, string>;
 interface DashboardData {
   generatedAt: string;
   metrics: {
-    totalLeads: number; personalizedLeads: number; standardLeads: number;
+    totalLeads: number;
     pending: number; initialSent: number; initialSentToday: number;
     followupsSent: number; followupsSentToday: number;
     totalCampaignEmails: number; campaignSentToday: number;
@@ -28,12 +27,12 @@ interface DashboardData {
   };
   breakdowns: {
     status: BarItem[]; domains: BarItem[];
-    replyTypes: BarItem[]; emailType: EmailType[]; warmupBySender: BarItem[];
+    replyTypes: BarItem[]; warmupBySender: BarItem[];
   };
   tables: { senders: SenderRow[]; hotLeads: FeedRow[]; replies: FeedRow[]; errors: FeedRow[]; };
 }
 
-// ─── Helpers ─────────────────────────────────────────────────────
+// Helpers
 
 function n(v?: number | string) {
   return new Intl.NumberFormat('en-GB').format(Number(v || 0));
@@ -62,7 +61,7 @@ function relativeTime(value: string) {
   return fmtDate(value);
 }
 
-// ─── Sub-components ──────────────────────────────────────────────
+// Sub-components
 
 function BarList({ items, limit = 8 }: { items: BarItem[]; limit?: number }) {
   if (!items.length) return <div className="empty-state"><p>No data yet.</p></div>;
@@ -77,25 +76,6 @@ function BarList({ items, limit = 8 }: { items: BarItem[]; limit?: number }) {
           </div>
           <div className="bar-track">
             <div className="bar-fill" style={{ width: `${Math.max(2, Math.round((item.value / max) * 100))}%` }} />
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function EmailTypes({ items }: { items: EmailType[] }) {
-  if (!items.length) return <div className="empty-state"><p>No email-type data yet.</p></div>;
-  return (
-    <div className="comparison">
-      {items.map((item, i) => (
-        <div key={i} className="comparison-item">
-          <h3>{item.name}</h3>
-          <div className="comparison-number"><span>Leads</span><strong>{n(item.leads)}</strong></div>
-          <div className="comparison-number"><span>Replies</span><strong>{n(item.replies)}</strong></div>
-          <div className="comparison-number"><span>Reply rate</span><strong>{pct(item.rate)}</strong></div>
-          <div className="progress">
-            <span style={{ width: `${Math.max(2, Math.min(100, item.rate))}%` }} />
           </div>
         </div>
       ))}
@@ -158,7 +138,7 @@ function ErrorFeed({ items }: { items: FeedRow[] }) {
     <div className="feed">
       {items.map((row, i) => {
         const workflow = row.Workflow_Name || 'Unknown workflow';
-        const node     = row.Node_Name ? ` — ${row.Node_Name}` : '';
+        const node     = row.Node_Name ? ` - ${row.Node_Name}` : '';
         const message  = row.Error_Message || 'No details available';
         const errorId  = row.Error_ID || '';
         return (
@@ -174,7 +154,7 @@ function ErrorFeed({ items }: { items: FeedRow[] }) {
   );
 }
 
-// ─── Main page ───────────────────────────────────────────────────
+// Main page
 
 export default function ClientDashboard() {
   const [data, setData]           = useState<DashboardData | null>(null);
@@ -225,29 +205,29 @@ export default function ClientDashboard() {
 
   return (
     <>
-      {/* ── Topbar ─────────────────────────────────────────────── */}
+      {/* Topbar */}
       <header className="topbar">
         <div className="brand-block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img className="brand-logo" src="/assets/remshield-logo.png" alt="RemShield" />
           <div>
             <p className="eyebrow">Campaign Intelligence Platform</p>
-            <h1>Tenacious — Campaign Intelligence Center</h1>
+            <h1>Tenacious - AI Visibility Campaign</h1>
           </div>
         </div>
         <div className="topbar-actions">
           <button className="button" onClick={load} disabled={loading} type="button">
-            {loading ? 'Refreshing…' : 'Refresh data'}
+            {loading ? 'Refreshing...' : 'Refresh data'}
           </button>
         </div>
       </header>
 
       <main className="shell">
-        {/* ── Hero ───────────────────────────────────────────────── */}
+        {/* Hero */}
         <section className="client-hero">
           <div>
-            <p className="eyebrow">RemShield · Campaign Intelligence</p>
-            <h2>Track every send, reply, warmup email, and lead outcome across your full campaign.</h2>
+            <p className="eyebrow">RemShield | Campaign Intelligence</p>
+            <h2>Track every AI visibility audit invitation, follow-up, reply, and lead outcome.</h2>
           </div>
           <div className="hero-stat">
             <span>Auto-refresh</span>
@@ -255,7 +235,7 @@ export default function ClientDashboard() {
           </div>
         </section>
 
-        {/* ── Status ─────────────────────────────────────────────── */}
+        {/* Status */}
         <section className="status-strip">
           <div>
             <span className={`status-dot${statusKind === 'ok' ? ' ok' : statusKind === 'bad' ? ' bad' : ''}`} />
@@ -266,12 +246,12 @@ export default function ClientDashboard() {
           </div>
         </section>
 
-        {/* ── Metrics ────────────────────────────────────────────── */}
+        {/* Metrics */}
         <section className="metrics-grid" aria-label="Campaign metrics">
           <article className="metric">
             <span>Total leads</span>
             <strong>{n(m?.totalLeads)}</strong>
-            <small>{n(m?.personalizedLeads)} personalized / {n(m?.standardLeads)} standard</small>
+            <small>Unique recipients in the current AI visibility campaign</small>
           </article>
           <article className="metric">
             <span>Initial sent</span>
@@ -315,16 +295,8 @@ export default function ClientDashboard() {
           </article>
         </section>
 
-        {/* ── Charts ─────────────────────────────────────────────── */}
+        {/* Charts */}
         <section className="dashboard-grid">
-          <article className="panel wide">
-            <div className="panel-header">
-              <h2>Personalized vs Standard</h2>
-              <span>Reply performance</span>
-            </div>
-            <EmailTypes items={b?.emailType ?? []} />
-          </article>
-
           <article className="panel">
             <div className="panel-header"><h2>Reply Types</h2><span>AI classification</span></div>
             <BarList items={b?.replyTypes ?? []} />
@@ -346,7 +318,7 @@ export default function ClientDashboard() {
           </article>
         </section>
 
-        {/* ── Sender table ───────────────────────────────────────── */}
+        {/* Sender table */}
         <section className="panel table-panel">
           <div className="panel-header">
             <h2>Sender Performance</h2>
@@ -372,7 +344,7 @@ export default function ClientDashboard() {
           </div>
         </section>
 
-        {/* ── Feeds ──────────────────────────────────────────────── */}
+        {/* Feeds */}
         <section className="dashboard-grid">
           <article className="panel table-panel">
             <div className="panel-header"><h2>Recent Replies</h2><span>Latest processed</span></div>
@@ -384,7 +356,7 @@ export default function ClientDashboard() {
           </article>
         </section>
 
-        {/* ── Errors ─────────────────────────────────────────────── */}
+        {/* Errors */}
         <section className="panel table-panel">
           <div className="panel-header">
             <h2>Workflow Errors</h2>

@@ -1,7 +1,7 @@
 import { createSign } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 
-const DEFAULT_SHEET_ID = process.env.GOOGLE_SHEETS_ID || '1-nm-ad_GoIIzlkKQEcCdcRPu0jGDV8CtnwKeMwrQpG8';
+const DEFAULT_SHEET_ID = process.env.GOOGLE_SHEETS_ID || '1S_QMQP_NrVAuzo-uig2gpDFZ2CGCKe2MvonmNsjv0t8';
 
 function resolveSheetId(clientId: string | undefined): string {
   const raw = process.env.CLIENT_REGISTRY;
@@ -23,7 +23,7 @@ const SHEETS = [
   'Warmup Recipients', 'Warmup Log', 'Error Log',
 ];
 
-// ─── Google auth ────────────────────────────────────────────────
+// Google auth
 
 let tokenCache: { accessToken: string; expiresAt: number } | null = null;
 
@@ -86,7 +86,7 @@ async function getAccessToken(): Promise<string> {
     });
     const json = await res.json();
     if (!res.ok) {
-      throw new Error(`Token refresh failed: ${json.error} — ${json.error_description || ''}`);
+      throw new Error(`Token refresh failed: ${json.error} - ${json.error_description || ''}`);
     }
     tokenCache = { accessToken: json.access_token, expiresAt: now + (json.expires_in - 120) * 1000 };
     return tokenCache.accessToken;
@@ -98,7 +98,7 @@ async function getAccessToken(): Promise<string> {
   );
 }
 
-// ─── Sheets fetch ────────────────────────────────────────────────
+// Sheets fetch
 
 function valuesUrl(sheetName: string, spreadsheetId: string) {
   const safe = sheetName.replace(/'/g, "''");
@@ -118,7 +118,7 @@ async function fetchSheet(sheetName: string, accessToken: string, spreadsheetId:
   return res.json();
 }
 
-// ─── Data helpers ────────────────────────────────────────────────
+// Data helpers
 
 type Row = Record<string, string>;
 
@@ -286,20 +286,25 @@ function buildSenderCatalog(senders: Row[], trackerBySender: Record<string, Row[
   });
 }
 
-// ─── Dashboard builder ───────────────────────────────────────────
+// Dashboard builder
 
 function buildDashboard(data: Record<string, { values?: string[][] }>) {
-  const trackerRows = rowsFromValues(data['Campaign Tracker']?.values);
+  const trackerRows = rowsFromValues(data['Campaign Tracker']?.values)
+    .filter(row => String(row.Lead_ID || '').startsWith('AIVIS-'));
   const tracker = mergeTrackerRows(trackerRows).filter(row =>
     row.Lead_ID && row.Recipient_Email && row.Campaign_Domain && row.Email_Type
   );
-  const hotLeads   = rowsFromValues(data['Hot Leads']?.values);
-  const replies    = rowsFromValues(data['Reply Log']?.values);
+  const currentLeadIds = new Set(tracker.map(row => row.Lead_ID));
+  const hotLeads   = rowsFromValues(data['Hot Leads']?.values)
+    .filter(row => currentLeadIds.has(row.Lead_ID));
+  const replies    = rowsFromValues(data['Reply Log']?.values)
+    .filter(row => currentLeadIds.has(row.Lead_ID));
   const senders    = rowsFromValues(data.Senders?.values);
   const warmupSenders    = rowsFromValues(data['Warmup Senders']?.values);
   const warmupRecipients = rowsFromValues(data['Warmup Recipients']?.values);
   const warmupLog  = rowsFromValues(data['Warmup Log']?.values);
-  const errors     = rowsFromValues(data['Error Log']?.values);
+  const errors     = rowsFromValues(data['Error Log']?.values)
+    .filter(row => String(row.Workflow_Name || '').includes('AI Visibility'));
 
   const today = isoDay(new Date().toISOString());
   const activeWarmupSenders   = warmupSenders.filter(row => isTrue(row.Active) && !isTrue(row.Paused));
@@ -320,13 +325,6 @@ function buildDashboard(data: Record<string, { values?: string[][] }>) {
     ].filter(value => isoDay(value) === today).length;
   }, 0);
   const campaignSentToday = initialSentToday + followupsSentToday;
-
-  const personalized = tracker.filter(row => row.Email_Type === 'deep_personalized');
-  const standard     = tracker.filter(row => row.Email_Type === 'standard');
-  const personalizedSent = personalized.filter(row => row.Email_1_Sent_At).length;
-  const standardSent     = standard.filter(row => row.Email_1_Sent_At).length;
-  const personalizedReplies = personalized.filter(row => isTrue(row.Has_Replied)).length;
-  const standardReplies     = standard.filter(row => isTrue(row.Has_Replied)).length;
 
   const replyTypeCounts = countBy(replies, row => row.Reply_Type || row.Reply_Type_Normalized || row.classification);
   const statusCounts    = countBy(tracker, row => row.Status || 'blank');
@@ -385,8 +383,6 @@ function buildDashboard(data: Record<string, { values?: string[][] }>) {
     generatedAt: new Date().toISOString(),
     metrics: {
       totalLeads: tracker.length,
-      personalizedLeads: personalized.length,
-      standardLeads: standard.length,
       pending: tracker.filter(row => String(row.Status || '').toLowerCase() === 'pending').length,
       initialSent,
       initialSentToday,
@@ -406,17 +402,11 @@ function buildDashboard(data: Record<string, { values?: string[][] }>) {
       replyRate:    pct(replies.length, Math.max(initialSent, 1)),
       positiveRate: pct(positiveReplies, Math.max(replies.length, 1)),
       bounceRate:   pct(bounces, Math.max(totalCampaignEmails, 1)),
-      personalizedReplyRate: pct(personalizedReplies, Math.max(personalizedSent, 1)),
-      standardReplyRate:     pct(standardReplies, Math.max(standardSent, 1)),
     },
     breakdowns: {
       status:   sortEntries(statusCounts),
       domains:  sortEntries(domainCounts),
       replyTypes: sortEntries(replyTypeCounts),
-      emailType: [
-        { name: 'Deep personalized', leads: personalized.length, replies: personalizedReplies, rate: pct(personalizedReplies, personalizedSent) },
-        { name: 'Standard',          leads: standard.length,     replies: standardReplies,     rate: pct(standardReplies, standardSent) },
-      ],
       warmupBySender,
     },
     tables: {
@@ -428,7 +418,7 @@ function buildDashboard(data: Record<string, { values?: string[][] }>) {
   };
 }
 
-// ─── Route handler ───────────────────────────────────────────────
+// Route handler
 
 function assertSheetsSynced(data: Record<string, { values?: string[][]; error?: string }>) {
   const failed = Object.entries(data)

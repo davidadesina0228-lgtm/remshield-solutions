@@ -291,9 +291,7 @@ function buildSenderCatalog(senders: Row[], trackerBySender: Record<string, Row[
 function buildDashboard(data: Record<string, { values?: string[][] }>) {
   const trackerRows = rowsFromValues(data['Campaign Tracker']?.values)
     .filter(row => String(row.Lead_ID || '').startsWith('AIVIS-'));
-  const tracker = trackerRows.filter(row =>
-    row.Lead_ID && row.Recipient_Email && row.Campaign_Domain && row.Email_Type
-  );
+  const tracker = trackerRows;
   const currentLeadIds = new Set(tracker.map(row => row.Lead_ID));
   const hotLeads   = rowsFromValues(data['Hot Leads']?.values)
     .filter(row => currentLeadIds.has(row.Lead_ID));

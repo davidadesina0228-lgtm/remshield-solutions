@@ -468,7 +468,7 @@ export const remshieldFaqs = [
   {
     question: "What makes RemShield different from a traditional agency?",
     answer:
-      "RemShield focuses specifically on AI engineering, automation infrastructure, and AI-native custom software rather than bolting AI onto generic web or software projects.",
+      "RemShield focuses specifically on AI engineering, automation infrastructure, and AI-native custom software rather than bolting AI onto generic web or software projects. RemShield emphasizes measurable operational outcomes — tickets resolved, leads recovered, hours saved — over feature demonstrations.",
   },
   {
     question: "How do clients get started?",

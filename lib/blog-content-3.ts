@@ -350,7 +350,7 @@ As AI agents mature, [multi-agent systems](/blog/multi-agent-systems) are emergi
   // ─────────────────────────────────────────────────────────────────────────
   {
     slug: "custom-ai-development-cost",
-    relatedSlugs: ["custom-ai-software-development", "ai-automation-agency-services", "measuring-ai-roi", "ai-vendor-evaluation"],
+    relatedSlugs: ["custom-ai-software-development", "ai-automation-agency-services", "why-ai-demos-dont-win-clients", "ai-vendor-evaluation"],
     faq: [
       { q: "How much does custom AI development cost?", a: "Custom AI development typically ranges from $5,000 for a simple AI integration to $50,000+ for a comprehensive AI system with custom agents, data pipelines, and enterprise integrations. The cost depends on complexity, data readiness, integration requirements, and the experience level of the engineering team. Nigerian-based projects may be priced in naira (₦4M–₦40M+) with comparable scope." },
       { q: "What is included in the cost of custom AI development?", a: "A complete custom AI development engagement includes: requirements analysis and scoping, AI system architecture design, data pipeline setup (if needed), model selection and prompt engineering, integration development with your existing systems, testing and quality assurance, deployment, and a handover period with documentation. Ongoing costs include LLM API usage (typically $50–$500/month depending on volume) and any hosting or maintenance fees." },
@@ -1156,7 +1156,7 @@ RemShield builds both RAG systems and fine-tuned deployments for business client
   // ─────────────────────────────────────────────────────────────────────────
   {
     slug: "what-is-answer-architect",
-    relatedSlugs: ["geo-vs-seo-2026", "get-cited-by-ai-search-engines", "ai-for-african-businesses", "what-is-ai-engineering-studio"],
+    relatedSlugs: ["geo-vs-seo-2026", "get-cited-by-ai-search-engines", "google-rankings-dont-guarantee-ai-citations", "what-is-ai-engineering-studio"],
     faq: [
       { q: "What is Answer Architect?", a: "Answer Architect is a SaaS platform that helps businesses and content creators get their content cited by AI search engines — ChatGPT, Perplexity, Google AI Overviews, and Claude. It combines content discovery tools (understanding what AI systems are answering in your topic area), optimisation features (structuring content for AI citation), and visibility tracking across AI platforms." },
       { q: "Who built Answer Architect?", a: "Answer Architect was built by RemShield, an AI engineering studio founded in Nigeria by David Adesina. It is RemShield's first SaaS product — a direct application of the same AI search optimization work the studio does for its clients, productised into a self-service platform." },
@@ -1238,7 +1238,7 @@ If you are serious about being cited by the AI systems that 86 million people us
   // ─────────────────────────────────────────────────────────────────────────
   {
     slug: "get-cited-by-ai-search-engines",
-    relatedSlugs: ["what-is-answer-architect", "geo-vs-seo-2026", "what-is-ai-automation", "ai-systems-development"],
+    relatedSlugs: ["what-is-answer-architect", "geo-vs-seo-2026", "youtube-ai-search-visibility", "google-rankings-dont-guarantee-ai-citations"],
     faq: [
       { q: "How do I get my content cited by ChatGPT?", a: "To get cited by ChatGPT and other AI search engines: (1) Structure content with direct, self-contained answers to specific questions in the first 150 words of each section; (2) Implement FAQPage JSON-LD schema with concise 50-80 word answers; (3) Add Organisation and Article schema with complete author credentials; (4) Publish on a site with demonstrated expertise (E-E-A-T signals); (5) Ensure your llms.txt file is current and comprehensive." },
       { q: "What makes content citable by AI systems?", a: "AI systems cite content that is: factually specific (precise statistics, dates, named examples), self-contained (each section can be understood without reading the whole article), well-structured (clear H2/H3 hierarchy, logical flow), credible (author credentials, organisation schema, backlinks from authoritative sources), and properly marked up with Schema.org structured data." },
@@ -1370,7 +1370,7 @@ The [GEO vs SEO comparison](/blog/geo-vs-seo-2026) explains the full strategic p
   // ─────────────────────────────────────────────────────────────────────────
   {
     slug: "geo-vs-seo-2026",
-    relatedSlugs: ["what-is-answer-architect", "get-cited-by-ai-search-engines", "ai-automation-for-businesses", "what-is-ai-engineering-studio"],
+    relatedSlugs: ["what-is-answer-architect", "get-cited-by-ai-search-engines", "google-rankings-dont-guarantee-ai-citations", "youtube-ai-search-visibility"],
     faq: [
       { q: "What is GEO and how is it different from SEO?", a: "GEO (Generative Engine Optimization) is the practice of optimising content to be cited by AI search engines — ChatGPT, Perplexity, Google AI Overviews, and Claude. SEO (Search Engine Optimization) optimises for traditional search results — Google's blue-link ranking based on keywords and backlinks. GEO prioritises content structure, entity credibility, and schema markup. SEO prioritises keyword relevance and domain authority." },
       { q: "Is SEO dead because of AI?", a: "SEO is not dead — but it is transforming. Traditional link-building and keyword-stuffing tactics are less effective as AI Overviews capture the top of the SERP. However, the fundamentals of SEO (quality content, authoritative sites, technical soundness) remain relevant for both SEO and GEO. The winning strategy in 2026 is optimising for both: traditional search for volume, AI citation for authority and brand visibility." },

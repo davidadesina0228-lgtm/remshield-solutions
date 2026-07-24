@@ -34,7 +34,7 @@ const faqs = [
   {
     question: "What makes RemShield different from other agencies?",
     answer:
-      "Most agencies bolt AI onto traditional software development. We're an AI engineering studio — AI is the only thing we do. That means faster delivery (2–6 weeks vs months), 40% lower operational costs for clients, systems built to scale from day one, and a team that's seen failure patterns across dozens of AI projects and knows how to avoid them.",
+      "Most agencies sell you a demo. We show you what actually changes: tickets resolved without a new hire, leads that stop going cold, hours back in your team's week every day. We're an AI engineering studio — AI is the only thing we do, which means faster delivery (2–6 weeks vs months), 40% lower operational costs for clients, and systems built to hold up in production, not just impress in a sales call.",
   },
   {
     question: "How do I get started?",

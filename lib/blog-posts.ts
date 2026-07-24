@@ -20,6 +20,7 @@ import { blogContent } from "./blog-content";
 import { blogContent2 } from "./blog-content-2";
 import { blogContent3 } from "./blog-content-3";
 import { blogContent4 } from "./blog-content-4";
+import { blogContent5 } from "./blog-content-5";
 
 const blogMeta: Omit<BlogPost, "content" | "faq" | "relatedSlugs" | "author">[] = [
   {
@@ -877,10 +878,47 @@ const blogMeta: Omit<BlogPost, "content" | "faq" | "relatedSlugs" | "author">[] 
     tagColor: "blue",
     isPillar: false,
   },
+  // ── New posts (blog-content-5.ts) ────────────────────────────────────────
+  {
+    slug: "why-ai-demos-dont-win-clients",
+    title: "Why AI Demos Don't Win Clients Anymore",
+    metaDescription: "AI buyers are done being impressed by demos. Learn why outcome-proof, not chatbot demos, is what actually wins AI automation clients in 2026.",
+    excerpt: "Buyers have seen enough scripted chatbot demos to know they don't predict real-world performance. The agencies winning deals now lead with measurable outcomes, not screen shares. Here's what changed and how to evaluate an AI partner accordingly.",
+    date: "July 22, 2026",
+    readTime: "9 min read",
+    category: "AI Automation",
+    tag: "Agency Evaluation",
+    tagColor: "teal",
+    isPillar: false,
+  },
+  {
+    slug: "google-rankings-dont-guarantee-ai-citations",
+    title: "Google Rankings Won't Get You Cited by AI",
+    metaDescription: "AI-cited sources overlap with top Google rankings by less than 20%, down from 70%. Learn why ranking #1 no longer guarantees AI search visibility.",
+    excerpt: "Research on AI citation patterns found the overlap between top Google rankings and AI-cited sources has collapsed. Ranking #1 used to be the finish line for search visibility — in 2026, it's the starting point for a separate discipline entirely.",
+    date: "July 23, 2026",
+    readTime: "8 min read",
+    category: "SaaS",
+    tag: "GEO",
+    tagColor: "blue",
+    isPillar: false,
+  },
+  {
+    slug: "youtube-ai-search-visibility",
+    title: "Why YouTube Might Matter More Than Your Blog for AI Visibility",
+    metaDescription: "YouTube mentions are becoming a top factor in AI search visibility. Learn why video may now outweigh blog content for getting cited by AI systems.",
+    excerpt: "Most B2B and service businesses have spent years building a blog and almost no time building a YouTube presence — right as AI engines started treating YouTube mentions as a meaningful citation signal. Here's the genuinely open opportunity.",
+    date: "July 24, 2026",
+    readTime: "8 min read",
+    category: "SaaS",
+    tag: "GEO",
+    tagColor: "teal",
+    isPillar: false,
+  },
 ];
 
-// Merge metadata with content — blogContent4/blogContent3 first to override existing slugs
-const allBlogContent = [...blogContent4, ...blogContent3, ...blogContent, ...blogContent2];
+// Merge metadata with content — blogContent5/blogContent4/blogContent3 first to override existing slugs
+const allBlogContent = [...blogContent5, ...blogContent4, ...blogContent3, ...blogContent, ...blogContent2];
 
 export const allPosts: BlogPost[] = blogMeta.map((meta) => {
   const contentData = allBlogContent.find((c) => c.slug === meta.slug);
